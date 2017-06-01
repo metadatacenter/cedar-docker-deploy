@@ -3,13 +3,13 @@ services:
   cedar-microservice:
     container_name: cedar-microservice
     image: "metadatacenter/cedar-microservice"
-    build: ../cedar-microservice
+    build: ../../cedar-docker-build/cedar-microservice
   schema-server:
     depends_on:
         - cedar-microservice
     container_name: schema-server
     image: "metadatacenter/cedar-schema-server"
-    build: ../cedar-schema-server
+    build: ../../cedar-docker-build/cedar-schema-server
     networks:
       - cedarnet
     ports:
@@ -30,7 +30,7 @@ services:
         - cedar-microservice
     container_name: user-server
     image: "metadatacenter/cedar-user-server"
-    build: ../cedar-user-server
+    build: ../../cedar-docker-build/cedar-user-server
     networks:
       - cedarnet
     ports:
@@ -51,7 +51,7 @@ services:
         - cedar-microservice
     container_name: submission-server
     image: "metadatacenter/cedar-submission-server"
-    build: ../cedar-submission-server
+    build: ../../cedar-docker-build/cedar-submission-server
     networks:
       - cedarnet
     ports:
@@ -73,7 +73,7 @@ services:
         - cedar-microservice
     container_name: group-server
     image: "metadatacenter/cedar-group-server"
-    build: ../cedar-group-server
+    build: ../../cedar-docker-build/cedar-group-server
     networks:
       - cedarnet
     ports:
@@ -97,7 +97,7 @@ services:
         - cedar-microservice
     container_name: folder-server
     image: "metadatacenter/cedar-folder-server"
-    build: ../cedar-folder-server
+    build: ../../cedar-docker-build/cedar-folder-server
     networks:
       - cedarnet
     ports:
@@ -121,7 +121,7 @@ services:
         - cedar-microservice
     container_name: template-server
     image: "metadatacenter/cedar-template-server"
-    build: ../cedar-template-server
+    build: ../../cedar-docker-build/cedar-template-server
     networks:
       - cedarnet
     ports:
@@ -143,7 +143,7 @@ services:
         - cedar-microservice
     container_name: worker-server
     image: "metadatacenter/cedar-worker-server"
-    build: ../cedar-worker-server
+    build: ../../cedar-docker-build/cedar-worker-server
     networks:
       - cedarnet
     ports:
@@ -170,7 +170,7 @@ services:
         - cedar-microservice
     container_name: valuerecommender-server
     image: "metadatacenter/cedar-valuerecommender-server"
-    build: ../cedar-valuerecommender-server
+    build: ../../cedar-docker-build/cedar-valuerecommender-server
     networks:
       - cedarnet
     ports:
@@ -191,7 +191,7 @@ services:
         - cedar-microservice
     container_name: terminology-server
     image: "metadatacenter/cedar-terminology-server"
-    build: ../cedar-terminology-server
+    build: ../../cedar-docker-build/cedar-terminology-server
     networks:
       - cedarnet
     ports:
@@ -216,7 +216,7 @@ services:
         - cedar-microservice
     container_name: repo-server
     image: "metadatacenter/cedar-repo-server"
-    build: ../cedar-repo-server
+    build: ../../cedar-docker-build/cedar-repo-server
     networks:
       - cedarnet
     ports:
@@ -237,7 +237,7 @@ services:
         - cedar-microservice
     container_name: resource-server
     image: "metadatacenter/cedar-resource-server"
-    build: ../cedar-resource-server
+    build: ../../cedar-docker-build/cedar-resource-server
     networks:
       - cedarnet
     ports:
