@@ -1,0 +1,271 @@
+version: '3'
+services:
+  cedar-microservice:
+    container_name: cedar-microservice
+    image: "metadatacenter/cedar-microservice"
+    build: ../cedar-microservice
+  schema-server:
+    depends_on:
+        - cedar-microservice
+    container_name: schema-server
+    image: "metadatacenter/cedar-schema-server"
+    build: ../cedar-schema-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_SCHEMA}:${CEDAR_PORT_SCHEMA}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-schema-server/:/cedar/log/cedar-schema-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_SCHEMA
+  user-server:
+    depends_on:
+        - cedar-microservice
+    container_name: user-server
+    image: "metadatacenter/cedar-user-server"
+    build: ../cedar-user-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_USER}:${CEDAR_PORT_USER}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-user-server/:/cedar/log/cedar-user-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_USER
+  submission-server:
+    depends_on:
+        - cedar-microservice
+    container_name: submission-server
+    image: "metadatacenter/cedar-submission-server"
+    build: ../cedar-submission-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_SUBMISSION}:${CEDAR_PORT_SUBMISSION}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-submission-server/:/cedar/log/cedar-submission-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_SUBMISSION
+      - CEDAR_NCBI_SRA_FTP_PASSWORD
+  group-server:
+    depends_on:
+        - cedar-microservice
+    container_name: group-server
+    image: "metadatacenter/cedar-group-server"
+    build: ../cedar-group-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_GROUP}:${CEDAR_PORT_GROUP}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-group-server/:/cedar/log/cedar-group-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_LD_USER_BASE
+      - CEDAR_EVERYBODY_GROUP_NAME
+      - CEDAR_PORT_GROUP
+  folder-server:
+    depends_on:
+        - cedar-microservice
+    container_name: folder-server
+    image: "metadatacenter/cedar-folder-server"
+    build: ../cedar-folder-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_FOLDER}:${CEDAR_PORT_FOLDER}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-folder-server/:/cedar/log/cedar-folder-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_LD_USER_BASE
+      - CEDAR_EVERYBODY_GROUP_NAME
+      - CEDAR_PORT_FOLDER
+  template-server:
+    depends_on:
+        - cedar-microservice
+    container_name: template-server
+    image: "metadatacenter/cedar-template-server"
+    build: ../cedar-template-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_TEMPLATE}:${CEDAR_PORT_TEMPLATE}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-template-server/:/cedar/log/cedar-template-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_TEMPLATE
+      - CEDAR_TEST_USER1_ID
+  worker-server:
+    depends_on:
+        - cedar-microservice
+    container_name: worker-server
+    image: "metadatacenter/cedar-worker-server"
+    build: ../cedar-worker-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_WORKER}:${CEDAR_PORT_WORKER}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-worker-server/:/cedar/log/cedar-worker-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_EVERYBODY_GROUP_NAME
+      - CEDAR_ELASTICSEARCH_HOST
+      - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
+      - CEDAR_PORT_WORKER
+  valuerecommender-server:
+    depends_on:
+        - cedar-microservice
+    container_name: valuerecommender-server
+    image: "metadatacenter/cedar-valuerecommender-server"
+    build: ../cedar-valuerecommender-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_VALUERECOMMENDER}:${CEDAR_PORT_VALUERECOMMENDER}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-valuerecommender-server/:/cedar/log/cedar-valuerecommender-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_VALUERECOMMENDER
+  terminology-server:
+    depends_on:
+        - cedar-microservice
+    container_name: terminology-server
+    image: "metadatacenter/cedar-terminology-server"
+    build: ../cedar-terminology-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_TERMINOLOGY}:${CEDAR_PORT_TERMINOLOGY}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-terminology-server/:/cedar/log/cedar-terminology-server/
+      - ${CEDAR_DOCKER_HOME}/data/cache/terminology/:/cedar/cache/terminology/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_BIOPORTAL_API_KEY
+      - CEDAR_BIOPORTAL_REST_BASE
+      - CEDAR_TEST_USER1_ID
+      - CEDAR_PORT_TERMINOLOGY
+  repo-server:
+    depends_on:
+        - cedar-microservice
+    container_name: repo-server
+    image: "metadatacenter/cedar-repo-server"
+    build: ../cedar-repo-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_REPO}:${CEDAR_PORT_REPO}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-repo-server/:/cedar/log/cedar-repo-server/
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_REPO
+  resource-server:
+    depends_on:
+        - cedar-microservice
+    container_name: resource-server
+    image: "metadatacenter/cedar-resource-server"
+    build: ../cedar-resource-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_RESOURCE}:${CEDAR_PORT_RESOURCE}"
+    volumes:
+      - ${CEDAR_DOCKER_HOME}/log/cedar-resource-server/:/cedar/log/cedar-resource-server/
+      - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
+    extra_hosts:
+      - "folder.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
+    environment:
+      - CEDAR_HOST
+      - CEDAR_KEYCLOAK_CLIENT_ID
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_LD_USER_BASE
+      - CEDAR_PORT_RESOURCE
+      - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_SALT_API_KEY
+      - CEDAR_EVERYBODY_GROUP_NAME
+      - CEDAR_ELASTICSEARCH_HOST
+      - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
+
+
+networks:
+  cedarnet:
+    external:
+      name: cedarnet

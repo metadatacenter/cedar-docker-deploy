@@ -1,0 +1,27 @@
+version: '3'
+services:
+  redis-commander:
+    container_name: redis-commander
+    image: "metadatacenter/cedar-redis-commander"
+    build: ../../cedar-docker-build/cedar-redis-commander
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_PORT_REDIS_COMMANDER}:8081"
+    environment:
+      - CEDAR_NET_GATEWAY
+
+  kibana:
+    container_name: kibana
+    image: "metadatacenter/cedar-kibana"
+    build: ../../cedar-docker-build/cedar-kibana
+    networks:
+      - cedarnet
+    ports:
+      - ${CEDAR_PORT_KIBANA}:5601
+
+
+networks:
+  cedarnet:
+    external:
+      name: cedarnet
