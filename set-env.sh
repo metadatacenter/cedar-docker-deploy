@@ -3,20 +3,12 @@
 # Set it to an existing directory with write permission for the current user
 # This is the location for data persistency
 export CEDAR_DOCKER_HOME=~/cedar-docker-deployment
-mkdir -p ${CEDAR_DOCKER_HOME}
-mkdir -p ${CEDAR_DOCKER_HOME}/ca
-mkdir -p ${CEDAR_DOCKER_HOME}/cert
-mkdir -p ${CEDAR_DOCKER_HOME}/data
-mkdir -p ${CEDAR_DOCKER_HOME}/log
 
 # CEDAR hostname for backend services
 export CEDAR_HOST=metadatacenter.orgx
 
 # Docker network, IP address
 export CEDAR_NET_GATEWAY=192.168.17.1
-
-docker network remove cedarnet
-docker network create --subnet=${CEDAR_NET_GATEWAY}/24 --gateway ${CEDAR_NET_GATEWAY} cedarnet
 
 # Keycloak admin user and connection data
 export CEDAR_KEYCLOAK_ADMIN_USER="administrator"
