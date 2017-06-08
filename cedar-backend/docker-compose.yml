@@ -13,18 +13,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_SCHEMA}:${CEDAR_PORT_SCHEMA}"
+      - "${CEDAR_SCHEMA_PORT}:9003"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-schema-server/:/cedar/log/cedar-schema-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_SCHEMA
   user-server:
     depends_on:
         - cedar-microservice
@@ -34,18 +31,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_USER}:${CEDAR_PORT_USER}"
+      - "${CEDAR_USER_PORT}:9005"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-user-server/:/cedar/log/cedar-user-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_USER
   submission-server:
     depends_on:
         - cedar-microservice
@@ -55,18 +49,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_SUBMISSION}:${CEDAR_PORT_SUBMISSION}"
+      - "${CEDAR_SUBMISSION_PORT}:9010"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-submission-server/:/cedar/log/cedar-submission-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_SUBMISSION
       - CEDAR_NCBI_SRA_FTP_PASSWORD
   group-server:
     depends_on:
@@ -77,21 +68,16 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_GROUP}:${CEDAR_PORT_GROUP}"
+      - "${CEDAR_GROUP_PORT}:9009"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-group-server/:/cedar/log/cedar-group-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_LD_USER_BASE
-      - CEDAR_EVERYBODY_GROUP_NAME
-      - CEDAR_PORT_GROUP
   folder-server:
     depends_on:
         - cedar-microservice
@@ -101,21 +87,16 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_FOLDER}:${CEDAR_PORT_FOLDER}"
+      - "${CEDAR_FOLDER_PORT}:9008"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-folder-server/:/cedar/log/cedar-folder-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_LD_USER_BASE
-      - CEDAR_EVERYBODY_GROUP_NAME
-      - CEDAR_PORT_FOLDER
   template-server:
     depends_on:
         - cedar-microservice
@@ -125,18 +106,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_TEMPLATE}:${CEDAR_PORT_TEMPLATE}"
+      - "${CEDAR_TEMPLATE_PORT}:9001"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-template-server/:/cedar/log/cedar-template-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_TEMPLATE
       - CEDAR_TEST_USER1_ID
   worker-server:
     depends_on:
@@ -147,24 +125,19 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_WORKER}:${CEDAR_PORT_WORKER}"
+      - "${CEDAR_WORKER_PORT}:9011"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-worker-server/:/cedar/log/cedar-worker-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
       - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_EVERYBODY_GROUP_NAME
       - CEDAR_ELASTICSEARCH_HOST
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
-      - CEDAR_PORT_WORKER
   valuerecommender-server:
     depends_on:
         - cedar-microservice
@@ -174,18 +147,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_VALUERECOMMENDER}:${CEDAR_PORT_VALUERECOMMENDER}"
+      - "${CEDAR_VALUERECOMMENDER_PORT}:9006"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-valuerecommender-server/:/cedar/log/cedar-valuerecommender-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_VALUERECOMMENDER
   terminology-server:
     depends_on:
         - cedar-microservice
@@ -195,22 +165,19 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_TERMINOLOGY}:${CEDAR_PORT_TERMINOLOGY}"
+      - "${CEDAR_TERMINOLOGY_PORT}:9004"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-terminology-server/:/cedar/log/cedar-terminology-server/
       - ${CEDAR_DOCKER_HOME}/data/cache/terminology/:/cedar/cache/terminology/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
       - CEDAR_BIOPORTAL_API_KEY
       - CEDAR_BIOPORTAL_REST_BASE
       - CEDAR_TEST_USER1_ID
-      - CEDAR_PORT_TERMINOLOGY
   repo-server:
     depends_on:
         - cedar-microservice
@@ -220,18 +187,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_REPO}:${CEDAR_PORT_REPO}"
+      - "${CEDAR_REPO_PORT}:9002"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-repo-server/:/cedar/log/cedar-repo-server/
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_REPO
   resource-server:
     depends_on:
         - cedar-microservice
@@ -241,7 +205,7 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_PORT_RESOURCE}:${CEDAR_PORT_RESOURCE}"
+      - "${CEDAR_RESOURCE_PORT}:9007"
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-resource-server/:/cedar/log/cedar-resource-server/
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
@@ -249,18 +213,13 @@ services:
       - "folder.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
     environment:
       - CEDAR_HOST
-      - CEDAR_KEYCLOAK_CLIENT_ID
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-      - CEDAR_LD_USER_BASE
-      - CEDAR_PORT_RESOURCE
       - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_SALT_API_KEY
-      - CEDAR_EVERYBODY_GROUP_NAME
       - CEDAR_ELASTICSEARCH_HOST
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
 
