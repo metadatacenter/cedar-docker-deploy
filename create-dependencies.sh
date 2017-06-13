@@ -7,4 +7,4 @@ mkdir -p ${CEDAR_DOCKER_HOME}/data
 mkdir -p ${CEDAR_DOCKER_HOME}/log
 
 docker network remove cedarnet
-docker network create --subnet=${CEDAR_NET_GATEWAY}/24 --gateway ${CEDAR_NET_GATEWAY} cedarnet
+docker network create --subnet=${CEDAR_NET_SUBNET}/24 --gateway ${CEDAR_NET_GATEWAY} cedarnet

@@ -9,6 +9,7 @@ export CEDAR_HOST=metadatacenter.orgx
 
 # Docker network, IP address
 export CEDAR_NET_GATEWAY=192.168.17.1
+export CEDAR_NET_SUBNET=192.168.17.0
 
 # Keycloak admin user and connection data
 export CEDAR_KEYCLOAK_ADMIN_USER="administrator"

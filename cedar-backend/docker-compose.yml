@@ -21,6 +21,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -42,6 +43,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -63,6 +65,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -85,6 +88,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -111,6 +115,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -135,6 +140,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -157,6 +163,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -186,6 +193,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -210,6 +218,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -234,6 +243,7 @@ services:
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -257,6 +267,7 @@ services:
       - "folder.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST

@@ -52,6 +52,8 @@ services:
     container_name: keycloak
     image: "metadatacenter/cedar-keycloak"
     build: ../../cedar-docker-build/cedar-keycloak
+    depends_on:
+      - mysql
     networks:
       - cedarnet
     ports:
@@ -69,6 +71,8 @@ services:
       - CEDAR_KEYCLOAK_ADMIN_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_RESOURCE_HTTP_PORT
 
   elasticsearch:
     container_name: elasticsearch
