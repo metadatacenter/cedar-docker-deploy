@@ -21,7 +21,8 @@ export CEDAR_KEYCLOAK_PORT=8080
 # You should change this before the first run
 # 64 characters, [0-9, a-f]
 export CEDAR_ADMIN_USER_API_KEY="0000111122223333444455556666777788889999aaaabbbbccccddddeeeeffff"
-export CEDAR_ADMIN_USER_PASSWORD="changeme"
+# Do not change this for now
+export CEDAR_ADMIN_USER_PASSWORD="Password123"
 
 # Mongo user and connection data
 export CEDAR_MONGO_ROOT_USER_NAME="mongoRootUser"
