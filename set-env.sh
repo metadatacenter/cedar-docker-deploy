@@ -110,4 +110,4 @@ export CEDAR_NGINX_HTTP_PORT=80
 export CEDAR_NGINX_HTTPS_PORT=443
 
 #Test user 1
-CEDAR_TEST_USER1_ID=https://metadatacenter.org/users/84c0e798-fd6a-4615-bd41-738baba31ea4
+export CEDAR_TEST_USER1_ID=https://metadatacenter.org/users/84c0e798-fd6a-4615-bd41-738baba31ea4
