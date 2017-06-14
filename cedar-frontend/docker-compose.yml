@@ -9,7 +9,7 @@ services:
     ports:
       - "${CEDAR_FRONTEND_PORT}:4200"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/editor:/log
+      - ${CEDAR_DOCKER_LOG_HOME}/editor:/log
     environment:
       - CEDAR_HOST
 

@@ -27,7 +27,7 @@ services:
     networks:
       - cedarnet
     volumes:
-      - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
