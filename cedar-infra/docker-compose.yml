@@ -60,8 +60,6 @@ services:
       - ${CEDAR_KEYCLOAK_PORT}:8080
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/keycloak:/opt/jboss/keycloak/standalone/log
-    extra_hosts:
-      - "resource.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
     environment:
       - CEDAR_MYSQL_USER
       - CEDAR_MYSQL_PASSWORD
