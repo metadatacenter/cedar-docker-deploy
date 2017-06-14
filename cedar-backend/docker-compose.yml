@@ -263,8 +263,6 @@ services:
     volumes:
       - ${CEDAR_DOCKER_HOME}/log/cedar-resource-server/:/cedar/log/cedar-resource-server/
       - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
-    extra_hosts:
-      - "folder.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
