@@ -1,5 +1,20 @@
 version: '3'
 services:
+  mysql:
+    container_name: mysql
+    image: "metadatacenter/cedar-mysql"
+    build: ../../cedar-docker-build/cedar-mysql
+    networks:
+      - cedarnet
+    ports:
+      - ${CEDAR_MYSQL_PORT}:3306
+    volumes:
+      - ${CEDAR_DOCKER_DATA_HOME}/mysql/:/var/lib/mysql
+    environment:
+      - CEDAR_MYSQL_ROOT_PASSWORD
+      - CEDAR_MYSQL_USER
+      - CEDAR_MYSQL_PASSWORD
+
   mongo:
     container_name: mongo
     image: "metadatacenter/cedar-mongo"
@@ -33,20 +48,33 @@ services:
     sysctls:
       - net.core.somaxconn=512
 
-  mysql:
-    container_name: mysql
-    image: "metadatacenter/cedar-mysql"
-    build: ../../cedar-docker-build/cedar-mysql
+  elasticsearch:
+    container_name: elasticsearch
+    image: "metadatacenter/cedar-elasticsearch"
+    build: ../../cedar-docker-build/cedar-elasticsearch
     networks:
       - cedarnet
     ports:
-      - ${CEDAR_MYSQL_PORT}:3306
+      - ${CEDAR_ELASTICSEARCH_REST_PORT}:9200
+      - ${CEDAR_ELASTICSEARCH_TRANSPORT_PORT}:9300
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/mysql/:/var/lib/mysql
+      - ${CEDAR_DOCKER_DATA_HOME}/elasticsearch:/usr/share/elasticsearch/data
+      - ${CEDAR_DOCKER_LOG_HOME}/elasticsearch:/usr/share/elasticsearch/logs
+
+  neo4j:
+    container_name: neo4j
+    image: "metadatacenter/cedar-neo4j"
+    build: ../../cedar-docker-build/cedar-neo4j
+    networks:
+      - cedarnet
+    ports:
+      - ${CEDAR_NEO4J_REST_PORT}:7474
+      - ${CEDAR_NEO4J_BOLT_PORT}:7687
+    volumes:
+      - ${CEDAR_DOCKER_DATA_HOME}/neo4j/:/data
+      - ${CEDAR_DOCKER_LOG_HOME}/neo4j/:/logs
     environment:
-      - CEDAR_MYSQL_ROOT_PASSWORD
-      - CEDAR_MYSQL_USER
-      - CEDAR_MYSQL_PASSWORD
+      - CEDAR_NEO4J_USER_PASSWORD
 
   keycloak:
     container_name: keycloak
@@ -72,33 +100,6 @@ services:
       - CEDAR_NET_GATEWAY
       - CEDAR_RESOURCE_HTTP_PORT
 
-  elasticsearch:
-    container_name: elasticsearch
-    image: "metadatacenter/cedar-elasticsearch"
-    build: ../../cedar-docker-build/cedar-elasticsearch
-    networks:
-      - cedarnet
-    ports:
-      - ${CEDAR_ELASTICSEARCH_REST_PORT}:9200
-    volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/elasticsearch:/usr/share/elasticsearch/data
-      - ${CEDAR_DOCKER_LOG_HOME}/elasticsearch:/usr/share/elasticsearch/logs
-
-  neo4j:
-    container_name: neo4j
-    image: "metadatacenter/cedar-neo4j"
-    build: ../../cedar-docker-build/cedar-neo4j
-    networks:
-      - cedarnet
-    ports:
-      - ${CEDAR_NEO4J_REST_PORT}:7474
-      - ${CEDAR_NEO4J_BOLT_PORT}:7687
-    volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/neo4j/:/data
-      - ${CEDAR_DOCKER_LOG_HOME}/neo4j/:/logs
-    environment:
-      - CEDAR_NEO4J_USER_PASSWORD
-
   nginx:
     container_name: nginx
     image: "metadatacenter/cedar-nginx"
@@ -116,7 +117,6 @@ services:
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_FRONTEND_HOST
-
 
 networks:
   cedarnet:
