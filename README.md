@@ -20,7 +20,7 @@ It will not work on Windows systems (mainly because of the *.sh files)
 In order to proceed, you will need the following
 * Root access - used only in one of the steps
 * At least 8GB memory (CEDAR will require 6GB)
-* Reasonable sized free space on your hard drive (in the user's home folder)
+* Reasonable free space on your hard drive (in the user's home folder)
 
 ## IMPORTANT - Updating environment variables - PLEASE READ
 During this install process, you will need to set or update several environment variables, several times.
@@ -32,10 +32,10 @@ Other environment variables will come from scripts included in one of the above 
 After making changes to the environment variables by changing a value, or including a file into your profile, **it is crucial** that these changes take effect.
 
 There are at least two ways to achieve this:
-1. Close the current shell, and open a new one. This way it is guarranteed that the new shell has all the changes
+1. Close the current shell, and open a new one. This way it is guarranteed that the new shell has all the changes.
 1. You can source the ``~/.bash_profile`` or ``~/.bashrc`` file. By doing this, the additions and changes will take effect, but the possibly removed variables will still be set.
 
-We would suggest to use the first approach.
+We would suggest to use the first approach!
 
 **During this guide we will warn you several times to make sure your environment variable changes are taken into account. Please close the current shell and open a new one in these cases!**
  
@@ -99,7 +99,7 @@ source ${CEDAR_HOME}/cedar-docker-deploy/set-env-common.sh
 
 **Make sure the above environment variable changes are taken into account. Follow the step at the beginning of this guide!**
 
-### 7. Create Docker subnet, create folders, copy certificates
+### 7. Create Docker subnet, create directories, copy certificates
 Execute the below lines:
 
 ````
@@ -139,7 +139,7 @@ mysql               |
 mysql               |
 mysql               | MySQL init process done. Ready for start up.
 ````
-After the last line appeared stop this container with ``Ctrl + C`` 
+After the last line was shown, stop this container with ``Ctrl + C`` 
 
 ### 10. Start the infrastructure services
 Execute the below lines:
@@ -158,7 +158,7 @@ docker-compose up
 ````
 
 ### 12. Start the monitoring tools
-**This step will be optional later, but for now at the first run you will need to perform thisinitialization step!**
+**This step will be optional later, but for now, at the first run, you will need to perform this initialization step!**
 
 In a new shell execute the below lines:
 
@@ -177,11 +177,11 @@ In a new shell execute the below line:
 
     docker exec -it admin-tool bash
 
-You will be logged into a linus shell. Execute the following line:
+You will be logged into a Linux shell. Execute the following command:
 
     cedarat folderServer-createGlobalObjects
  
-Exit this shell with ``exit`` or with ``Ctrl + C``
+Exit this shell with ``exit`` or ``Ctrl + C``
 
 ### 13. Start the microservices
 In a new shell execute the below lines:
@@ -192,11 +192,11 @@ docker-compose up
 ```` 
 
 ### 14. Import CA certificate
-Open the following file in Finder ``${CEDAR_DOCKER_HOME}/ca/ca-cedar.crt`` by double-clicking on it
+Open the following file in Finder: ``${CEDAR_DOCKER_HOME}/ca/ca-cedar.crt`` by double-clicking it.
  
-* The application called ``Keychain Access`` will be launched.
+* The ``Keychain Access`` application  will be launched.
 * A dialog will pop up, prompting for a location for the certificate. The ``login`` will be preselected. Click the ``Add`` button.
-* Locate the certificate just added by searching for ``metadatacenter`` in to top right corner.
+* Locate the certificate you just added, by searching for ``metadatacenter`` in to top right corner.
 * The certificate will have a white cross in a red circle, meaning it is not trusted.
 * Open it by double-clicking it.
 * Expand the ``Trust`` branch on the top.
@@ -211,7 +211,7 @@ Check the application from a browser:
 
 https://cedar.metadatacenter.orgx
 
-Log in with:
+Log in with these users:
 * cedar-admin / Password123
 * test1@test.com / test1
 * test2@test.com / test2
