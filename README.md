@@ -108,7 +108,7 @@ bash ${CEDAR_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
 
 Execute the below line:
  
-    sudo cat ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/etc/hosts >> /etc/hosts
+    sudo bash -c "cat ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/etc/hosts >> /etc/hosts"
 
 ### 9. Initialize MySQL
 **This step is needed only once for a new installation!**
