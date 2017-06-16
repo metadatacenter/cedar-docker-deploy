@@ -1,13 +1,10 @@
 # CEDAR Docker version - Quick Install Guide
 ## Disclaimer
 
-This guide present a quick and easy path to install CEDAR.
-
-In order to achieve this, it makes several assumptions:
-* The domain name of the system will be ``metadatacenter.orgx``
-* The related files will be stored in a directory named ``cedar-docker-home`` in the user's home folder
-* The user does not want to change the default passwords
-    
+This guide present a quick and easy path to install CEDAR. The guide makes several assumptions: 
+(1) The domain name of the system will be ``metadatacenter.orgx``;
+(2) The related files will be stored in a directory named ``cedar-docker-home`` in the user's home folder;
+and (3) The user does not want to change the default passwords.  
 If these assumptions are not acceptable, one should refer to the full version of this install guide.
 
 ## Prerequisites
@@ -58,7 +55,7 @@ git clone https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_HOME
 cp ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_HOME}/
 ````
 
-### 4. Set base data for the installation
+### 4. Set the BioPortal API key for the installation
 Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add the value for the BioPortal variable ``CEDAR_BIOPORTAL_API_KEY``.
 
 ### 5. Include environment variable setting scripts into your profile
