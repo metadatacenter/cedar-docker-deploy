@@ -1,5 +1,5 @@
 # CEDAR Docker version - Quick Install Guide
-##Disclaimer
+## Disclaimer
 
 The below guide present an easy path to install CEDAR in a quick way.
 
@@ -10,7 +10,7 @@ In order to achieve this, it makes several assumptions:
     
 If these assumptions are not acceptable, one should refer to the full version of this install guide.
 
-##Prerequisites
+## Prerequisites
 This guide was prepared and tested on macOS Sierra (v 10.12.5).
 
 To our best knowledge it will work without changes on Unix systems.
@@ -22,7 +22,7 @@ In order to proceed, you will need the following
 * At least 8GB memory (CEDAR will require 6GB)
 * Reasonable sized free space on your hard drive (in the user's home folder)
 
-##IMPORTANT - Updating environment variables - PLEASE READ
+## IMPORTANT - Updating environment variables - PLEASE READ
 During this install process, you will need to set or update several environment variables, several times.
 
 Some of the environment variables will be added to your ``~/.bash_profile`` or ``~/.bashrc`` file.
@@ -39,7 +39,7 @@ We would suggest to use the first approach.
 
 **During this guide we will warn you several times to make sure your environment variable changes are taken into account. Please close the current shell and open a new one in these cases!**
  
-##Steps
+## Steps
 ### 1.Install Docker
 Download and install Docker Community Edition from https://www.docker.com/community-edition
 
