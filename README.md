@@ -55,7 +55,7 @@ export CEDAR_DOCKER_HOME=~/cedar-docker-home
 **Make sure the above environment variable changes are taken into account. Follow the step at the beginning of this guide!**
 
 ### 3. Get the Docker image sources and compose files
-Execute the below lines:
+Execute the following lines:
 
 ````
 mkdir -p ${CEDAR_HOME}
@@ -69,14 +69,10 @@ Edit the following file with your editor of choice:
 
     ${CEDAR_HOME}/set-env-base.sh
 
-If you have it, add the value for the below variable:
-* ``CEDAR_BIOPORTAL_API_KEY``
-
-**This guide will not describe the way you can get this value.**
-
+If you have it, add the value for the BioPortal variable ``CEDAR_BIOPORTAL_API_KEY``.
 
 ### 5. Include environment variable setting scripts into your profile
-Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the below lines:
+Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the following lines:
 
 ````
 source ${CEDAR_HOME}/set-env-base.sh
@@ -96,7 +92,7 @@ bash ${CEDAR_HOME}/cedar-docker-deploy/bin/create-directories.sh
 bash ${CEDAR_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
 ````
 
-### 7. Add domains to /etc/hosts
+### 7. Add domains to ```/etc/hosts```
 **You will need to have sudo privileges for this step!**
 
 Execute the following command:
