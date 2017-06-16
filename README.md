@@ -77,24 +77,19 @@ Edit the following file with your editor of choice:
 
     ${CEDAR_HOME}/set-env-base.sh
 
-If you have them, add the values for the below variables:
+If you have it, add the value for the below variable:
 * ``CEDAR_BIOPORTAL_API_KEY``
-* ``CEDAR_NCBI_SRA_FTP_PASSWORD``
 
-**This guide will not describe the way you can get these values.**
+**This guide will not describe the way you can get this value.**
 
-Please change the value of:
-* ``CEDAR_SALT_API_KEY``
-
-to a random string.
 
 ### 6. Include environment variable setting scripts into your profile
 Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the below lines:
 
 ````
 source ${CEDAR_HOME}/set-env-base.sh
-source ${CEDAR_HOME}/cedar-docker-deploy/set-env-passwords.sh
-source ${CEDAR_HOME}/cedar-docker-deploy/set-env-common.sh
+source ${CEDAR_HOME}/cedar-docker-deploy/bin/set-env-passwords.sh
+source ${CEDAR_HOME}/cedar-docker-deploy/bin/set-env-common.sh
 ````
 
 **Make sure the above environment variable changes are taken into account. Follow the step at the beginning of this guide!**
