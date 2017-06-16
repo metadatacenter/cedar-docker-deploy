@@ -39,13 +39,13 @@ We would suggest to use the first approach!
 ## Steps
 ### 1.Install Docker
 
-Download and install Docker Community Edition from (here)[https://www.docker.com/community-edition].
+Download and install Docker Community Edition from [here](https://www.docker.com/community-edition).
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
 to at least 6 GB; if possible also assign more than once CPU. Then apply and restart.
 
 ### 2. Set up CEDAR_HOME and CEDAR_DOCKER_HOME variables
 
-Edit your ```~./bash_profile``` or ```~/.bashrc``` file with your editor of choice, and add the below lines:
+Edit your ```~./bash_profile``` or ```~/.bashrc``` file with your editor of choice, and add the following lines:
 
 ````
 export CEDAR_HOME=~/cedar-home
@@ -195,9 +195,7 @@ Open the following file in Finder: ``${CEDAR_DOCKER_HOME}/ca/ca-cedar.crt`` by d
 * Close the ``Keychain Access``
 
 ### 14. Log in to the application
-Check the application from a browser:
-
-https://cedar.metadatacenter.orgx
+Check the application from a browser at the following URL [https://org.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
 Log in with these users:
 * cedar-admin / Password123
@@ -205,7 +203,7 @@ Log in with these users:
 * test2@test.com / test2
 * my@user.com / my
 
-The Keycloak (user admin UI) is located [here](https://auth.metadatacenter.orgx/auth/admin/).
+The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
 
 Log in with:
 * administrator / changeme
