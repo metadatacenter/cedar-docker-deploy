@@ -1,14 +1,14 @@
-# CEDAR Docker version - Quick Install Guide
+# CEDAR Docker - Quick Install Guide
 ## Disclaimer
 
 This guide present a quick and easy path to install CEDAR. The guide makes several assumptions: 
 (1) The domain name of the system will be ``metadatacenter.orgx``;
 (2) The related files will be stored in a directory named ``cedar-docker-home`` in the user's home folder;
-and (3) The user does not want to change the default passwords.  
+and (3) The user does not want to change the default passwords. 
 If these assumptions are not acceptable, one should refer to the full version of this install guide.
 
 ## Prerequisites
-This guide was prepared and tested on macOS Sierra (v 10.12.5).
+This guide was prepared and tested on macOS Sierra (v10.12.5).
 To our best knowledge it will work without changes on Unix systems.
 It will not work on Windows systems (mainly because of the *.sh files) 
 In order to proceed, you will need root access at least 8GB memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
