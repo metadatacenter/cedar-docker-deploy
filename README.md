@@ -90,6 +90,7 @@ Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, 
 source ${CEDAR_HOME}/set-env-base.sh
 source ${CEDAR_HOME}/cedar-docker-deploy/bin/set-env-passwords.sh
 source ${CEDAR_HOME}/cedar-docker-deploy/bin/set-env-common.sh
+source ${CEDAR_HOME}/cedar-docker-deploy/bin/aliases.sh
 ````
 
 **Make sure the above environment variable changes are taken into account. Follow the step at the beginning of this guide!**
