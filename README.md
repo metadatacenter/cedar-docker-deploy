@@ -12,15 +12,9 @@ If these assumptions are not acceptable, one should refer to the full version of
 
 ## Prerequisites
 This guide was prepared and tested on macOS Sierra (v 10.12.5).
-
 To our best knowledge it will work without changes on Unix systems.
-
 It will not work on Windows systems (mainly because of the *.sh files) 
-
-In order to proceed, you will need the following:
-* Root access - used only in one of the steps
-* At least 8GB memory (CEDAR will require 6GB)
-* Reasonable free space on your hard drive (in the user's home folder)
+In order to proceed, you will need root access at least 8GB memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
 
 ## IMPORTANT - Updating environment variables - PLEASE READ
 During this install process, you will need to set or update several environment variables, several times.
@@ -105,21 +99,7 @@ goinfrastructure
 docker-compose up mysql
 ````
 
-You will see the following output:
-
-````
-mysql               | CEDAR: exporting variables ...
-mysql               | CEDAR: executing original entrypoint: mysqld
-mysql               | Initializing database
-
-...
-
-mysql               | /entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
-mysql               |
-mysql               |
-mysql               | MySQL init process done. Ready for start up.
-````
-After the last line is shown, stop this container with ``Ctrl + C`` 
+After the console stops outputting new lines stop this container with ``Ctrl + C`` 
 
 ### 9. Start the infrastructure services
 Execute the following commands:
@@ -147,13 +127,7 @@ gomonitoring
 docker-compose up
 ```` 
 
-After you see the following line (or the console stops to output new lines):
-
-````
-admin-tool         | Waiting for users
-````
-
-In a new shell execute the following command:
+After the console stops outputting new lines execute the following command in a new shell:
 
     docker exec -it admin-tool bash
 
