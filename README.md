@@ -65,11 +65,7 @@ cp ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_HO
 ````
 
 ### 4. Set base data for the installation
-Edit the following file with your editor of choice:  
-
-    ${CEDAR_HOME}/set-env-base.sh
-
-If you have it, add the value for the BioPortal variable ``CEDAR_BIOPORTAL_API_KEY``.
+Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add the value for the BioPortal variable ``CEDAR_BIOPORTAL_API_KEY``.
 
 ### 5. Include environment variable setting scripts into your profile
 Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the following lines:
@@ -92,7 +88,7 @@ bash ${CEDAR_HOME}/cedar-docker-deploy/bin/create-directories.sh
 bash ${CEDAR_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
 ````
 
-### 7. Add domains to ```/etc/hosts```
+### 7. Add redirect for ```metadatacenter.orgx``` to ```/etc/hosts```
 **You will need to have sudo privileges for this step!**
 
 Execute the following command:
