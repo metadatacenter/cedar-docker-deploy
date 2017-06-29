@@ -10,7 +10,7 @@ If these assumptions are not acceptable, one should refer to the full version of
 ## Prerequisites
 This guide was prepared and tested on macOS Sierra (v10.12.5).
 To our best knowledge it will work without changes on Unix systems.
-It will not work on Windows systems (mainly because of the *.sh files) 
+It will not work on Windows systems (mainly because of the *.sh files) .
 In order to proceed, you will need root access at least 8GB memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
 
 ## IMPORTANT - Updating environment variables - PLEASE READ
