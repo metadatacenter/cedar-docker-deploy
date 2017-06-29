@@ -1,44 +1,18 @@
 #!/bin/bash
 
-# Set it to an existing directory with write permission for the current user
-# This is the location for data persistency
-export CEDAR_DOCKER_HOME=~/cedar-docker-deployment
-
-# CEDAR hostname for backend services
-export CEDAR_HOST=metadatacenter.orgx
-
-# Docker network, IP address
-export CEDAR_NET_GATEWAY=192.168.17.1
-
-# Keycloak admin user and connection data
-export CEDAR_KEYCLOAK_ADMIN_USER="administrator"
-export CEDAR_KEYCLOAK_ADMIN_PASSWORD="changeme"
+# Keycloak connection data
 export CEDAR_KEYCLOAK_HOST="${CEDAR_NET_GATEWAY}"
 export CEDAR_KEYCLOAK_PORT=8080
 
-# cedar-admin user data
-# You should change this before the first run
-# 64 characters, [0-9, a-f]
-export CEDAR_ADMIN_USER_API_KEY="0000111122223333444455556666777788889999aaaabbbbccccddddeeeeffff"
-export CEDAR_ADMIN_USER_PASSWORD="changeme"
-
-# Mongo user and connection data
-export CEDAR_MONGO_ROOT_USER_NAME="mongoRootUser"
-export CEDAR_MONGO_ROOT_USER_PASSWORD="changeme"
-export CEDAR_MONGO_APP_USER_NAME="cedarMongoUser"
-export CEDAR_MONGO_APP_USER_PASSWORD="changeme"
+# Mongo connection data
 export CEDAR_MONGO_HOST="${CEDAR_NET_GATEWAY}"
 export CEDAR_MONGO_PORT=27017
 
-# MySQL CEDAR app user data for Keycloak persistence
-export CEDAR_MYSQL_ROOT_PASSWORD="changeme"
-export CEDAR_MYSQL_USER="cedarMySQLUser"
-export CEDAR_MYSQL_PASSWORD="changeme"
+# MySQL connection data
 export CEDAR_MYSQL_HOST="${CEDAR_NET_GATEWAY}"
 export CEDAR_MYSQL_PORT=3306
 
-# Neo4j user and connection data - do not change the user name
-export CEDAR_NEO4J_USER_PASSWORD="changeme"
+# Neo4j connection data
 export CEDAR_NEO4J_HOST="${CEDAR_NET_GATEWAY}"
 export CEDAR_NEO4J_REST_PORT=7474
 export CEDAR_NEO4J_BOLT_PORT=7687
@@ -46,6 +20,12 @@ export CEDAR_NEO4J_BOLT_PORT=7687
 # Port assignment
 export CEDAR_KIBANA_PORT=5601
 export CEDAR_REDIS_COMMANDER_PORT=8081
+
+#Home directories
+export CEDAR_DOCKER_DATA_HOME=${CEDAR_DOCKER_HOME}/data
+export CEDAR_DOCKER_LOG_HOME=${CEDAR_DOCKER_HOME}/log
+export CEDAR_DOCKER_CA_HOME=${CEDAR_DOCKER_HOME}/ca
+export CEDAR_DOCKER_CERT_HOME=${CEDAR_DOCKER_HOME}/cert
 
 # Microservices host
 export CEDAR_MICROSERVICE_HOST="${CEDAR_NET_GATEWAY}"
@@ -107,3 +87,5 @@ export CEDAR_ELASTICSEARCH_TRANSPORT_PORT=9300
 export CEDAR_NGINX_HTTP_PORT=80
 export CEDAR_NGINX_HTTPS_PORT=443
 
+#Test user 1
+export CEDAR_TEST_USER1_ID=https://metadatacenter.org/users/84c0e798-fd6a-4615-bd41-738baba31ea4

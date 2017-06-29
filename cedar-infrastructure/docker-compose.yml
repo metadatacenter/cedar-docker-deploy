@@ -1,5 +1,20 @@
 version: '3'
 services:
+  mysql:
+    container_name: mysql
+    image: "metadatacenter/cedar-mysql"
+    build: ../../cedar-docker-build/cedar-mysql
+    networks:
+      - cedarnet
+    ports:
+      - ${CEDAR_MYSQL_PORT}:3306
+    volumes:
+      - ${CEDAR_DOCKER_DATA_HOME}/mysql/:/var/lib/mysql
+    environment:
+      - CEDAR_MYSQL_ROOT_PASSWORD
+      - CEDAR_MYSQL_USER
+      - CEDAR_MYSQL_PASSWORD
+
   mongo:
     container_name: mongo
     image: "metadatacenter/cedar-mongo"
@@ -9,8 +24,8 @@ services:
     ports:
       - "${CEDAR_MONGO_PORT}:27017"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/data/mongo/:/data/db
-      - ${CEDAR_DOCKER_HOME}/log/mongo/:/data/log
+      - ${CEDAR_DOCKER_DATA_HOME}/mongo/:/data/db
+      - ${CEDAR_DOCKER_LOG_HOME}/mongo/:/data/log
     environment:
       - CEDAR_MONGO_ROOT_USER_NAME
       - CEDAR_MONGO_ROOT_USER_PASSWORD
@@ -28,47 +43,10 @@ services:
     ports:
       - ${CEDAR_REDIS_PERSISTENT_PORT}:6379
     volumes:
-      - ${CEDAR_DOCKER_HOME}/data/redis/:/data
-      - ${CEDAR_DOCKER_HOME}/log/redis/:/log
+      - ${CEDAR_DOCKER_DATA_HOME}/redis/:/data
+      - ${CEDAR_DOCKER_LOG_HOME}/redis/:/log
     sysctls:
       - net.core.somaxconn=512
-
-  mysql:
-    container_name: mysql
-    image: "metadatacenter/cedar-mysql"
-    build: ../../cedar-docker-build/cedar-mysql
-    networks:
-      - cedarnet
-    ports:
-      - ${CEDAR_MYSQL_PORT}:3306
-    volumes:
-      - ${CEDAR_DOCKER_HOME}/data/mysql/:/var/lib/mysql
-    environment:
-      - CEDAR_MYSQL_ROOT_PASSWORD
-      - CEDAR_MYSQL_USER
-      - CEDAR_MYSQL_PASSWORD
-
-  keycloak:
-    container_name: keycloak
-    image: "metadatacenter/cedar-keycloak"
-    build: ../../cedar-docker-build/cedar-keycloak
-    networks:
-      - cedarnet
-    ports:
-      - ${CEDAR_KEYCLOAK_PORT}:8080
-    volumes:
-      - ${CEDAR_DOCKER_HOME}/log/keycloak:/opt/jboss/keycloak/standalone/log
-    extra_hosts:
-      - "resource.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
-    environment:
-      - CEDAR_MYSQL_USER
-      - CEDAR_MYSQL_PASSWORD
-      - CEDAR_MYSQL_PORT
-      - CEDAR_MYSQL_HOST
-      - CEDAR_KEYCLOAK_ADMIN_USER
-      - CEDAR_KEYCLOAK_ADMIN_PASSWORD
-      - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_HOST
 
   elasticsearch:
     container_name: elasticsearch
@@ -78,9 +56,10 @@ services:
       - cedarnet
     ports:
       - ${CEDAR_ELASTICSEARCH_REST_PORT}:9200
+      - ${CEDAR_ELASTICSEARCH_TRANSPORT_PORT}:9300
     volumes:
-      - ${CEDAR_DOCKER_HOME}/data/elasticsearch:/usr/share/elasticsearch/data
-      - ${CEDAR_DOCKER_HOME}/log/elasticsearch:/usr/share/elasticsearch/logs
+      - ${CEDAR_DOCKER_DATA_HOME}/elasticsearch:/usr/share/elasticsearch/data
+      - ${CEDAR_DOCKER_LOG_HOME}/elasticsearch:/usr/share/elasticsearch/logs
 
   neo4j:
     container_name: neo4j
@@ -92,10 +71,34 @@ services:
       - ${CEDAR_NEO4J_REST_PORT}:7474
       - ${CEDAR_NEO4J_BOLT_PORT}:7687
     volumes:
-      - ${CEDAR_DOCKER_HOME}/data/neo4j/:/data
-      - ${CEDAR_DOCKER_HOME}/log/neo4j/:/logs
+      - ${CEDAR_DOCKER_DATA_HOME}/neo4j/:/data
+      - ${CEDAR_DOCKER_LOG_HOME}/neo4j/:/logs
     environment:
       - CEDAR_NEO4J_USER_PASSWORD
+
+  keycloak:
+    container_name: keycloak
+    image: "metadatacenter/cedar-keycloak"
+    build: ../../cedar-docker-build/cedar-keycloak
+    depends_on:
+      - mysql
+    networks:
+      - cedarnet
+    ports:
+      - ${CEDAR_KEYCLOAK_PORT}:8080
+    volumes:
+      - ${CEDAR_DOCKER_LOG_HOME}/keycloak:/opt/jboss/keycloak/standalone/log
+    environment:
+      - CEDAR_MYSQL_USER
+      - CEDAR_MYSQL_PASSWORD
+      - CEDAR_MYSQL_PORT
+      - CEDAR_MYSQL_HOST
+      - CEDAR_KEYCLOAK_ADMIN_USER
+      - CEDAR_KEYCLOAK_ADMIN_PASSWORD
+      - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_RESOURCE_HTTP_PORT
 
   nginx:
     container_name: nginx
@@ -107,14 +110,13 @@ services:
       - ${CEDAR_NGINX_HTTP_PORT}:80
       - ${CEDAR_NGINX_HTTPS_PORT}:443
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/:/etc/nginx/log
-      - ${CEDAR_DOCKER_HOME}/cert/:/usr/local/etc/certificates
+      - ${CEDAR_DOCKER_LOG_HOME}/:/etc/nginx/log
+      - ${CEDAR_DOCKER_CERT_HOME}/:/usr/local/etc/certificates
     environment:
       - CEDAR_HOST
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_FRONTEND_HOST
-
 
 networks:
   cedarnet:

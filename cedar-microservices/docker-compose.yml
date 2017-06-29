@@ -13,11 +13,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_SCHEMA_PORT}:9003"
+      - "${CEDAR_SCHEMA_HTTP_PORT}:9003"
+      - "${CEDAR_SCHEMA_ADMIN_PORT}:9103"
+      - "${CEDAR_SCHEMA_STOP_PORT}:9203"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-schema-server/:/cedar/log/cedar-schema-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-schema-server/:/cedar/log/cedar-schema-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -31,11 +35,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_USER_PORT}:9005"
+      - "${CEDAR_USER_HTTP_PORT}:9005"
+      - "${CEDAR_USER_ADMIN_PORT}:9105"
+      - "${CEDAR_USER_STOP_PORT}:9205"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-user-server/:/cedar/log/cedar-user-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-user-server/:/cedar/log/cedar-user-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -49,11 +57,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_SUBMISSION_PORT}:9010"
+      - "${CEDAR_SUBMISSION_HTTP_PORT}:9010"
+      - "${CEDAR_SUBMISSION_ADMIN_PORT}:9110"
+      - "${CEDAR_SUBMISSION_STOP_PORT}:9210"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-submission-server/:/cedar/log/cedar-submission-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-submission-server/:/cedar/log/cedar-submission-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -68,16 +80,24 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_GROUP_PORT}:9009"
+      - "${CEDAR_GROUP_HTTP_PORT}:9009"
+      - "${CEDAR_GROUP_ADMIN_PORT}:9109"
+      - "${CEDAR_GROUP_STOP_PORT}:9209"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-group-server/:/cedar/log/cedar-group-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-group-server/:/cedar/log/cedar-group-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
   folder-server:
     depends_on:
         - cedar-microservice
@@ -87,15 +107,21 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_FOLDER_PORT}:9008"
+      - "${CEDAR_FOLDER_HTTP_PORT}:9008"
+      - "${CEDAR_FOLDER_ADMIN_PORT}:9108"
+      - "${CEDAR_FOLDER_STOP_PORT}:9208"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-folder-server/:/cedar/log/cedar-folder-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-folder-server/:/cedar/log/cedar-folder-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_PASSWORD
   template-server:
     depends_on:
@@ -106,11 +132,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_TEMPLATE_PORT}:9001"
+      - "${CEDAR_TEMPLATE_HTTP_PORT}:9001"
+      - "${CEDAR_TEMPLATE_ADMIN_PORT}:9101"
+      - "${CEDAR_TEMPLATE_STOP_PORT}:9201"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-template-server/:/cedar/log/cedar-template-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-template-server/:/cedar/log/cedar-template-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -125,17 +155,25 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_WORKER_PORT}:9011"
+      - "${CEDAR_WORKER_HTTP_PORT}:9011"
+      - "${CEDAR_WORKER_ADMIN_PORT}:9111"
+      - "${CEDAR_WORKER_STOP_PORT}:9211"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-worker-server/:/cedar/log/cedar-worker-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-worker-server/:/cedar/log/cedar-worker-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ELASTICSEARCH_HOST
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
   valuerecommender-server:
@@ -147,15 +185,21 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_VALUERECOMMENDER_PORT}:9006"
+      - "${CEDAR_VALUERECOMMENDER_HTTP_PORT}:9006"
+      - "${CEDAR_VALUERECOMMENDER_ADMIN_PORT}:9106"
+      - "${CEDAR_VALUERECOMMENDER_STOP_PORT}:9206"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-valuerecommender-server/:/cedar/log/cedar-valuerecommender-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-valuerecommender-server/:/cedar/log/cedar-valuerecommender-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_ELASTICSEARCH_HOST
+      - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
   terminology-server:
     depends_on:
         - cedar-microservice
@@ -165,12 +209,16 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_TERMINOLOGY_PORT}:9004"
+      - "${CEDAR_TERMINOLOGY_HTTP_PORT}:9004"
+      - "${CEDAR_TERMINOLOGY_ADMIN_PORT}:9104"
+      - "${CEDAR_TERMINOLOGY_STOP_PORT}:9204"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-terminology-server/:/cedar/log/cedar-terminology-server/
-      - ${CEDAR_DOCKER_HOME}/data/cache/terminology/:/cedar/cache/terminology/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-terminology-server/:/cedar/log/cedar-terminology-server/
+      - ${CEDAR_DOCKER_DATA_HOME}/cache/terminology/:/cedar/cache/terminology/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -187,11 +235,15 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_REPO_PORT}:9002"
+      - "${CEDAR_REPO_HTTP_PORT}:9002"
+      - "${CEDAR_REPO_ADMIN_PORT}:9102"
+      - "${CEDAR_REPO_STOP_PORT}:9202"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-repo-server/:/cedar/log/cedar-repo-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-repo-server/:/cedar/log/cedar-repo-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -205,23 +257,28 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_RESOURCE_PORT}:9007"
+      - "${CEDAR_RESOURCE_HTTP_PORT}:9007"
+      - "${CEDAR_RESOURCE_ADMIN_PORT}:9107"
+      - "${CEDAR_RESOURCE_STOP_PORT}:9207"
     volumes:
-      - ${CEDAR_DOCKER_HOME}/log/cedar-resource-server/:/cedar/log/cedar-resource-server/
-      - ${CEDAR_DOCKER_HOME}/ca/:/cedar/ca
-    extra_hosts:
-      - "folder.${CEDAR_HOST}:${CEDAR_DOCKER_HOST}"
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-resource-server/:/cedar/log/cedar-resource-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_SALT_API_KEY
       - CEDAR_ELASTICSEARCH_HOST
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
 
 
 networks:

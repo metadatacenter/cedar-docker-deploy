@@ -1,0 +1,49 @@
+version: '3'
+services:
+  redis-commander:
+    container_name: redis-commander
+    image: "metadatacenter/cedar-redis-commander"
+    build: ../../cedar-docker-build/cedar-redis-commander
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_REDIS_COMMANDER_PORT}:8081"
+    environment:
+      - CEDAR_NET_GATEWAY
+
+  kibana:
+    container_name: kibana
+    image: "metadatacenter/cedar-kibana"
+    build: ../../cedar-docker-build/cedar-kibana
+    networks:
+      - cedarnet
+    ports:
+      - ${CEDAR_KIBANA_PORT}:5601
+
+  admin-tool:
+    container_name: admin-tool
+    image: "metadatacenter/cedar-admin-tool"
+    build: ../../cedar-docker-build/cedar-admin-tool
+    networks:
+      - cedarnet
+    volumes:
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+    environment:
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_ADMIN_USER_PASSWORD
+      - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_SALT_API_KEY
+
+
+networks:
+  cedarnet:
+    external:
+      name: cedarnet
