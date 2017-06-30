@@ -16,7 +16,7 @@ To install you will need root access at least 8GB of memory (CEDAR will require 
 
 Download and install Docker Community Edition from [here](https://www.docker.com/community-edition).
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
-to at least 6 GB; if possible also assign more than once CPU. Then apply and restart.
+to at least 6 GB; if possible also assign more than one CPU. Then apply and restart Docker.
 
 ### 2. Set up CEDAR_HOME and CEDAR_DOCKER_HOME variables
 
@@ -24,6 +24,8 @@ Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following li
 
     export CEDAR_HOME=~/cedar-home
     export CEDAR_DOCKER_HOME=~/cedar-docker-home
+
+Close the current shell and start a new one.
 
 ### 3. Get the Docker image sources and compose files
 
