@@ -90,14 +90,16 @@ In a new shell execute the following commands:
     gofrontend
     docker-compose up
 
-### 11. Start the monitoring tools
-
-**This step is temporary and will not be needed shortly. ***
+### 11. Start the Monitoring Tools
 
 In a new shell execute the following commands:
 
     gomonitoring
     docker-compose up
+
+### 12. Initialize Neo4J
+
+**This step is temporary and will not be needed shortly. ***
 
 After the console stops outputting new lines execute the following command in a new shell:
 
@@ -109,14 +111,14 @@ You will be logged into a Linux shell. Execute the following command:
  
 Exit this shell by typing ``exit``.
 
-### 12. Start the microservices
+### 13. Start the Microservices
 
 In a new shell execute the following commands:
 
     gomicroservices
     docker-compose up
 
-### 13. Import CA certificate
+### 13. Import CA Certificate
 
 Open the following file in Finder: ``${CEDAR_DOCKER_HOME}/ca/ca-cedar.crt`` by double-clicking it.
 The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
@@ -129,9 +131,9 @@ Change the dropdown labeled ``When using this certificate``: to ``Always Trust``
 Close the popup.
 You will be prompted for your password.
 You should see the icon of the certificate having a white cross inside a blue circle.
-Close the ``Keychain Access``
+Close the ``Keychain Access`` application.
 
-### 14. Log in to the CEDAR application
+### 14. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://org.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
