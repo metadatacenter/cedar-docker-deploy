@@ -1,6 +1,6 @@
 # CEDAR Docker - Quick Install Guide
 
-This guide describeds the steops to install CEDAR using Docker. The guide makes several assumptions: 
+This guide describes the steps to install CEDAR using Docker. The guide makes several assumptions: 
 (1) The domain name of the system will be ``metadatacenter.orgx``;
 (2) The related files will be stored in a directory named ``cedar-docker-home`` in the user's home folder;
 and (3) The user does not want to change the default passwords. 
