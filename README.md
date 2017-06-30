@@ -27,7 +27,7 @@ Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following li
 
 Close the current shell and start a new one.
 
-### 3. Get the Docker image sources and compose files
+### 3. Get the CEDAR Docker repos
 
 Execute the following lines:
 
@@ -38,7 +38,8 @@ Execute the following lines:
 
 ### 4. Set the BioPortal API key for the installation
 
-Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the following variable ``CEDAR_BIOPORTAL_API_KEY``.
+Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
+If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 
 ### 5. Include environment variable setting scripts into your profile
 
