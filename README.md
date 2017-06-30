@@ -50,6 +50,8 @@ Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, 
     source ${CEDAR_HOME}/cedar-docker-deploy/bin/set-env-common.sh
     source ${CEDAR_HOME}/cedar-docker-deploy/bin/aliases.sh
 
+Close the current shell and start a new one.
+
 ### 6. Create Docker subnet, create directories, copy certificates
 Execute the following commands:
 
