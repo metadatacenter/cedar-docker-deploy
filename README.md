@@ -1,6 +1,6 @@
 # CEDAR Docker - Quick Install Guide
 
-This guide describes the steps to install CEDAR using Docker. The guide makes several assumptions: 
+This guide describes the steps for installing CEDAR using Docker. The guide makes several simplifying assumptions: 
 (1) The domain name of the system will be ``metadatacenter.orgx``;
 (2) The related files will be stored in a directory named ``cedar-docker-home`` in the user's home folder;
 and (3) The user does not want to change the default passwords. 
@@ -36,12 +36,8 @@ Execute the following lines:
     git clone https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_HOME}/cedar-docker-deploy
     cp ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_HOME}/
 
-### 4. Set the BioPortal API key for the installation
 
-Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
-If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
-
-### 5. Include environment variable setting scripts into your profile
+### 4. Include environment variable setting scripts into your profile
 
 Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the following lines:
 
@@ -52,18 +48,23 @@ Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, 
 
 Close the current shell and start a new one.
 
-### 6. Create Docker subnet, create directories, copy certificates
+### 5. Create Docker subnet, create directories, copy certificates
 Execute the following commands:
 
     bash ${CEDAR_HOME}/cedar-docker-deploy/bin/create-network.sh
     bash ${CEDAR_HOME}/cedar-docker-deploy/bin/create-directories.sh
     bash ${CEDAR_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
 
-### 7. Add redirect for ```metadatacenter.orgx``` to ```/etc/hosts```
+### 6. Add redirect for ```metadatacenter.orgx``` to ```/etc/hosts```
 
 Execute the following command:
  
     sudo bash -c "cat ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/etc/hosts >> /etc/hosts"
+
+### 7. Set the BioPortal API key for the installation
+
+Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
+If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 
 ### 8. Initialize MySQL
 
