@@ -93,8 +93,8 @@ printf "$header" 'Server' 'Status' 'CheckedFor' 'Port' 'Value'
 printLine '\x2D'
 
 printf "$header" '--- Microservices ---------'
-checkHealth Folder 9108
 checkHealth Group 9109
+checkHealth Messaging 9112
 checkHealth User 9105
 checkHealth Repo 9102
 checkHealth Resource 9107
@@ -104,6 +104,7 @@ checkHealth Terminology 9104
 checkHealth ValueRecommender 9106
 checkHealth Submission 9110
 checkHealth Worker 9111
+checkHealth Workspace 9108
 printf "$header" '--- Infrastructure --------'
 checkOpenPort MongoDB 27017
 checkHttpResponse Elasticsearch-REST 9200 'HTTP/1.1\s200\sOK'
@@ -113,9 +114,9 @@ checkHttpResponse NGINX 80 'Server:\snginx'
 checkHttpResponse Keycloak 8080 'Server:\sWildFly'
 checkHttpResponse Neo4j 7474 'Server:\sJetty'
 checkRedisPing Redis-persistent 6379
+#checkRedisPing Redis-non-persistent 6380
 checkHttpResponse Redis-Commander 8081 'X-Powered-By:\sEx'
 checkOpenPort MySQL 3306
-#checkRedisPing Redis-non-persistent 6380
 printf "$header" '---  Front End ------------'
 checkHttpResponse Frontend 4200 'HTTP/1.1\s200\sOK'
 

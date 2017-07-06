@@ -1,19 +1,19 @@
 
 # VVV ----------- The below were added by CEDAR Quick Install ----------- VVV
 
-127.0.0.1   cedar.metadatacenter.orgx
-127.0.0.1   template.metadatacenter.orgx
-127.0.0.1   repo.metadatacenter.orgx
-127.0.0.1   schema.metadatacenter.orgx
-127.0.0.1   terminology.metadatacenter.orgx
 127.0.0.1   auth.metadatacenter.orgx
+127.0.0.1   cedar.metadatacenter.orgx
 127.0.0.1   cert.metadatacenter.orgx
+127.0.0.1   group.metadatacenter.orgx
+127.0.0.1   repo.metadatacenter.orgx
+127.0.0.1   resource.metadatacenter.orgx
+127.0.0.1   schema.metadatacenter.orgx
+127.0.0.1   submission.metadatacenter.orgx
+127.0.0.1   template.metadatacenter.orgx
+127.0.0.1   terminology.metadatacenter.orgx
 127.0.0.1   user.metadatacenter.orgx
 127.0.0.1   valuerecommender.metadatacenter.orgx
-127.0.0.1   resource.metadatacenter.orgx
-127.0.0.1   folder.metadatacenter.orgx
-127.0.0.1   group.metadatacenter.orgx
-127.0.0.1   submission.metadatacenter.orgx
 127.0.0.1   worker.metadatacenter.orgx
+127.0.0.1   workspace.metadatacenter.orgx
 
 # ^^^ ----------- The above were added by CEDAR Quick Install ----------- ^^^

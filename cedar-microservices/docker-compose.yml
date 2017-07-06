@@ -98,20 +98,20 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
-  folder-server:
+  workspace-server:
     depends_on:
         - cedar-microservice
-    container_name: folder-server
-    image: "metadatacenter/cedar-folder-server"
-    build: ../../cedar-docker-build/cedar-folder-server
+    container_name: workspace-server
+    image: "metadatacenter/cedar-workspace-server"
+    build: ../../cedar-docker-build/cedar-workspace-server
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_FOLDER_HTTP_PORT}:9008"
-      - "${CEDAR_FOLDER_ADMIN_PORT}:9108"
-      - "${CEDAR_FOLDER_STOP_PORT}:9208"
+      - "${CEDAR_WORKSPACE_HTTP_PORT}:9008"
+      - "${CEDAR_WORKSPACE_ADMIN_PORT}:9108"
+      - "${CEDAR_WORKSPACE_STOP_PORT}:9208"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-folder-server/:/cedar/log/cedar-folder-server/
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-workspace-server/:/cedar/log/cedar-workspace-server/
       - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -279,6 +279,28 @@ services:
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+  messaging-server:
+    depends_on:
+        - cedar-microservice
+    container_name: messaging-server
+    image: "metadatacenter/cedar-messaging-server"
+    build: ../../cedar-docker-build/cedar-messaging-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_MESSAGING_HTTP_PORT}:9012"
+      - "${CEDAR_MESSAGING_ADMIN_PORT}:9112"
+      - "${CEDAR_MESSAGING_STOP_PORT}:9212"
+    volumes:
+      - ${CEDAR_DOCKER_LOG_HOME}/cedar-messaging-server/:/cedar/log/cedar-messaging-server/
+      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+    environment:
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
 
 
 networks:
