@@ -67,14 +67,17 @@ Execute the following command:
 
 ### 8. Initialize MySQL
 
-**This step is temporary and will not be needed shortly. ***
+**This step is temporary and will not be needed shortly.**
 
 Execute the following commands:
 
     goinfrastructure
     docker-compose up mysql
 
-After the console stops outputting new lines stop this container with ``Ctrl + C`` 
+After the console stops outputting new lines, open a new shell window, and execute the following commands:
+
+    goinfrastructure
+    docker-compose down
 
 ### 9. Start the infrastructure services
 
@@ -99,7 +102,7 @@ In a new shell execute the following commands:
 
 ### 12. Initialize Neo4J
 
-**This step is temporary and will not be needed shortly. ***
+**This step is temporary and will not be needed shortly.**
 
 After the console stops outputting new lines execute the following command in a new shell:
 
@@ -107,7 +110,7 @@ After the console stops outputting new lines execute the following command in a 
 
 You will be logged into a Linux shell. Execute the following command:
 
-    cedarat folderServer-createGlobalObjects
+    cedarat workspaceServer-createGlobalObjects
  
 Exit this shell by typing ``exit``.
 
@@ -135,7 +138,7 @@ Close the ``Keychain Access`` application.
 
 ### 14. Log in to the CEDAR Application
 
-Check the application from a browser at the following URL [https://org.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
+Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
 Log in with these users:
 * cedar-admin / Password123
