@@ -147,7 +147,7 @@ Log in with these users:
 * test2@test.com / test2
 * my@user.com / my
 
-The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
+The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/){:target="_blank"}.
 
 Log in with:
 * administrator / changeme
