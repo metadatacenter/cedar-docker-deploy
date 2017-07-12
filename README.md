@@ -66,63 +66,7 @@ Execute the following command:
 Edit the file ```${CEDAR_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 
-### 8. Initialize MySQL
-
-**This step is temporary and will not be needed shortly.**
-
-Execute the following commands:
-
-    goinfrastructure
-    docker-compose up mysql
-
-After the console stops outputting new lines, open a new shell window, and execute the following commands:
-
-    goinfrastructure
-    docker-compose down
-
-### 9. Start the infrastructure services
-
-Execute the following commands:
-
-    goinfrastructure
-    docker-compose up
-
-### 10. Start the frontend
-
-In a new shell execute the following commands:
-
-    gofrontend
-    docker-compose up
-
-### 11. Start the Monitoring Tools
-
-In a new shell execute the following commands:
-
-    gomonitoring
-    docker-compose up
-
-### 12. Initialize Neo4J
-
-**This step is temporary and will not be needed shortly.**
-
-After the console stops outputting new lines execute the following command in a new shell:
-
-    docker exec -it admin-tool bash
-
-You will be logged into a Linux shell. Execute the following command:
-
-    cedarat workspaceServer-createGlobalObjects
- 
-Exit this shell by typing ``exit``.
-
-### 13. Start the Microservices
-
-In a new shell execute the following commands:
-
-    gomicroservices
-    docker-compose up
-
-### 13. Import CA Certificate
+### 8. Import CA Certificate
 
 Open the following file in Finder: ``${CEDAR_DOCKER_HOME}/ca/ca-cedar.crt`` by double-clicking it.
 The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
@@ -137,20 +81,71 @@ You will be prompted for your password.
 You should see the icon of the certificate having a white cross inside a blue circle.
 Close the ``Keychain Access`` application.
 
-### 14. Log in to the CEDAR Application
+### 9. Initialize MySQL
+
+**This step is temporary and will not be needed shortly.**
+
+Execute the following commands:
+
+    goinfrastructure
+    docker-compose up mysql
+
+After the console stops outputting new lines, open a new shell window, and execute the following commands:
+
+    goinfrastructure
+    docker-compose down
+
+### 10. Start the infrastructure services
+
+Execute the following commands:
+
+    goinfrastructure
+    docker-compose up
+
+### 11. Initialize Neo4J
+
+**This step is temporary and will not be needed shortly.**
+
+After the console stops outputting new lines execute the following command in a new shell:
+
+    docker exec -it admin-tool bash
+
+You will be logged into a Linux shell. Execute the following command:
+
+    cedarat workspaceServer-createGlobalObjects
+ 
+Exit this shell by typing ``exit``.
+
+### 12. Start the frontend
+
+In a new shell execute the following commands:
+
+    gofrontend
+    docker-compose up
+
+### 13. Start the Monitoring Tools
+
+In a new shell execute the following commands:
+
+    gomonitoring
+    docker-compose up
+
+### 14. Start the Microservices
+
+In a new shell execute the following commands:
+
+    gomicroservices
+    docker-compose up
+
+### 15. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
-Log in with these users:
-* cedar-admin / Password123
-* test1@test.com / test1
-* test2@test.com / test2
-* my@user.com / my
+Log in with these user/password combinations: cedar-admin/Password123, test1@test.com/test1, test2@test.com/test2, my@user.com/my
 
 The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
 
-Log in with:
-* administrator / changeme
+You can log in to Keycloak with the following user/password combination: administrator/changeme
 
 ## IMPORTANT - Updating environment variables - PLEASE READ
 During this install process, you will need to set or update several environment variables, several times.
