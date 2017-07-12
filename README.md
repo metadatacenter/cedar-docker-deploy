@@ -102,7 +102,14 @@ Execute the following commands:
     goinfrastructure
     docker-compose up
 
-### 11. Initialize Neo4J
+### 11. Start the Monitoring Tools
+
+In a new shell execute the following commands:
+
+    gomonitoring
+    docker-compose up
+
+### 12. Initialize Neo4J
 
 **This step is temporary and will not be needed shortly.**
 
@@ -116,18 +123,11 @@ You will be logged into a Linux shell. Execute the following command:
  
 Exit this shell by typing ``exit``.
 
-### 12. Start the frontend
+### 13. Start the frontend
 
 In a new shell execute the following commands:
 
     gofrontend
-    docker-compose up
-
-### 13. Start the Monitoring Tools
-
-In a new shell execute the following commands:
-
-    gomonitoring
     docker-compose up
 
 ### 14. Start the Microservices
