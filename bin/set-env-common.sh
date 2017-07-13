@@ -8,9 +8,14 @@ export CEDAR_KEYCLOAK_PORT=8080
 export CEDAR_MONGO_HOST="${CEDAR_NET_GATEWAY}"
 export CEDAR_MONGO_PORT=27017
 
-# MySQL connection data
-export CEDAR_MYSQL_HOST="${CEDAR_NET_GATEWAY}"
-export CEDAR_MYSQL_PORT=3306
+# MySQL connection data for Keycloak
+export CEDAR_KEYCLOAK_MYSQL_HOST="${CEDAR_NET_GATEWAY}"
+export CEDAR_KEYCLOAK_MYSQL_PORT=3306
+
+# MySQL connection data for Messaging
+export CEDAR_MESSAGING_MYSQL_HOST="${CEDAR_NET_GATEWAY}"
+export CEDAR_MESSAGING_MYSQL_PORT=3306
+export CEDAR_MESSAGING_MYSQL_DB="cedar_messaging"
 
 # Neo4j connection data
 export CEDAR_NEO4J_HOST="${CEDAR_NET_GATEWAY}"
