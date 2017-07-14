@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CEDAR_VERSION=1.3.2
+export CEDAR_VERSION=1.3.3-SNAPSHOT
 export CEDAR_VERSION_MODIFIER=""
  
 #CEDAR BioPortal API Key - place your own key here
