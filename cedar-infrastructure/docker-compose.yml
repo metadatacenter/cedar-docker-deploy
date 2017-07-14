@@ -7,13 +7,13 @@ services:
     networks:
       - cedarnet
     ports:
-      - ${CEDAR_MYSQL_PORT}:3306
+      - ${CEDAR_KEYCLOAK_MYSQL_PORT}:3306
     volumes:
       - ${CEDAR_DOCKER_DATA_HOME}/mysql/:/var/lib/mysql
     environment:
-      - CEDAR_MYSQL_ROOT_PASSWORD
-      - CEDAR_MYSQL_USER
-      - CEDAR_MYSQL_PASSWORD
+      - CEDAR_KEYCLOAK_MYSQL_ROOT_PASSWORD
+      - CEDAR_KEYCLOAK_MYSQL_USER
+      - CEDAR_KEYCLOAK_MYSQL_PASSWORD
 
   mongo:
     container_name: mongo
@@ -89,10 +89,10 @@ services:
     volumes:
       - ${CEDAR_DOCKER_LOG_HOME}/keycloak:/opt/jboss/keycloak/standalone/log
     environment:
-      - CEDAR_MYSQL_USER
-      - CEDAR_MYSQL_PASSWORD
-      - CEDAR_MYSQL_PORT
-      - CEDAR_MYSQL_HOST
+      - CEDAR_KEYCLOAK_MYSQL_USER
+      - CEDAR_KEYCLOAK_MYSQL_PASSWORD
+      - CEDAR_KEYCLOAK_MYSQL_PORT
+      - CEDAR_KEYCLOAK_MYSQL_HOST
       - CEDAR_KEYCLOAK_ADMIN_USER
       - CEDAR_KEYCLOAK_ADMIN_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY

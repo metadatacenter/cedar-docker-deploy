@@ -24,10 +24,15 @@ export CEDAR_MONGO_ROOT_USER_PASSWORD="changeme"
 export CEDAR_MONGO_APP_USER_NAME="cedarMongoUser"
 export CEDAR_MONGO_APP_USER_PASSWORD="changeme"
 
-# MySQL root and CEDAR app user data
-export CEDAR_MYSQL_ROOT_PASSWORD="changeme"
-export CEDAR_MYSQL_USER="cedarMySQLUser"
-export CEDAR_MYSQL_PASSWORD="changeme"
+# MySQL root and CEDAR app user data for Keycloak
+export CEDAR_KEYCLOAK_MYSQL_ROOT_PASSWORD="changeme"
+export CEDAR_KEYCLOAK_MYSQL_USER="cedarMySQLUser"
+export CEDAR_KEYCLOAK_MYSQL_PASSWORD="changeme"
+
+# MySQL root and CEDAR app user data for Messaging
+export CEDAR_MESSAGING_MYSQL_ROOT_PASSWORD="changeme"
+export CEDAR_MESSAGING_MYSQL_USER="cedarMySQLUser"
+export CEDAR_MESSAGING_MYSQL_PASSWORD="changeme"
 
 # Neo4j user data
 export CEDAR_NEO4J_USER_PASSWORD="changeme"
