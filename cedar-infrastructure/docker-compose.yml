@@ -2,7 +2,7 @@ version: '3'
 services:
   mysql:
     container_name: mysql
-    image: "metadatacenter/cedar-mysql"
+    image: "metadatacenter/cedar-mysql:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-mysql
     networks:
       - cedarnet
@@ -17,7 +17,7 @@ services:
 
   mongo:
     container_name: mongo
-    image: "metadatacenter/cedar-mongo"
+    image: "metadatacenter/cedar-mongo:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-mongo
     networks:
       - cedarnet
@@ -36,7 +36,7 @@ services:
 
   redis-persistent:
     container_name: redis-persistent
-    image: "metadatacenter/cedar-redis-persistent"
+    image: "metadatacenter/cedar-redis-persistent:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-redis-persistent
     networks:
       - cedarnet
@@ -50,7 +50,7 @@ services:
 
   elasticsearch:
     container_name: elasticsearch
-    image: "metadatacenter/cedar-elasticsearch"
+    image: "metadatacenter/cedar-elasticsearch:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-elasticsearch
     networks:
       - cedarnet
@@ -63,7 +63,7 @@ services:
 
   neo4j:
     container_name: neo4j
-    image: "metadatacenter/cedar-neo4j"
+    image: "metadatacenter/cedar-neo4j:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-neo4j
     networks:
       - cedarnet
@@ -78,7 +78,7 @@ services:
 
   keycloak:
     container_name: keycloak
-    image: "metadatacenter/cedar-keycloak"
+    image: "metadatacenter/cedar-keycloak:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-keycloak
     depends_on:
       - mysql
@@ -102,7 +102,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: "metadatacenter/cedar-nginx"
+    image: "metadatacenter/cedar-nginx:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-nginx
     networks:
       - cedarnet

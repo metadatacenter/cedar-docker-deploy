@@ -2,7 +2,7 @@ version: '3'
 services:
   editor:
     container_name: editor
-    image: "metadatacenter/cedar-editor"
+    image: "metadatacenter/cedar-editor:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-editor
     networks:
       - cedarnet
