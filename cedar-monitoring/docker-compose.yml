@@ -2,7 +2,7 @@ version: '3'
 services:
   redis-commander:
     container_name: redis-commander
-    image: "metadatacenter/cedar-redis-commander"
+    image: "metadatacenter/cedar-redis-commander:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-redis-commander
     networks:
       - cedarnet
@@ -13,7 +13,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: "metadatacenter/cedar-kibana"
+    image: "metadatacenter/cedar-kibana:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-kibana
     networks:
       - cedarnet
@@ -22,7 +22,7 @@ services:
 
   admin-tool:
     container_name: admin-tool
-    image: "metadatacenter/cedar-admin-tool"
+    image: "metadatacenter/cedar-admin-tool:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-admin-tool
     networks:
       - cedarnet

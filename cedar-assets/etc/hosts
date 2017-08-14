@@ -5,6 +5,7 @@
 127.0.0.1   cedar.metadatacenter.orgx
 127.0.0.1   cert.metadatacenter.orgx
 127.0.0.1   group.metadatacenter.orgx
+127.0.0.1   messaging.metadatacenter.orgx
 127.0.0.1   repo.metadatacenter.orgx
 127.0.0.1   resource.metadatacenter.orgx
 127.0.0.1   schema.metadatacenter.orgx

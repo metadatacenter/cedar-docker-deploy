@@ -2,13 +2,13 @@ version: '3'
 services:
   cedar-microservice:
     container_name: cedar-microservice
-    image: "metadatacenter/cedar-microservice"
+    image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-microservice
   schema-server:
     depends_on:
         - cedar-microservice
     container_name: schema-server
-    image: "metadatacenter/cedar-schema-server"
+    image: "metadatacenter/cedar-schema-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-schema-server
     networks:
       - cedarnet
@@ -30,7 +30,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: user-server
-    image: "metadatacenter/cedar-user-server"
+    image: "metadatacenter/cedar-user-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-user-server
     networks:
       - cedarnet
@@ -52,7 +52,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: submission-server
-    image: "metadatacenter/cedar-submission-server"
+    image: "metadatacenter/cedar-submission-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-submission-server
     networks:
       - cedarnet
@@ -75,7 +75,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: group-server
-    image: "metadatacenter/cedar-group-server"
+    image: "metadatacenter/cedar-group-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-group-server
     networks:
       - cedarnet
@@ -102,7 +102,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: workspace-server
-    image: "metadatacenter/cedar-workspace-server"
+    image: "metadatacenter/cedar-workspace-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-workspace-server
     networks:
       - cedarnet
@@ -127,7 +127,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: template-server
-    image: "metadatacenter/cedar-template-server"
+    image: "metadatacenter/cedar-template-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-template-server
     networks:
       - cedarnet
@@ -150,7 +150,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: worker-server
-    image: "metadatacenter/cedar-worker-server"
+    image: "metadatacenter/cedar-worker-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-worker-server
     networks:
       - cedarnet
@@ -180,7 +180,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: valuerecommender-server
-    image: "metadatacenter/cedar-valuerecommender-server"
+    image: "metadatacenter/cedar-valuerecommender-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-valuerecommender-server
     networks:
       - cedarnet
@@ -204,7 +204,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: terminology-server
-    image: "metadatacenter/cedar-terminology-server"
+    image: "metadatacenter/cedar-terminology-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-terminology-server
     networks:
       - cedarnet
@@ -230,7 +230,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: repo-server
-    image: "metadatacenter/cedar-repo-server"
+    image: "metadatacenter/cedar-repo-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-repo-server
     networks:
       - cedarnet
@@ -252,7 +252,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: resource-server
-    image: "metadatacenter/cedar-resource-server"
+    image: "metadatacenter/cedar-resource-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-resource-server
     networks:
       - cedarnet
@@ -283,7 +283,7 @@ services:
     depends_on:
         - cedar-microservice
     container_name: messaging-server
-    image: "metadatacenter/cedar-messaging-server"
+    image: "metadatacenter/cedar-messaging-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-messaging-server
     networks:
       - cedarnet
@@ -301,7 +301,11 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
-
+      - CEDAR_MESSAGING_MYSQL_HOST
+      - CEDAR_MESSAGING_MYSQL_PORT
+      - CEDAR_MESSAGING_MYSQL_DB
+      - CEDAR_MESSAGING_MYSQL_USER
+      - CEDAR_MESSAGING_MYSQL_PASSWORD
 
 networks:
   cedarnet:
