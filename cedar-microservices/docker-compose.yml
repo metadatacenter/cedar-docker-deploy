@@ -297,6 +297,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -306,6 +307,8 @@ services:
       - CEDAR_MESSAGING_MYSQL_DB
       - CEDAR_MESSAGING_MYSQL_USER
       - CEDAR_MESSAGING_MYSQL_PASSWORD
+      - CEDAR_TEST_USER1_ID
+      - CEDAR_TEST_USER2_ID
 
 networks:
   cedarnet:
