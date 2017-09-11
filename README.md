@@ -32,6 +32,7 @@ Close the current shell and start a new one.
 Execute the following lines:
 
     mkdir -p ${CEDAR_DOCKER_HOME}
+    mkdir -p ${CEDAR_DOCKER_PERSISTENCE_HOME}
     git clone https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_HOME}/cedar-docker-build
     git clone https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_HOME}/cedar-docker-deploy
     cp ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_DOCKER_HOME}/
