@@ -18,12 +18,12 @@ Download and install Docker Community Edition from [here](https://www.docker.com
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
 to at least 6 GB; if possible also assign more than one CPU. Then apply and restart Docker.
 
-### 2. Set up CEDAR_DOCKER_HOME and CEDAR_DOCKER_HOME_PERSISTENCE variables
+### 2. Set up CEDAR_DOCKER_HOME and CEDAR_DOCKER_PERSISTENCE_HOME variables
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
 
     export CEDAR_DOCKER_HOME=~/cedar-docker
-    export CEDAR_DOCKER_HOME_PERSISTENCE=~/cedar-docker/persistence
+    export CEDAR_DOCKER_PERISTENCE_HOME=~/cedar-docker/persistence
 
 Close the current shell and start a new one.
 
@@ -68,7 +68,7 @@ If you do not already have a BioPortal API key, you can created one by [register
 
 ### 8. Import CA Certificate
 
-Open the following file in Finder: ``${CEDAR_DOCKER_HOME_PERSISTENCE}/ca/ca-cedar.crt`` by double-clicking it.
+Open the following file in Finder: ``${CEDAR_DOCKER_PERSISTENCE_HOME}/ca/ca-cedar.crt`` by double-clicking it.
 The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
 The ``login`` will be preselected. Click the ``Add`` button.
 Locate the certificate you just added, by searching for ``metadatacenter`` in to top right corner.
