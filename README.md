@@ -2,8 +2,7 @@
 
 This guide describes the steps for installing CEDAR using Docker. The guide makes several simplifying assumptions: 
 (1) The domain name of the system will be ``metadatacenter.orgx``;
-(2) The related files will be stored in a directory named ``cedar-docker-home`` in the user's home folder;
-and (3) The user does not want to change the default passwords. 
+and (2) The user does not want to change the default passwords. 
 If these assumptions are not acceptable, one should refer to the full version of this install guide.
 
 This guide was prepared and tested on macOS Sierra (v10.12.5).
@@ -22,8 +21,8 @@ to at least 6 GB; if possible also assign more than one CPU. Then apply and rest
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
 
-    export CEDAR_DOCKER_HOME=~/cedar-docker
-    export CEDAR_DOCKER_PERISTENCE_HOME=~/cedar-docker/persistence
+    export CEDAR_DOCKER_HOME=~/cedar-docker # Pick an alternate location if desired
+    export CEDAR_DOCKER_PERISTENCE_HOME=~/cedar-docker/persistence # Pick an alternate location if desired
 
 Close the current shell and start a new one.
 
@@ -71,12 +70,12 @@ If you do not already have a BioPortal API key, you can created one by [register
 
 Open the following file in Finder: ``${CEDAR_DOCKER_PERSISTENCE_HOME}/ca/ca-cedar.crt`` by double-clicking it.
 The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
-The ``login`` will be preselected. Click the ``Add`` button.
-Locate the certificate you just added, by searching for ``metadatacenter`` in to top right corner.
+The ``login`` keychain will be preselected. Click the ``Add`` button.
+Locate the certificate you just added, by searching for ``metadatacenter`` using the search fieldin to top right corner.
 The certificate will have a white cross in a red circle, meaning it is not trusted.
 Open it by double-clicking it.
 Expand the ``Trust`` branch on the top.
-Change the dropdown labeled ``When using this certificate``: to ``Always Trust``
+Change the dropdown labeled ``When using this certificate`` to ``Always Trust``
 Close the popup.
 You will be prompted for your password.
 You should see the icon of the certificate having a white cross inside a blue circle.
