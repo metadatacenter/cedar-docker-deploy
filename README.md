@@ -71,8 +71,8 @@ If you do not already have a BioPortal API key, you can created one by [register
 Open the following file in Finder: ``${CEDAR_DOCKER_PERSISTENCE_HOME}/ca/ca-cedar.crt`` by double-clicking it.
 The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
 The ``login`` keychain will be preselected. Click the ``Add`` button.
-Locate the certificate you just added, by searching for ``metadatacenter`` using the search fieldin to top right corner.
-The certificate will have a white cross in a red circle, meaning it is not trusted.
+Locate the certificate you just added by searching for ``metadatacenter`` using the search field in to top right corner.
+The certificate will have a white cross in a red circle, meaning it is not yet trusted.
 Open it by double-clicking it.
 Expand the ``Trust`` branch on the top.
 Change the dropdown labeled ``When using this certificate`` to ``Always Trust``
