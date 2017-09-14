@@ -48,25 +48,20 @@ Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, 
 
 Close the current shell and start a new one.
 
-### 5. Create Docker subnet, create directories, copy certificates
+### 5. Create Docker subnet, create directories, copy certificates, add hosts
 Execute the following commands:
 
     bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/create-network.sh
     bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/create-directories.sh
     bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
+    bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/add-hosts.sh
 
-### 6. Add redirect for ```metadatacenter.orgx``` to ```/etc/hosts```
-
-Execute the following command:
- 
-    sudo bash -c "cat ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/cedar-assets/etc/hosts >> /etc/hosts"
-
-### 7. Set the BioPortal API key for the installation
+### 6. Set the BioPortal API key for the installation
 
 Edit the file ```${CEDAR_DOCKER_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 
-### 8. Import CA Certificate
+### 7. Import CA Certificate
 
 Open the following file in Finder: ``${CEDAR_DOCKER_PERSISTENCE_HOME}/ca/ca-cedar.crt`` by double-clicking it.
 The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
@@ -81,35 +76,21 @@ You will be prompted for your password.
 You should see the icon of the certificate having a white cross inside a blue circle.
 Close the ``Keychain Access`` application.
 
-### 9. Initialize MySQL
-
-**This step is temporary and will not be needed shortly.**
-
-Execute the following commands:
-
-    goinfrastructure
-    docker-compose up mysql
-
-After the console stops outputting new lines, open a new shell window, and execute the following commands:
-
-    goinfrastructure
-    docker-compose down
-
-### 10. Start the infrastructure services
+### 8. Start the infrastructure services
 
 Execute the following commands:
 
     goinfrastructure
     docker-compose up
 
-### 11. Start the Monitoring Tools
+### 9. Start the Monitoring Tools
 
 In a new shell execute the following commands:
 
     gomonitoring
     docker-compose up
 
-### 12. Initialize Neo4J
+### 10. Initialize Neo4J
 
 **This step is temporary and will not be needed shortly.**
 
@@ -123,21 +104,21 @@ You will be logged into a Linux shell. Execute the following command:
  
 Exit this shell by typing ``exit``.
 
-### 13. Start the frontend
+### 11. Start the frontend
 
 In a new shell execute the following commands:
 
     gofrontend
     docker-compose up
 
-### 14. Start the Microservices
+### 12. Start the Microservices
 
 In a new shell execute the following commands:
 
     gomicroservices
     docker-compose up
 
-### 15. Log in to the CEDAR Application
+### 13. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
