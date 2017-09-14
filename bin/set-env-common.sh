@@ -11,6 +11,7 @@ export CEDAR_MONGO_PORT=27017
 # MySQL connection data for Keycloak
 export CEDAR_KEYCLOAK_MYSQL_HOST="${CEDAR_NET_GATEWAY}"
 export CEDAR_KEYCLOAK_MYSQL_PORT=3306
+export CEDAR_KEYCLOAK_MYSQL_DB="cedar_keycloak"
 
 # MySQL connection data for Messaging
 export CEDAR_MESSAGING_MYSQL_HOST="${CEDAR_NET_GATEWAY}"
