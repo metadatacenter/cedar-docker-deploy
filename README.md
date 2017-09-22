@@ -6,6 +6,7 @@ and (2) The user does not want to change the default passwords.
 If these assumptions are not acceptable, one should refer to the full version of this install guide.
 
 This guide was prepared and tested on macOS Sierra (v10.12.5).
+The latests versions of ```Docker``` and the ```docker-compose``` command should be first installed.
 To our best knowledge it will work without changes on Unix systems.
 It has not been tested to work on Windows systems.
 To install you will need root access at least 8GB of memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
@@ -22,7 +23,7 @@ to at least 6 GB; if possible also assign more than one CPU. Then apply and rest
 Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
 
     export CEDAR_DOCKER_HOME=~/cedar-docker # Pick an alternate location if desired
-    export CEDAR_DOCKER_PERISTENCE_HOME=~/cedar-docker/persistence # Pick an alternate location if desired
+    export CEDAR_DOCKER_PERSISTENCE_HOME=~/cedar-docker/persistence # Pick an alternate location if desired
 
 Close the current shell and start a new one.
 
