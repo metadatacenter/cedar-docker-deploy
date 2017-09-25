@@ -11,6 +11,8 @@ export CEDAR_BIOPORTAL_API_KEY="changeme-bbbb-cccc-dddd-eeeeeeeeeeee"
 export CEDAR_ANALYTICS_KEY="false"
 #CEDAR NCBI SRA FTP Password - place your own password here
 export CEDAR_NCBI_SRA_FTP_PASSWORD="changeme"
+#CEDAR ImmPort Submission User - place your own user here
+export CEDAR_IMMPORT_SUBMISSION_USER="changeme"
 #CEDAR ImmPort Submission Password - place your own password here
 export CEDAR_IMMPORT_SUBMISSION_PASSWORD="changeme"
 #Random string for API key generation - replace with a random string of your choice
