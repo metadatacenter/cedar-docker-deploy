@@ -12,7 +12,7 @@ GREEN=$(tput setaf 2)
 NORMAL=$(tput sgr0)
 
 function checkOpenPort {
-        if nc -z localhost "$2" > /dev/null 2>&1
+        if nc -4 -z localhost "$2" > /dev/null 2>&1
         then
                 status="${GREEN}Running${NORMAL}"
         else
@@ -24,7 +24,7 @@ function checkOpenPort {
 function checkHealth {
         ok=1
         lookFor='HTTP/1.1\s200\sOK'
-        if curl -I -s http://localhost:$2/healthcheck | grep $lookFor > /dev/null 2>&1
+        if curl --ipv4 -I -s http://localhost:$2/healthcheck | grep $lookFor > /dev/null 2>&1
         then
                 status="${GREEN}Running${NORMAL}"
         else
@@ -40,7 +40,7 @@ function checkHealth {
 
 function checkHttpResponse {
         ok=1
-        if curl -I -s http://localhost:$2 | grep "$3" > /dev/null 2>&1
+        if curl --ipv4 -I -s http://localhost:$2 | grep "$3" > /dev/null 2>&1
         then
                 status="${GREEN}Running${NORMAL}"
         else
@@ -56,7 +56,7 @@ function checkHttpResponse {
 
 function checkRedisPing {
         ok=1
-        if (printf "PING\r\nQUIT\r\n";) | nc localhost $2 | grep "+PONG" > /dev/null 2>&1
+        if (printf "PING\r\nQUIT\r\n";) | nc -4 localhost $2 | grep "+PONG" > /dev/null 2>&1
         then
                 status="${GREEN}Running${NORMAL}"
         else
@@ -82,7 +82,7 @@ return
         printLine '.'
         echo '  -- ERROR IN '$1
         echo '  -- http://localhost:'$2
-        curl -I http://localhost:$2
+        curl --ipv4 -I http://localhost:$2
         printLine '^'
 }
 
