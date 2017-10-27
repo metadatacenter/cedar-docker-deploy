@@ -109,15 +109,16 @@ printf "$header" '--- Infrastructure --------'
 checkOpenPort MongoDB 27017
 checkHttpResponse Elasticsearch-REST 9200 'HTTP/1.1\s200\sOK'
 checkOpenPort Elasticsearch-Transport 9300 'HTTP/1.1\s200\sOK'
-checkHttpResponse Kibana 5601 'kbn-name:\skibana'
 checkHttpResponse NGINX 80 'Server:\snginx'
 checkHttpResponse Keycloak 8080 'Server:\sWildFly'
 checkHttpResponse Neo4j 7474 'Server:\sJetty'
 checkRedisPing Redis-persistent 6379
 #checkRedisPing Redis-non-persistent 6380
-checkHttpResponse Redis-Commander 8081 'X-Powered-By:\sEx'
 checkOpenPort MySQL 3306
-printf "$header" '---  Front End ------------'
+printf "$header" '--- Monitor ---------------'
+checkHttpResponse Kibana 5601 'kbn-name:\skibana'
+checkHttpResponse Redis-Commander 8081 'X-Powered-By:\sEx'
+printf "$header" '--- Front End -------------'
 checkHttpResponse Frontend 4200 'HTTP/1.1\s200\sOK'
 
 printLine '='
