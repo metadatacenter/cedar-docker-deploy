@@ -129,6 +129,7 @@ services:
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_ADMIN_USER_API_KEY
   template-server:
     depends_on:
         - cedar-microservice
