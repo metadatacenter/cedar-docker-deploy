@@ -23,7 +23,7 @@ to at least 6 GB; if possible also assign more than one CPU. Then apply and rest
 Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
 
     export CEDAR_DOCKER_HOME=~/cedar-docker # Pick an alternate location if desired
-    export CEDAR_DOCKER_PERSISTENCE_HOME=~/cedar-docker/persistence # Pick an alternate location if desired
+    export CEDAR_DOCKER_PERSISTENCE_HOME=~/cedar-docker-persistence # Pick an alternate location if desired
 
 Close the current shell and start a new one.
 
@@ -84,42 +84,21 @@ Execute the following commands:
     goinfrastructure
     docker-compose up
 
-### 9. Start the Monitoring Tools
-
-In a new shell execute the following commands:
-
-    gomonitoring
-    docker-compose up
-
-### 10. Initialize Neo4J
-
-**This step is temporary and will not be needed shortly.**
-
-After the console stops outputting new lines execute the following command in a new shell:
-
-    docker exec -it admin-tool bash
-
-You will be logged into a Linux shell. Execute the following command:
-
-    cedarat workspaceServer-createGlobalObjects
- 
-Exit this shell by typing ``exit``.
-
-### 11. Start the frontend
+### 9. Start the frontend
 
 In a new shell execute the following commands:
 
     gofrontend
     docker-compose up
 
-### 12. Start the Microservices
+### 10. Start the Microservices
 
 In a new shell execute the following commands:
 
     gomicroservices
     docker-compose up
 
-### 13. Log in to the CEDAR Application
+### 11. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
