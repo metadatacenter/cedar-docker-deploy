@@ -106,6 +106,8 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_KEYCLOAK_HOST
+      - CEDAR_KEYCLOAK_PORT
   workspace-server:
     depends_on:
         - cedar-microservice
