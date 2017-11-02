@@ -67,11 +67,14 @@ services:
       - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_MICROSERVICE_HOST
       - CEDAR_NET_GATEWAY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_HOST
+      - CEDAR_KEYCLOAK_PORT
       - CEDAR_NCBI_SRA_FTP_PASSWORD
       - CEDAR_IMMPORT_SUBMISSION_USER
       - CEDAR_IMMPORT_SUBMISSION_PASSWORD
@@ -79,6 +82,7 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_MESSAGING_HTTP_PORT
+      - CEDAR_MESSAGING_ADMIN_PORT
   group-server:
     depends_on:
         - cedar-microservice
