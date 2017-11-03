@@ -80,8 +80,6 @@ services:
     container_name: keycloak
     image: "metadatacenter/cedar-keycloak:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-keycloak
-    depends_on:
-      - mysql
     networks:
       - cedarnet
     ports:
