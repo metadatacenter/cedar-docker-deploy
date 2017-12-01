@@ -1,6 +1,12 @@
 version: '3'
 services:
+  cedar-java:
+    container_name: cedar-java
+    image: "metadatacenter/cedar-java:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-java
   cedar-microservice:
+    depends_on:
+        - cedar-java
     container_name: cedar-microservice
     image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-microservice
@@ -49,7 +55,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
   submission-server:
     depends_on:
         - cedar-microservice
@@ -74,7 +80,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_NCBI_SRA_FTP_PASSWORD
       - CEDAR_IMMPORT_SUBMISSION_USER
       - CEDAR_IMMPORT_SUBMISSION_PASSWORD
@@ -110,7 +116,7 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
   workspace-server:
     depends_on:
         - cedar-microservice
@@ -138,7 +144,7 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
   template-server:
     depends_on:
         - cedar-microservice
@@ -162,7 +168,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_TEST_USER1_ID
   worker-server:
     depends_on:
@@ -187,7 +193,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
@@ -220,7 +226,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ELASTICSEARCH_HOST
       - CEDAR_ELASTICSEARCH_REST_PORT
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
@@ -248,7 +254,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_BIOPORTAL_API_KEY
       - CEDAR_BIOPORTAL_REST_BASE
       - CEDAR_TEST_USER1_ID
@@ -275,7 +281,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
   resource-server:
     depends_on:
         - cedar-microservice
@@ -300,7 +306,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
@@ -337,7 +343,7 @@ services:
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_PORT
+      - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_MYSQL_ROOT_PASSWORD

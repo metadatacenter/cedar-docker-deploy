@@ -83,7 +83,8 @@ services:
     networks:
       - cedarnet
     ports:
-      - ${CEDAR_KEYCLOAK_PORT}:8080
+      - ${CEDAR_KEYCLOAK_HTTP_PORT}:8080
+      - ${CEDAR_KEYCLOAK_HTTPS_PORT}:8443
     volumes:
       - ${CEDAR_DOCKER_LOG_HOME}/keycloak:/opt/jboss/keycloak/standalone/log
     environment:
