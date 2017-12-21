@@ -7,8 +7,10 @@ echo
 
 format="| %-27s| %-19s| %-12s|%5s| %-18s|\n"
 header="| %-27s| %-8s| %-12s|%5s| %-18s|\n"
+formatlong="| %-27s| %-8s| %-49s|\n"
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
 NORMAL=$(tput sgr0)
 
 function checkOpenPort {
@@ -70,6 +72,13 @@ function checkRedisPing {
         fi
 }
 
+function showEnvironmentVar {
+        varname=$1
+        varvalue=${!varname}
+        value="${BLUE}"$varvalue"${NORMAL}"
+        printf "$formatlong" $1 "" $value
+}
+
 function printLine {
         printf '|'
         printf $1'%.0s' {1..78}
@@ -120,5 +129,9 @@ checkHttpResponse Kibana 5601 'kbn-name:\skibana'
 checkHttpResponse Redis-Commander 8081 'X-Powered-By:\sEx'
 printf "$header" '--- Front End -------------'
 checkHttpResponse Frontend 4200 'HTTP/1.1\s200\sOK'
+printf "$header" '--- Environment ----------'
+showEnvironmentVar 'CEDAR_NET_GATEWAY'
+showEnvironmentVar 'CEDAR_NET_SUBNET'
+
 
 printLine '='
