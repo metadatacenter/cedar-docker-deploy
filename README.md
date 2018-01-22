@@ -104,7 +104,7 @@ Check the application from a browser at the following URL [https://cedar.metadat
 
 Log in with these user/password combinations: cedar-admin/Password123, test1@test.com/test1, test2@test.com/test2, my@user.com/my
 
-The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/){:target="_blank"}.
+The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
 
 You can log in to Keycloak with the following user/password combination: administrator/changeme
 

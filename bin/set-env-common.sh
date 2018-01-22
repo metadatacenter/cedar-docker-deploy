@@ -2,7 +2,8 @@
 
 # Keycloak connection data
 export CEDAR_KEYCLOAK_HOST="${CEDAR_NET_GATEWAY}"
-export CEDAR_KEYCLOAK_PORT=8080
+export CEDAR_KEYCLOAK_HTTP_PORT=8080
+export CEDAR_KEYCLOAK_HTTPS_PORT=8443
 
 # Mongo connection data
 export CEDAR_MONGO_HOST="${CEDAR_NET_GATEWAY}"
