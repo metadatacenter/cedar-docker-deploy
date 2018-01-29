@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #CEDAR version
-export CEDAR_VERSION=1.6.1
+export CEDAR_VERSION=1.6.2
 #CEDAR version modifier
 export CEDAR_VERSION_MODIFIER=""
  
