@@ -36,4 +36,5 @@ export CEDAR_MESSAGING_MYSQL_USER="cedarMySQLMessagingUser"
 export CEDAR_MESSAGING_MYSQL_PASSWORD="changeme"
 
 # Neo4j user data
+export CEDAR_NEO4J_USER_NAME="neo4j"
 export CEDAR_NEO4J_USER_PASSWORD="changeme"
