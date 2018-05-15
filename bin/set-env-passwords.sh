@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This file contains connection information to internal resources
+
 # CEDAR hostname for backend services
 export CEDAR_HOST=metadatacenter.orgx
 
