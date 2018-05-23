@@ -24,6 +24,7 @@ export CEDAR_MESSAGING_MYSQL_DB="cedar_messaging"
 
 # Neo4j connection data
 export CEDAR_NEO4J_HOST="${CEDAR_NET_GATEWAY}"
+export CEDAR_NEO4J_REST_PORT=7474
 export CEDAR_NEO4J_BOLT_PORT=7687
 
 # Port assignment
