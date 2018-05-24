@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   mysql:
     container_name: mysql
@@ -71,8 +71,9 @@ services:
       - ${CEDAR_NEO4J_REST_PORT}:7474
       - ${CEDAR_NEO4J_BOLT_PORT}:7687
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/neo4j/:/data
-      - ${CEDAR_DOCKER_LOG_HOME}/neo4j/:/logs
+      - neo4j_log:/logs
+      - neo4j_data:/data
+      - neo4j_state:/state
     environment:
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
@@ -124,3 +125,11 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  neo4j_log:
+    name: neo4j_log
+  neo4j_data:
+    name: neo4j_data
+  neo4j_state:
+    name: neo4j_state
