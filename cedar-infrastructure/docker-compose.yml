@@ -9,8 +9,8 @@ services:
     ports:
       - ${CEDAR_KEYCLOAK_MYSQL_PORT}:3306
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/mysql/:/var/lib/mysql
-      - ${CEDAR_DOCKER_LOG_HOME}/mysql/:/var/log/mysql
+      - mysql_log:/var/log/mysql
+      - mysql_data:/var/lib/mysql
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_NET_GATEWAY
@@ -148,3 +148,7 @@ volumes:
     name: mongo_data
   mongo_state:
     name: mongo_state
+  mysql_log:
+    name: mysql_log
+  mysql_data:
+    name: mysql_data
