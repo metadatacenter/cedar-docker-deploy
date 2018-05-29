@@ -43,8 +43,8 @@ services:
     ports:
       - ${CEDAR_REDIS_PERSISTENT_PORT}:6379
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/redis/:/data
-      - ${CEDAR_DOCKER_LOG_HOME}/redis/:/log
+      - redis_log:/log
+      - redis_data:/data
     sysctls:
       - net.core.somaxconn=512
 
@@ -137,3 +137,7 @@ volumes:
     name: elasticsearch_log
   elasticsearch_data:
     name: elasticsearch_data
+  redis_log:
+    name: redis_log
+  redis_data:
+    name: redis_data
