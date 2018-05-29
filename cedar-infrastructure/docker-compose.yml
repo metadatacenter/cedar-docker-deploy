@@ -24,8 +24,9 @@ services:
     ports:
       - "${CEDAR_MONGO_PORT}:27017"
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/mongo/:/data/db
-      - ${CEDAR_DOCKER_LOG_HOME}/mongo/:/data/log
+      - mongo_log:/data/log
+      - mongo_data:/data/db
+      - mongo_state:/data/state
     environment:
       - CEDAR_MONGO_ROOT_USER_NAME
       - CEDAR_MONGO_ROOT_USER_PASSWORD
@@ -141,3 +142,9 @@ volumes:
     name: redis_log
   redis_data:
     name: redis_data
+  mongo_log:
+    name: mongo_log
+  mongo_data:
+    name: mongo_data
+  mongo_state:
+    name: mongo_state
