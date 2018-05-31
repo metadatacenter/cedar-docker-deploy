@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   redis-commander:
     container_name: redis-commander
@@ -27,7 +27,7 @@ services:
     networks:
       - cedarnet
     volumes:
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -48,3 +48,7 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  cedar_ca:
+    name: cedar_ca
