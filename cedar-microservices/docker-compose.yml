@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   cedar-java:
     container_name: cedar-java
@@ -10,6 +10,8 @@ services:
     container_name: cedar-microservice
     image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-microservice
+    networks:
+      - cedarnet
   schema-server:
     depends_on:
         - cedar-microservice
@@ -23,8 +25,8 @@ services:
       - "${CEDAR_SCHEMA_ADMIN_PORT}:9103"
       - "${CEDAR_SCHEMA_STOP_PORT}:9203"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-schema-server/:/cedar/log/cedar-schema-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - schema_log:/cedar/log/cedar-schema-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -104,8 +106,8 @@ services:
       - "${CEDAR_GROUP_ADMIN_PORT}:9109"
       - "${CEDAR_GROUP_STOP_PORT}:9209"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-group-server/:/cedar/log/cedar-group-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - group_log:/cedar/log/cedar-group-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -115,6 +117,7 @@ services:
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -145,6 +148,7 @@ services:
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
@@ -202,6 +206,7 @@ services:
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -277,8 +282,8 @@ services:
       - "${CEDAR_REPO_ADMIN_PORT}:9102"
       - "${CEDAR_REPO_STOP_PORT}:9202"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-repo-server/:/cedar/log/cedar-repo-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - repo_log:/cedar/log/cedar-repo-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -316,6 +321,7 @@ services:
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_SALT_API_KEY
@@ -366,3 +372,13 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  repo_log:
+    name: repo_log
+  schema_log:
+    name: schema_log
+  group_log:
+    name: group_log
+  cedar_ca:
+    name: cedar_ca
