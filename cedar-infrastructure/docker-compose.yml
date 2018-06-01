@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   mysql:
     container_name: mysql
@@ -9,8 +9,8 @@ services:
     ports:
       - ${CEDAR_KEYCLOAK_MYSQL_PORT}:3306
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/mysql/:/var/lib/mysql
-      - ${CEDAR_DOCKER_LOG_HOME}/mysql/:/var/log/mysql
+      - mysql_log:/var/log/mysql
+      - mysql_data:/var/lib/mysql
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_NET_GATEWAY
@@ -24,8 +24,9 @@ services:
     ports:
       - "${CEDAR_MONGO_PORT}:27017"
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/mongo/:/data/db
-      - ${CEDAR_DOCKER_LOG_HOME}/mongo/:/data/log
+      - mongo_log:/data/log
+      - mongo_data:/data/db
+      - mongo_state:/data/state
     environment:
       - CEDAR_MONGO_ROOT_USER_NAME
       - CEDAR_MONGO_ROOT_USER_PASSWORD
@@ -43,8 +44,8 @@ services:
     ports:
       - ${CEDAR_REDIS_PERSISTENT_PORT}:6379
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/redis/:/data
-      - ${CEDAR_DOCKER_LOG_HOME}/redis/:/log
+      - redis_log:/log
+      - redis_data:/data
     sysctls:
       - net.core.somaxconn=512
 
@@ -58,8 +59,8 @@ services:
       - ${CEDAR_ELASTICSEARCH_REST_PORT}:9200
       - ${CEDAR_ELASTICSEARCH_TRANSPORT_PORT}:9300
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/elasticsearch:/usr/share/elasticsearch/data
-      - ${CEDAR_DOCKER_LOG_HOME}/elasticsearch:/usr/share/elasticsearch/logs
+      - elasticsearch_log:/usr/share/elasticsearch/logs
+      - elasticsearch_data:/usr/share/elasticsearch/data
 
   neo4j:
     container_name: neo4j
@@ -71,9 +72,11 @@ services:
       - ${CEDAR_NEO4J_REST_PORT}:7474
       - ${CEDAR_NEO4J_BOLT_PORT}:7687
     volumes:
-      - ${CEDAR_DOCKER_DATA_HOME}/neo4j/:/data
-      - ${CEDAR_DOCKER_LOG_HOME}/neo4j/:/logs
+      - neo4j_log:/logs
+      - neo4j_data:/data
+      - neo4j_state:/state
     environment:
+      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
 
   keycloak:
@@ -86,7 +89,7 @@ services:
       - ${CEDAR_KEYCLOAK_HTTP_PORT}:8080
       - ${CEDAR_KEYCLOAK_HTTPS_PORT}:8443
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/keycloak:/opt/jboss/keycloak/standalone/log
+      - keycloak_log:/opt/jboss/keycloak/standalone/log
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_KEYCLOAK_MYSQL_USER
@@ -111,8 +114,8 @@ services:
       - ${CEDAR_NGINX_HTTP_PORT}:80
       - ${CEDAR_NGINX_HTTPS_PORT}:443
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/:/etc/nginx/log
-      - ${CEDAR_DOCKER_CERT_HOME}/:/usr/local/etc/certificates
+      - nginx_log:/etc/nginx/log
+      - cedar_cert:/usr/local/etc/certificates
     environment:
       - CEDAR_HOST
       - CEDAR_MICROSERVICE_HOST
@@ -123,3 +126,35 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  neo4j_log:
+    name: neo4j_log
+  neo4j_data:
+    name: neo4j_data
+  neo4j_state:
+    name: neo4j_state
+  elasticsearch_log:
+    name: elasticsearch_log
+  elasticsearch_data:
+    name: elasticsearch_data
+  redis_log:
+    name: redis_log
+  redis_data:
+    name: redis_data
+  mongo_log:
+    name: mongo_log
+  mongo_data:
+    name: mongo_data
+  mongo_state:
+    name: mongo_state
+  mysql_log:
+    name: mysql_log
+  mysql_data:
+    name: mysql_data
+  keycloak_log:
+    name: keycloak_log
+  nginx_log:
+    name: nginx_log
+  cedar_cert:
+    name: cedar_cert

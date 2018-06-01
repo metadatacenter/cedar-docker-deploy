@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   redis-commander:
     container_name: redis-commander
@@ -27,7 +27,7 @@ services:
     networks:
       - cedarnet
     volumes:
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -38,7 +38,8 @@ services:
       - CEDAR_ADMIN_USER_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
-      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_SALT_API_KEY
 
@@ -47,3 +48,7 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  cedar_ca:
+    name: cedar_ca

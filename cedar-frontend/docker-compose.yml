@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   editor:
     container_name: editor
@@ -9,7 +9,7 @@ services:
     ports:
       - "${CEDAR_FRONTEND_PORT}:4200"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/editor:/log
+      - frontend_log:/log
     environment:
       - CEDAR_HOST
 
@@ -17,3 +17,7 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  frontend_log:
+    name: frontend_log

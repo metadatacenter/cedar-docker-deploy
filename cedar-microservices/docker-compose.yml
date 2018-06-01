@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   cedar-java:
     container_name: cedar-java
@@ -10,6 +10,8 @@ services:
     container_name: cedar-microservice
     image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-microservice
+    networks:
+      - cedarnet
   schema-server:
     depends_on:
         - cedar-microservice
@@ -23,8 +25,8 @@ services:
       - "${CEDAR_SCHEMA_ADMIN_PORT}:9103"
       - "${CEDAR_SCHEMA_STOP_PORT}:9203"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-schema-server/:/cedar/log/cedar-schema-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - schema_log:/cedar/log/cedar-schema-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -45,8 +47,8 @@ services:
       - "${CEDAR_USER_ADMIN_PORT}:9105"
       - "${CEDAR_USER_STOP_PORT}:9205"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-user-server/:/cedar/log/cedar-user-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - user_log:/cedar/log/cedar-user-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -69,8 +71,8 @@ services:
       - "${CEDAR_SUBMISSION_ADMIN_PORT}:9110"
       - "${CEDAR_SUBMISSION_STOP_PORT}:9210"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-submission-server/:/cedar/log/cedar-submission-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - submission_log:/cedar/log/cedar-submission-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -81,12 +83,16 @@ services:
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_NCBI_SRA_FTP_HOST
+      - CEDAR_NCBI_SRA_FTP_USER
       - CEDAR_NCBI_SRA_FTP_PASSWORD
+      - CEDAR_NCBI_SRA_FTP_DIRECTORY
       - CEDAR_IMMPORT_SUBMISSION_USER
       - CEDAR_IMMPORT_SUBMISSION_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_MESSAGING_ADMIN_PORT
       - CEDAR_MESSAGING_HTTP_PORT
   group-server:
     depends_on:
@@ -101,8 +107,8 @@ services:
       - "${CEDAR_GROUP_ADMIN_PORT}:9109"
       - "${CEDAR_GROUP_STOP_PORT}:9209"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-group-server/:/cedar/log/cedar-group-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - group_log:/cedar/log/cedar-group-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -111,7 +117,9 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
@@ -130,8 +138,8 @@ services:
       - "${CEDAR_WORKSPACE_ADMIN_PORT}:9108"
       - "${CEDAR_WORKSPACE_STOP_PORT}:9208"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-workspace-server/:/cedar/log/cedar-workspace-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - workspace_log:/cedar/log/cedar-workspace-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -140,7 +148,9 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_KEYCLOAK_HOST
@@ -158,8 +168,8 @@ services:
       - "${CEDAR_TEMPLATE_ADMIN_PORT}:9101"
       - "${CEDAR_TEMPLATE_STOP_PORT}:9201"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-template-server/:/cedar/log/cedar-template-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - template_log:/cedar/log/cedar-template-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -183,8 +193,8 @@ services:
       - "${CEDAR_WORKER_ADMIN_PORT}:9111"
       - "${CEDAR_WORKER_STOP_PORT}:9211"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-worker-server/:/cedar/log/cedar-worker-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - worker_log:/cedar/log/cedar-worker-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -196,7 +206,9 @@ services:
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
@@ -216,8 +228,8 @@ services:
       - "${CEDAR_VALUERECOMMENDER_ADMIN_PORT}:9106"
       - "${CEDAR_VALUERECOMMENDER_STOP_PORT}:9206"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-valuerecommender-server/:/cedar/log/cedar-valuerecommender-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - valuerecommender_log:/cedar/log/cedar-valuerecommender-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -243,9 +255,9 @@ services:
       - "${CEDAR_TERMINOLOGY_ADMIN_PORT}:9104"
       - "${CEDAR_TERMINOLOGY_STOP_PORT}:9204"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-terminology-server/:/cedar/log/cedar-terminology-server/
-      - ${CEDAR_DOCKER_DATA_HOME}/cache/terminology/:/cedar/cache/terminology/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - terminology_log:/cedar/log/cedar-terminology-server/
+      - terminology_data:/cedar/cache/terminology/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -271,8 +283,8 @@ services:
       - "${CEDAR_REPO_ADMIN_PORT}:9102"
       - "${CEDAR_REPO_STOP_PORT}:9202"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-repo-server/:/cedar/log/cedar-repo-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - repo_log:/cedar/log/cedar-repo-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -295,8 +307,8 @@ services:
       - "${CEDAR_RESOURCE_ADMIN_PORT}:9107"
       - "${CEDAR_RESOURCE_STOP_PORT}:9207"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-resource-server/:/cedar/log/cedar-resource-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - resource_log:/cedar/log/cedar-resource-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -309,7 +321,9 @@ services:
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_SALT_API_KEY
       - CEDAR_ELASTICSEARCH_HOST
@@ -334,8 +348,8 @@ services:
       - "${CEDAR_MESSAGING_ADMIN_PORT}:9112"
       - "${CEDAR_MESSAGING_STOP_PORT}:9212"
     volumes:
-      - ${CEDAR_DOCKER_LOG_HOME}/cedar-messaging-server/:/cedar/log/cedar-messaging-server/
-      - ${CEDAR_DOCKER_CA_HOME}/:/cedar/ca
+      - messaging_log:/cedar/log/cedar-messaging-server/
+      - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
@@ -359,3 +373,33 @@ networks:
   cedarnet:
     external:
       name: cedarnet
+
+volumes:
+  cedar_ca:
+    name: cedar_ca
+  group_log:
+    name: group_log
+  messaging_log:
+    name: messaging_log
+  repo_log:
+    name: repo_log
+  resource_log:
+    name: resource_log
+  schema_log:
+    name: schema_log
+  submission_log:
+    name: submission_log
+  template_log:
+    name: template_log
+  terminology_data:
+    name: terminology_data
+  terminology_log:
+    name: terminology_log
+  user_log:
+    name: user_log
+  valuerecommender_log:
+    name: valuerecommender_log
+  worker_log:
+    name: worker_log
+  workspace_log:
+    name: workspace_log

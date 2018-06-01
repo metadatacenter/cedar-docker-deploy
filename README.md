@@ -18,11 +18,11 @@ Download and install Docker Community Edition from [here](https://www.docker.com
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
 to at least 6 GB; if possible also assign more than one CPU. Then apply and restart Docker.
 
-### 2. Set up CEDAR_DOCKER_HOME and CEDAR_DOCKER_PERSISTENCE_HOME variables
+### 2. Set up CEDAR_DOCKER_SRC_HOME and CEDAR_DOCKER_PERSISTENCE_HOME variables
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
 
-    export CEDAR_DOCKER_HOME=~/cedar-docker # Pick an alternate location if desired
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker # Pick an alternate location if desired
     export CEDAR_DOCKER_PERSISTENCE_HOME=~/cedar-docker-persistence # Pick an alternate location if desired
 
 Close the current shell and start a new one.
@@ -31,35 +31,35 @@ Close the current shell and start a new one.
 
 Execute the following lines:
 
-    mkdir -p ${CEDAR_DOCKER_HOME}
+    mkdir -p ${CEDAR_DOCKER_SRC_HOME}
     mkdir -p ${CEDAR_DOCKER_PERSISTENCE_HOME}
-    git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_HOME}/cedar-docker-build
-    git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_HOME}/cedar-docker-deploy
-    cp ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_DOCKER_HOME}/
+    git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-build
+    git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy
+    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_DOCKER_SRC_HOME}/
 
 
 ### 4. Include environment variable setting scripts into your profile
 
 Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the following lines:
 
-    source ${CEDAR_DOCKER_HOME}/set-env-base.sh
-    source ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/set-env-passwords.sh
-    source ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/set-env-common.sh
-    source ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/aliases.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/set-env-base.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-passwords.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-common.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
 
 Close the current shell and start a new one.
 
 ### 5. Create Docker subnet, create directories, copy certificates, add hosts
 Execute the following commands:
 
-    bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/create-network.sh
-    bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/create-directories.sh
-    bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
-    bash ${CEDAR_DOCKER_HOME}/cedar-docker-deploy/bin/add-hosts.sh
+    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/create-network.sh
+    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/create-directories.sh
+    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
+    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/add-hosts.sh
 
 ### 6. Set the BioPortal API key for the installation
 
-Edit the file ```${CEDAR_DOCKER_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
+Edit the file ```${CEDAR_DOCKER_SRC_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 
 ### 7. Import CA Certificate
