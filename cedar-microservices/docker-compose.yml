@@ -92,6 +92,7 @@ services:
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_MESSAGING_ADMIN_PORT
       - CEDAR_MESSAGING_HTTP_PORT
   group-server:
     depends_on:
