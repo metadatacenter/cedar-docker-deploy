@@ -1,0 +1,8 @@
+version: '3.6'
+services:
+  nginx-setup:
+    container_name: nginx-setup
+    image: "metadatacenter/nginx-setup:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-nginx-setup
+    environment:
+      - CEDAR_HOST
