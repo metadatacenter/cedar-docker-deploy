@@ -20,5 +20,7 @@ networks:
       name: cedarnet
 
 volumes:
+  nginx_log:
+    name: nginx_log
   cedar_cert:
     name: cedar_cert
