@@ -1,10 +1,8 @@
 #!/bin/bash
 
 docker run -v cedar_cert:/data --name cedar-cert-helper busybox true
-for filename in ${CEDAR_DOCKER_CERT_HOME}/*; do
-  echo Copying $filename to docker volume cedar_cert
-  docker cp $filename cedar-cert-helper:/data
-done
+echo Copying live to docker volume cedar_cert
+docker cp ${CEDAR_DOCKER_CERT_HOME}/live cedar-cert-helper:/data
 docker rm cedar-cert-helper
 
 docker run -v cedar_ca:/data --name cedar-ca-helper busybox true
