@@ -7,5 +7,5 @@ docker rm cedar-cert-helper
 
 docker run -v cedar_ca:/data --name cedar-ca-helper busybox true
 echo Copying ca-cedar.crt to docker volume cedar_ca
-docker cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/cedar-assets/ca-cedar.crt cedar-ca-helper:/data
+docker cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt cedar-ca-helper:/data
 docker rm cedar-ca-helper
