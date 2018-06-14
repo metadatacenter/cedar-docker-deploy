@@ -9,6 +9,9 @@ export CEDAR_HOST=metadatacenter.orgx
 export CEDAR_NET_GATEWAY=192.168.17.1
 export CEDAR_NET_SUBNET=192.168.17.0
 
+#CEDAR version modifier
+export CEDAR_VERSION_MODIFIER=""
+
 # Keycloak admin user data
 export CEDAR_KEYCLOAK_ADMIN_USER="administrator"
 export CEDAR_KEYCLOAK_ADMIN_PASSWORD="changeme"
@@ -40,3 +43,6 @@ export CEDAR_MESSAGING_MYSQL_PASSWORD="changeme"
 # Neo4j user data
 export CEDAR_NEO4J_USER_NAME="neo4j"
 export CEDAR_NEO4J_USER_PASSWORD="changeme"
+
+#Random string for API key generation - replace with a random string of your choice
+export CEDAR_SALT_API_KEY="changeme"
