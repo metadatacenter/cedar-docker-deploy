@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bashw
 
 # This file contains connection information to internal resources
 
