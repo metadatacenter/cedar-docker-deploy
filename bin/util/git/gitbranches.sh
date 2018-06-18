@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $CEDAR_HOME$1/cedar-util/bin/include-repo-list.sh
+source $CEDAR_UTIL_BIN/include-repo-list.sh
 
 function show_branch {
 	cd $CEDAR_HOME$1
