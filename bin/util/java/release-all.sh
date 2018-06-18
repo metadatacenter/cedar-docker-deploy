@@ -311,17 +311,6 @@ release_client_repo()
 {
     pushd $CEDAR_HOME/$1
 
-    tag_repo_with_release_version $1
-    copy_release_to_master $1
-    update_repo_to_next_development_version $1
-
-    popd
-}
-
-release_child_repo()
-{
-    pushd $CEDAR_HOME/$1
-
     update_repo_parent_to_release $1
     release_artifact $1
     copy_release_to_master $1
