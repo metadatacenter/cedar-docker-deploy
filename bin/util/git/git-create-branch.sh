@@ -1,8 +1,8 @@
 #!/bin/bash
 clear
 
-source $CEDAR_HOME/cedar-util/bin/include-colors-and-header.sh "Switching to new branch $1"
-source $CEDAR_HOME/cedar-util/bin/include-repo-list.sh
+source $CEDAR_UTIL_BIN/include-colors-and-header.sh "Switching to new branch $1"
+source $CEDAR_UTIL_BIN/include-repo-list.sh
 
 format="\n\nSwitching Git repo ${GREEN}%-20s${NORMAL} : (%-60s)\n"
 

@@ -1,6 +1,6 @@
 #!/bin/bash
-source $CEDAR_HOME/$1/cedar-util/bin/include-colors-and-header.sh "Pulling all CEDAR repos"
-source $CEDAR_HOME/$1/cedar-util/bin/include-repo-list.sh
+source $CEDAR_UTIL_BIN/include-colors-and-header.sh "Pulling all CEDAR repos"
+source $CEDAR_UTIL_BIN/include-repo-list.sh
 
 format="\n\nPulling Git repo status ${GREEN}%-20s${NORMAL} : (%-60s)\n"
 
