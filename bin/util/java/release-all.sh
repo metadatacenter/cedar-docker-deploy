@@ -278,7 +278,7 @@ release_docker_deploy_repo()
     # Tag the latest development version
     git checkout develop
     git pull origin develop
-    sed -i '' 's/^export CEDAR_VERSION=.*$/export CEDAR_VERSION='${CEDAR_RELEASE_VERSION}'/' ./bin/set-env-generic.sh
+    sed -i '' 's/^export CEDAR_VERSION=.*$/export CEDAR_VERSION='${CEDAR_RELEASE_VERSION}'/' ./bin/util/set-env-generic.sh
     find . -name .env -exec sed -i '' 's/^CEDAR_DOCKER_VERSION=.*$/CEDAR_DOCKER_VERSION='${CEDAR_RELEASE_VERSION}'/' {} \; -print
     git commit -a -m "Set the release version in the Dockerfiles"
     git push origin develop
@@ -288,7 +288,7 @@ release_docker_deploy_repo()
     
     # Return to develop branch 
     git checkout develop
-    sed -i '' 's/^export CEDAR_VERSION=.*$/export CEDAR_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' ./bin/set-env-generic.sh
+    sed -i '' 's/^export CEDAR_VERSION=.*$/export CEDAR_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' ./bin/util/set-env-generic.sh
     find . -name .env -exec sed -i '' 's/CEDAR_DOCKER_VERSION=.*$/CEDAR_DOCKER_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' {} \; -print
     git commit -a -m "Updated to next development version"
     git push origin develop
