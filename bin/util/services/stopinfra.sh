@@ -5,12 +5,12 @@ echo Stopping CEDAR infrastructure services
 echo --------------------------------------------------------------------------------
 echo
 
-$CEDAR_HOME/cedar-util/bin/killkeycloak.sh
-$CEDAR_HOME/cedar-util/bin/stopmongo.sh
-$CEDAR_HOME/cedar-util/bin/stopelastic.sh
-$CEDAR_HOME/cedar-util/bin/stopkibana.sh
-$CEDAR_HOME/cedar-util/bin/stopneo.sh
-$CEDAR_HOME/cedar-util/bin/killrediscommander.sh
-$CEDAR_HOME/cedar-util/bin/stopredis.sh
-$CEDAR_HOME/cedar-util/bin/stopmysql.sh
-$CEDAR_HOME/cedar-util/bin/stopnginx.sh
+$CEDAR_UTIL_BIN/services/killkeycloak.sh
+$CEDAR_UTIL_BIN/services//stopmongo.sh
+$CEDAR_UTIL_BIN/services/stopelastic.sh
+$CEDAR_UTIL_BIN/services/stopkibana.sh
+$CEDAR_UTIL_BIN/services/stopneo.sh
+$CEDAR_UTIL_BIN/services/killrediscommander.sh
+$CEDAR_UTIL_BIN/services/stopredis.sh
+$CEDAR_UTIL_BIN/services/stopmysql.sh
+$CEDAR_UTIL_BIN/services/stopnginx.sh
