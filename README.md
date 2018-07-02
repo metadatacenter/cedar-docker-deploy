@@ -1,104 +1,105 @@
 # CEDAR Docker - Quick Install Guide
 
-This guide describes the steps for installing CEDAR using Docker. The guide makes several simplifying assumptions: 
-(1) The domain name of the system will be ``metadatacenter.orgx``;
-and (2) The user does not want to change the default passwords. 
-If these assumptions are not acceptable, one should refer to the full version of this install guide.
+This guide describes the steps for installing CEDAR using Docker.
+The guide makes the simplifying assumption that the domain name of the system will be ``metadatacenter.orgx``.
+A later version of this guide will describe how an arbitrary domain name can be used and will describe how SSL certificates can be generated and used for such a deployment.
 
-This guide was prepared and tested on macOS Sierra (v10.12.5).
-The latests versions of ```Docker``` and the ```docker-compose``` command should be first installed.
-To our best knowledge it will work without changes on Unix systems.
+This guide assumes a Unix-based system.
+The deployment described here was verified to work on on OS X El Capitan (10.11.6) and CentOS 7,
+though it should work equally well on any Unix system.
 It has not been tested to work on Windows systems.
+
 To install you will need root access at least 8GB of memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
+
+The latests versions of ```Docker``` and the ```docker-compose``` command should be first installed.
 
 ## Steps
 ### 1.Install Docker
 
 Download and install Docker Community Edition from [here](https://www.docker.com/community-edition).
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
-to at least 6 GB; if possible also assign more than one CPU. Then apply and restart Docker.
+to at least 6 GB; if possible also assign more than one CPU. Then apply the changes and restart Docker.
 
-### 2. Set up CEDAR_DOCKER_SRC_HOME and CEDAR_DOCKER_PERSISTENCE_HOME variables
+### 2. Set up CEDAR_HOME and CEDAR_DOCKER_SRC_HOME variables
+
+The CEDAR_HOME variable specifices the base location for a local Docker deployment of CEDAR.
+This directory will contain persistent state and other deployment information.
+
+Currently, two repositories must be downloded to initially deploy CEDAR.
+The download directory for this repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
 
-    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker # Pick an alternate location if desired
-    export CEDAR_DOCKER_PERSISTENCE_HOME=~/cedar-docker-persistence # Pick an alternate location if desired
+    export CEDAR_HOME=~/cedar-home # Example only - pick a suitable location
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a suitable locaton
 
 Close the current shell and start a new one.
 
-### 3. Get the CEDAR Docker repos
+### 3. Download the CEDAR Docker repos from Nexus
 
-Execute the following lines:
+Create deployment and source directories if needed and download the two CEDAR Docker repos to the source directory:
 
-    mkdir -p ${CEDAR_DOCKER_SRC_HOME}
-    mkdir -p ${CEDAR_DOCKER_PERSISTENCE_HOME}
+    mkdir -p ${CEDAR_HOME}  # Create the base CEDAR deployment directory
+    mkdir -p ${CEDAR_DOCKER_SRC_HOME} # Create the source directory for CEDAR components
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-build
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy
-    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/cedar-assets/bin/set-env-base.sh ${CEDAR_DOCKER_SRC_HOME}/
-
 
 ### 4. Include environment variable setting scripts into your profile
 
-Edit your ``~./bash_profile`` or ``~/.bashrc`` file with your editor of choice, and add the following lines:
+The CEDAR deployment repo has two sets of files containing environment variables that are used in a deployment.
+These files are called ```set-env-internal.sh```, which contains internal deployment, and ```set-env-external.sh```,
+which contains external variables.
 
-    source ${CEDAR_DOCKER_SRC_HOME}/set-env-base.sh
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-passwords.sh
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-common.sh
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
+First copy these example files to your deployment repo:
 
-Close the current shell and start a new one.
+   cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
+   cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
 
-### 5. Create Docker subnet, create directories, copy certificates, add hosts
-Execute the following commands:
+You can customized the variables in both of these files as needed by your deployment.
 
-    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/create-network.sh
-    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/create-directories.sh
-    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/copy-certificates.sh
-    bash ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/add-hosts.sh
+For the moment, do not change the domain name (``metatadatcenter.orgx``) or the IP address variables in the internal file.
+It is recommended that you change the default passwords and the CEDAR_ADMIN_USER_API_KEY and CEDAR_SALT_API_KEY variables.
 
-### 6. Set the BioPortal API key for the installation
-
-Edit the file ```${CEDAR_DOCKER_SRC_HOME}/set-env-base.sh``` and add your BioPortal API key as the value of the ``CEDAR_BIOPORTAL_API_KEY`` variable.
+You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
+The relvant variable to set is called ``CEDAR_BIOPORTAL_API_KEY`.
 
-### 7. Import CA Certificate
+### 5. Create Docker Network and Volumes and Copy Default SSL Certificates
 
-Open the following file in Finder: ``${CEDAR_DOCKER_PERSISTENCE_HOME}/ca/ca-cedar.crt`` by double-clicking it.
-The ``Keychain Access`` application  will be launched. A dialog will pop up, prompting for a location for the certificate.
-The ``login`` keychain will be preselected. Click the ``Add`` button.
-Locate the certificate you just added by searching for ``metadatacenter`` using the search field in to top right corner.
-The certificate will have a white cross in a red circle, meaning it is not yet trusted.
-Open it by double-clicking it.
-Expand the ``Trust`` branch on the top.
-Change the dropdown labeled ``When using this certificate`` to ``Always Trust``
-Close the popup.
-You will be prompted for your password.
-You should see the icon of the certificate having a white cross inside a blue circle.
-Close the ``Keychain Access`` application.
+Execute the following commands to create a Docker network, create Docker volumes, and
 
-### 8. Start the infrastructure services
+    godeploy
 
-Execute the following commands:
+    ./bin/docker-create-network.sh
+    ./bin/docker-create-volumes.sh
+    ./bin/docker-copy-certificates.sh
 
-    goinfrastructure
-    docker-compose up
+### 6. Start the CEDAR Services
 
-### 9. Start the frontend
+The CEDAR components are divided into four main sets: (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like, (2) microservices, which represent core CEDAR services, (3) the frontend, which contains all user-facing services, and (4) monitoring services, which can be used to examine a running system.
 
-In a new shell execute the following commands:
+For ease of monitoring, each set of services should be started in a new shell.
 
-    gofrontend
-    docker-compose up
+The CEDAR infrastructure services can be started using the following command:
 
-### 10. Start the Microservices
+    startinfrastructure
 
-In a new shell execute the following commands:
+The microservices can be started as follows:
 
-    gomicroservices
-    docker-compose up
+    startmicroservices
 
-### 11. Log in to the CEDAR Application
+The frontend can be started using the folloing command:
+
+    startfrontend
+
+And, finally, the monitoring services can be started as follows:
+
+   startmonitoring
+
+You can examine the status of running components using the ```cedarss`` command.
+ It will list all CEDAR services and their status.
+
+### 7. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
