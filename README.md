@@ -65,13 +65,13 @@ The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
-We have created a set of useful aliases to execute and monitor CEDAR services.
+We have also created a set of useful aliases to execute and monitor CEDAR services.
 These aliases will be used in the remainder of this guide.
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
-    source $CEDAR_HOME/set-env-external.sh
-    source $CEDAR_HOME/set-env-internal.sh
+    source ${CEDAR_HOME}/set-env-external.sh
+    source ${CEDAR_HOME}/set-env-internal.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
 
