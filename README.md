@@ -82,7 +82,7 @@ Execute the following commands to create a Docker network and create Docker volu
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-network.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
-The following command will pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
+The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
 source Docker repository to the deployment directory:
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
