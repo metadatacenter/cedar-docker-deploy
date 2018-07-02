@@ -59,7 +59,7 @@ Exit your current shell and start a new one.
 ### 5. Establish core deployment environment variables
 
 The CEDAR Docker deployment repo has two sets of examples files containing environment variables that are used in a deployment.
-These files are called ```set-env-internal.sh```, which contains internal deployment, and ```set-env-external.sh```,
+These files are called ```set-env-internal.sh```, which contains internal deployment variables, and ```set-env-external.sh```,
 which contains external variables.
 
 First copy these example files from the source repo to your deployment repo:
@@ -76,15 +76,17 @@ You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 The relvant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
-### 6. Create Docker Network and Volumes and Copy Default SSL Certificates
+### 6. Create Docker network and volumes and copy default SSL certificates
 
-Execute the following commands to create a Docker network, create Docker volumes, and
+Execute the following commands to create a Docker network and create Docker volumes.
 
-    godeploy
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-network.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
-    ./bin/docker-create-network.sh
-    ./bin/docker-create-volumes.sh
-    ./bin/docker-copy-certificates.sh
+The following command will pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
+source Docker repository to the deployment directory:
+
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
 
 ### 7. Start the CEDAR Services
 
