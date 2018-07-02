@@ -28,7 +28,7 @@ This directory will contain persistent state and other deployment information.
 Currently, two repositories must be downloded to initially deploy CEDAR.
 The download directory for this repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
 
-Open your ```~./bash_profile``` or ```~/.bashrc``` file and add the following lines:
+Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
     export CEDAR_HOME=~/cedar-home # Example only - pick a suitable location
     export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a suitable locaton
@@ -44,13 +44,23 @@ Create deployment and source directories if needed and download the two CEDAR Do
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-build
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy
 
-### 4. Include environment variable setting scripts into your profile
+### 4. Set useful CEDAR command aliases
 
-The CEDAR deployment repo has two sets of files containing environment variables that are used in a deployment.
+We have created a set of useful aliases to execute and monitor CEDAR services.
+These aliases will be used in the remainder of this guide.
+
+Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
+
+### 5. Establish core deployment environment variables
+
+The CEDAR Docker deployment repo has two sets of examples files containing environment variables that are used in a deployment.
 These files are called ```set-env-internal.sh```, which contains internal deployment, and ```set-env-external.sh```,
 which contains external variables.
 
-First copy these example files to your deployment repo:
+First copy these example files from the source repo to your deployment repo:
 
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
@@ -62,9 +72,9 @@ It is recommended that you change the default passwords and the CEDAR_ADMIN_USER
 
 You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
-The relvant variable to set is called ``CEDAR_BIOPORTAL_API_KEY`.
+The relvant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
-### 5. Create Docker Network and Volumes and Copy Default SSL Certificates
+### 6. Create Docker Network and Volumes and Copy Default SSL Certificates
 
 Execute the following commands to create a Docker network, create Docker volumes, and
 
@@ -74,7 +84,7 @@ Execute the following commands to create a Docker network, create Docker volumes
     ./bin/docker-create-volumes.sh
     ./bin/docker-copy-certificates.sh
 
-### 6. Start the CEDAR Services
+### 7. Start the CEDAR Services
 
 The CEDAR components are divided into four main sets: (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like, (2) microservices, which represent core CEDAR services, (3) the frontend, which contains all user-facing services, and (4) monitoring services, which can be used to examine a running system.
 
@@ -99,7 +109,7 @@ And, finally, the monitoring services can be started as follows:
 You can examine the status of running components using the ``cedarss`` command.
  It will list all CEDAR services and their status.
 
-### 7. Log in to the CEDAR Application
+### 8. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
