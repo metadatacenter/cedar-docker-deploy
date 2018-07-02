@@ -43,19 +43,7 @@ Create deployment and source directories if needed and download the two CEDAR Do
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-build
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy
 
-### 4. Set useful CEDAR command aliases
-
-We have created a set of useful aliases to execute and monitor CEDAR services.
-These aliases will be used in the remainder of this guide.
-
-Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
-
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
-
-Exit your current shell and start a new one.
-
-### 5. Establish core deployment environment variables
+### 4. Establish core deployment environment variables
 
 The CEDAR Docker deployment repo has two sets of examples files containing environment variables that are used in a deployment.
 These files are called ```set-env-internal.sh```, which contains internal deployment variables, and ```set-env-external.sh```,
@@ -73,7 +61,21 @@ It is recommended that you change the default passwords and the CEDAR_ADMIN_USER
 
 You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
-The relvant variable to set is called CEDAR_BIOPORTAL_API_KEY.
+The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
+
+### 5. Incorporate environment variables and set useful CEDAR command aliases
+
+We have created a set of useful aliases to execute and monitor CEDAR services.
+These aliases will be used in the remainder of this guide.
+
+Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+
+    source $CEDAR_HOME/set-env-external.sh
+    source $CEDAR_HOME/set-env-internal.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
+
+Exit your current shell and start a new one.
 
 ### 6. Create Docker network and volumes and copy default SSL certificates
 
