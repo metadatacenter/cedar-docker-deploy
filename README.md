@@ -34,7 +34,7 @@ Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add 
 
 Close the current shell and start a new one.
 
-### 3. Download the CEDAR Docker repos from Nexus
+### 3. Download the CEDAR Docker repos from GitHub
 
 Create deployment and source directories if needed and download the two CEDAR Docker repos to the source directory:
 
