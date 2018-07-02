@@ -94,9 +94,9 @@ The frontend can be started using the folloing command:
 
 And, finally, the monitoring services can be started as follows:
 
-   startmonitoring
+    startmonitoring
 
-You can examine the status of running components using the ```cedarss`` command.
+You can examine the status of running components using the ``cedarss`` command.
  It will list all CEDAR services and their status.
 
 ### 7. Log in to the CEDAR Application
