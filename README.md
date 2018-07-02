@@ -23,9 +23,8 @@ to at least 6 GB; if possible also assign more than one CPU. Then apply the chan
 ### 2. Set up CEDAR_HOME and CEDAR_DOCKER_SRC_HOME variables
 
 The CEDAR_HOME variable specifices the base location for a local Docker deployment of CEDAR.
-This directory will contain persistent state and other deployment information.
 
-Currently, two repositories must be downloded to initially deploy CEDAR.
+Currently, two repositories must be downloded to deploy CEDAR.
 The download directory for this repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
