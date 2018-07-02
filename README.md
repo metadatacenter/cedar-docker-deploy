@@ -54,6 +54,8 @@ Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
 
+Exit your current shell and start a new one.
+
 ### 5. Establish core deployment environment variables
 
 The CEDAR Docker deployment repo has two sets of examples files containing environment variables that are used in a deployment.
