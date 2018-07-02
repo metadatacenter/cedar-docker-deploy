@@ -52,8 +52,8 @@ which contains external variables.
 
 First copy these example files to your deployment repo:
 
-   cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
-   cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
+    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
+    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
 
 You can customized the variables in both of these files as needed by your deployment.
 
