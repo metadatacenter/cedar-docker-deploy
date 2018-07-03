@@ -25,12 +25,12 @@ On some systems you may need to install the ```docker-compose``` command line to
 The CEDAR_HOME variable specifices the base location for a local Docker deployment of CEDAR.
 
 Currently, two repositories must be downloded to deploy CEDAR.
-The download directory for these repos are specified using the CEDAR_DOCKER_SRC_HOME directory.
+The download directory for these repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
-    export CEDAR_HOME=~/cedar-home # Example only - pick a suitable location
-    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a suitable locaton
+    export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired locaton
 
 Close the current shell and start a new one.
 
