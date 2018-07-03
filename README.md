@@ -65,8 +65,8 @@ The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
-We have also created a set of useful aliases to execute and monitor CEDAR services.
-These aliases will be used in the remainder of this guide.
+We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
+These command aliases will be used in the remainder of this guide.
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
