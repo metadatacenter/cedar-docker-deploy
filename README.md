@@ -46,11 +46,11 @@ Create deployment and source directories if needed and download the two CEDAR Do
 
 ### 4. Establish core deployment environment variables
 
-The CEDAR Docker deployment repo has two sets of examples files containing environment variables that are used in a deployment.
+The CEDAR Docker deployment repo has two files containing environment variables that are used in a deployment.
 These files are called ```set-env-internal.sh```, which contains internal deployment variables, and ```set-env-external.sh```,
 which contains external variables.
 
-First copy these example files from the source repo to the CEDAR deployment directory:
+First copy these two files from the source repo to the CEDAR deployment directory:
 
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
