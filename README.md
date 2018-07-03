@@ -9,9 +9,10 @@ The deployment described here was verified to work on OS X El Capitan (10.11.6) 
 though it should work equally well on any Unix system.
 It has not been tested to work on Windows systems.
 
-To install you will need root access and at least 8GB of memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
+To install you will need root access and at least 8GB of memory (CEDAR will require 6GB) and reasonable hard drive free space.
 
-## Steps
+## Depolyment Steps
+
 ### 1.Install Docker
 
 Download and install Docker Community Edition from [here](https://www.docker.com/community-edition).
@@ -27,7 +28,7 @@ The CEDAR_HOME variable specifices the base location for a local Docker deployme
 Currently, two repositories must be downloded to deploy CEDAR.
 The download directory for these repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
 
-Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+Open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
     export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
     export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired locaton
@@ -49,12 +50,12 @@ The CEDAR Docker deployment repo has two sets of examples files containing envir
 These files are called ```set-env-internal.sh```, which contains internal deployment variables, and ```set-env-external.sh```,
 which contains external variables.
 
-First copy these example files from the source repo to your deployment directory:
+First copy these example files from the source repo to the CEDAR deployment directory:
 
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
 
-You can customize the variables in both of these files as needed by your deployment.
+You can customize the variables in both of these files as needed by the deployment.
 
 For the moment, do not change the domain name (``metatadatcenter.orgx``) or the IP address variables in the internal file.
 It is recommended that you change the default passwords and the CEDAR_ADMIN_USER_API_KEY and CEDAR_SALT_API_KEY variables.
@@ -63,19 +64,24 @@ You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
+The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+
+    source ${CEDAR_HOME}/set-env-external.sh
+    source ${CEDAR_HOME}/set-env-internal.sh
+
+Exit the current shell and start a new one.
+
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
 We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
 These command aliases will be used in the remainder of this guide.
 
-Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
-    source ${CEDAR_HOME}/set-env-external.sh
-    source ${CEDAR_HOME}/set-env-internal.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
 
-Exit your current shell and start a new one.
+Exit the current shell and start a new one.
 
 ### 6. Create Docker network and volumes and copy default SSL certificates
 
@@ -91,7 +97,11 @@ source Docker repository to the deployment directory:
 
 ### 7. Start the CEDAR services
 
-The CEDAR components are divided into four main sets: (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like, (2) microservices, which represent core CEDAR services, (3) the frontend, which contains all user-facing services, and (4) monitoring services, which can be used to examine a running system.
+The CEDAR components are divided into four main sets:
+(1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like,
+(2) microservices, which represent core CEDAR services,
+(3) the frontend, which contains all user-facing services, and
+(4) monitoring services, which can be used to examine a running system.
 
 For ease of monitoring, each set of services should be started in a new shell.
 
