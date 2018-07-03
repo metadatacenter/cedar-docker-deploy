@@ -89,7 +89,7 @@ source Docker repository to the deployment directory:
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
 
-### 7. Start the CEDAR Services
+### 7. Start the CEDAR services
 
 The CEDAR components are divided into four main sets: (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like, (2) microservices, which represent core CEDAR services, (3) the frontend, which contains all user-facing services, and (4) monitoring services, which can be used to examine a running system.
 
@@ -114,7 +114,7 @@ And, finally, the monitoring services can be started as follows:
 You can examine the status of running components using the ``cedarss`` command.
 It will list all CEDAR services and their status.
 
-### 8. Log in to the CEDAR Application
+### 8. Log in to the CEDAR application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
