@@ -9,7 +9,7 @@ The deployment described here was verified to work on OS X El Capitan (10.11.6) 
 though it should work equally well on any Unix system.
 It has not been tested to work on Windows systems.
 
-To install you will need root access at least 8GB of memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
+To install you will need root access and at least 8GB of memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
 
 ## Steps
 ### 1.Install Docker
