@@ -103,7 +103,7 @@ The microservices can be started as follows:
 
     startmicroservices
 
-The frontend can be started using the folloing command:
+The frontend can be started using the following command:
 
     startfrontend
 
@@ -112,13 +112,13 @@ And, finally, the monitoring services can be started as follows:
     startmonitoring
 
 You can examine the status of running components using the ``cedarss`` command.
- It will list all CEDAR services and their status.
+It will list all CEDAR services and their status.
 
 ### 8. Log in to the CEDAR Application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
-Log in with these user/password combinations: cedar-admin/Password123, test1@test.com/test1, test2@test.com/test2, my@user.com/my
+Log in with one of these user/password combinations: cedar-admin/Password123, test1@test.com/test1, test2@test.com/test2, my@user.com/my
 
 The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
 
