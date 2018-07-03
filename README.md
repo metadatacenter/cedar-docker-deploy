@@ -118,11 +118,11 @@ It will list all CEDAR services and their status.
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
-Log in with one of these user/password combinations: ``cedar-admin/Password123``, ``test1@test.com/test1``, ``test2@test.com/test2``, ``my@user.com/my``
+Log in with one of these user/password combinations: ``cedar-admin``/``Password123``, ``test1@test.com``/``test1``, ``test2@test.com``/``test2``, ``my@user.com``/``my``
 
 The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
 
-You can log in to Keycloak with the following user/password combination: ``administrator/changeme``
+You can log in to Keycloak with the following user/password combination: ``administrator``/``changeme``
 
 ## IMPORTANT - Updating environment variables - PLEASE READ
 During this install process, you will need to set or update several environment variables, several times.
