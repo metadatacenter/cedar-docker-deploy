@@ -11,7 +11,7 @@ It has not been tested to work on Windows systems.
 
 To install you will need root access and at least 8GB of memory (CEDAR will require 6GB) and reasonable hard drive free space.
 
-## Depolyment Steps
+## Deployment Steps
 
 ### 1.Install Docker
 
