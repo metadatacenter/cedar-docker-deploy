@@ -123,15 +123,3 @@ Log in with one of these user/password combinations: ``cedar-admin``/``Password1
 The Keycloak administration interface is located [here](https://auth.metadatacenter.orgx/auth/admin/).
 
 You can log in to Keycloak with the following user/password combination: ``administrator``/``changeme``
-
-## IMPORTANT - Updating environment variables - PLEASE READ
-During this install process, you will need to set or update several environment variables, several times.
-Some of the environment variables will be added to your ``~/.bash_profile`` or ``~/.bashrc`` file.
-Other environment variables will come from scripts included in one of the above files.
-After making changes to the environment variables by changing a value, or including a file into your profile, **it is crucial** that these changes take effect.
-
-There are at least two ways to achieve this:
-1. Close the current shell, and open a new one. This way it is guarranteed that the new shell has all the changes.
-1. You can source the ``~/.bash_profile`` or ``~/.bashrc`` file. By doing this, the additions and changes will take effect, but the possibly removed variables will still be set.
-
-We would suggest to use the first approach!
