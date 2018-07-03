@@ -11,8 +11,6 @@ It has not been tested to work on Windows systems.
 
 To install you will need root access at least 8GB of memory (CEDAR will require 6GB) and reasonable free space on your hard drive.
 
-The latests versions of ```Docker``` and the ```docker-compose``` command should be first installed.
-
 ## Steps
 ### 1.Install Docker
 
@@ -20,12 +18,14 @@ Download and install Docker Community Edition from [here](https://www.docker.com
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
 to at least 6 GB; if possible also assign more than one CPU. Then apply the changes and restart Docker.
 
+On some systems you may need to install the ```docker-compose``` command line tool.
+
 ### 2. Set up CEDAR_HOME and CEDAR_DOCKER_SRC_HOME variables
 
 The CEDAR_HOME variable specifices the base location for a local Docker deployment of CEDAR.
 
 Currently, two repositories must be downloded to deploy CEDAR.
-The download directory for this repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
+The download directory for these repos are specified using the CEDAR_DOCKER_SRC_HOME directory.
 
 Open your ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
@@ -49,12 +49,12 @@ The CEDAR Docker deployment repo has two sets of examples files containing envir
 These files are called ```set-env-internal.sh```, which contains internal deployment variables, and ```set-env-external.sh```,
 which contains external variables.
 
-First copy these example files from the source repo to your deployment repo:
+First copy these example files from the source repo to your deployment directory:
 
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
     cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
 
-You can customized the variables in both of these files as needed by your deployment.
+You can customize the variables in both of these files as needed by your deployment.
 
 For the moment, do not change the domain name (``metatadatcenter.orgx``) or the IP address variables in the internal file.
 It is recommended that you change the default passwords and the CEDAR_ADMIN_USER_API_KEY and CEDAR_SALT_API_KEY variables.
