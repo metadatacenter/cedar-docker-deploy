@@ -5,7 +5,7 @@ The guide makes the simplifying assumption that the domain name of the system wi
 A later version of this guide will describe how an arbitrary domain name can be used and will describe how SSL certificates can be generated and used for such a deployment.
 
 This guide assumes a Unix-based system.
-The deployment described here was verified to work on on OS X El Capitan (10.11.6) and CentOS 7,
+The deployment described here was verified to work on OS X El Capitan (10.11.6) and CentOS 7,
 though it should work equally well on any Unix system.
 It has not been tested to work on Windows systems.
 
