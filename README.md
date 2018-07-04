@@ -64,25 +64,26 @@ You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
-The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
-
-    source ${CEDAR_HOME}/set-env-external.sh
-    source ${CEDAR_HOME}/set-env-internal.sh
-
-Exit the current shell and start a new one.
-
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
 We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
 These command aliases will be used in the remainder of this guide.
-
-The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+These aliases can be set by running the two scripts as follows:
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
 
-Exit the current shell and start a new one.
+The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
 
+The final set of CEDAR-related environment variable assignments should look as follows:
+
+    export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired locaton
+    source ${CEDAR_HOME}/set-env-external.sh
+    source ${CEDAR_HOME}/set-env-internal.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases
+    
 ### 6. Create Docker network and volumes and copy default SSL certificates
 
 Execute the following commands to create a Docker network and create Docker volumes.
