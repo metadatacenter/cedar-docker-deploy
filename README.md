@@ -11,7 +11,7 @@ It has not been tested to work on Windows systems.
 
 To install you will need root access and at least 8GB of memory (CEDAR will require 6GB) and reasonable hard drive free space.
 
-## Depolyment Steps
+## Deployment Steps
 
 ### 1.Install Docker
 
@@ -78,8 +78,8 @@ These command aliases will be used in the remainder of this guide.
 
 The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/set-env-generic.sh
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/aliases.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
 
 Exit the current shell and start a new one.
 
