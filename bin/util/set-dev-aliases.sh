@@ -41,7 +41,8 @@ alias cedargstatus='$CEDAR_UTIL_BIN/git/gitstatus.sh'
 alias cedargbranches='$CEDAR_UTIL_BIN/git/gitbranches.sh'
 alias cedargpull='$CEDAR_UTIL_BIN/git/gitpull.sh'
 alias cedargcheckout='$CEDAR_UTIL_BIN/git/git-checkout-branch.sh'
-alias cedarenv='set | grep -a CEDAR_'
+
+#CEDAR Admin Tool alias
 alias cedarat='$CEDAR_HOME/cedar-admin-tool/dist/cedar-admin-tool.sh'
 
 #Maven aliases
