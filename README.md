@@ -91,6 +91,9 @@ Execute the following commands to create a Docker network and create Docker volu
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-network.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
+The network will be used by all CEDAR services.
+The volumes are used for persistent storage.
+
 ### 7. Copy SSL certificates and mark certification authority as trustable
 
 The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
