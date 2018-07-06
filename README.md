@@ -84,19 +84,37 @@ The final set of CEDAR-related environment variable assignments should look as f
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
     
-### 6. Create Docker network and volumes and copy default SSL certificates
+### 6. Create Docker network and volumes
 
 Execute the following commands to create a Docker network and create Docker volumes.
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-network.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
+###. 7 Copy SSL certifcates and mark certifcates as trustable
+
 The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
 source Docker repository to the deployment directory:
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
 
-### 7. Start the CEDAR services
+You will need to mark the certification authority certificate as trustable so that your browser will treat these pre-canned certificates as valid.
+
+After the above copy, the certification authority certificate will be stored at the following location:
+
+     ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt
+
+The mechanism to mark this certification authority as trustable varies by operating system and browser. 
+
+On OS X this certificate can be opened by double clicking on it in the Finder, which will open the Keychain Access application.
+Locate the just-added certificate by searching for 'metadatacenter'.
+You should see a certificiate for ```metadatacenter.orgx```.
+Double click on it, which should open a detail panel for the certificate.
+Go to the 'Trust' item and select 'Always Trust' for the 'When using this certificate' question.
+Close the detail panel.
+You should see the icon of the certificate having a white cross inside a blue circle.
+
+### 8. Start the CEDAR services
 
 The CEDAR components are divided into four main sets:
 (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like,
