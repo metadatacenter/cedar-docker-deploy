@@ -31,7 +31,7 @@ The download directory for these repos is specified using the CEDAR_DOCKER_SRC_H
 Open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
     export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
-    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired locaton
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
 
 Close the current shell and start a new one.
 
@@ -73,16 +73,16 @@ These aliases can be set by running the two scripts as follows:
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
 
-The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
+The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
 
 The final set of CEDAR-related environment variable assignments should look as follows:
 
     export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
-    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired locaton
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
     source ${CEDAR_HOME}/set-env-external.sh
     source ${CEDAR_HOME}/set-env-internal.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
-    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
     
 ### 6. Create Docker network and volumes and copy default SSL certificates
 
