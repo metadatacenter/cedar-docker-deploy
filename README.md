@@ -91,7 +91,7 @@ Execute the following commands to create a Docker network and create Docker volu
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-network.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
-### 7. Copy SSL certifcates and mark certifcates as trustable
+### 7. Copy SSL certificates and mark certification authority as trustable
 
 The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
 source Docker repository to the deployment directory:
@@ -100,7 +100,7 @@ source Docker repository to the deployment directory:
 
 You will need to mark the certification authority certificate as trustable so that your browser will treat these pre-canned certificates as valid.
 
-After the above copy, the certification authority certificate will be stored at the following location:
+After the above copy, the certification authority certificate will be stored in the followin file:
 
      ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt
 
