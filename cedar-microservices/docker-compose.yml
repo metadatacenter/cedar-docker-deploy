@@ -4,6 +4,8 @@ services:
     container_name: cedar-java
     image: "metadatacenter/cedar-java:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-java
+    networks:
+      - cedarnet
   cedar-microservice:
     depends_on:
         - cedar-java

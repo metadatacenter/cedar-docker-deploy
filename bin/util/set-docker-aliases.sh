@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export CEDAR_DOCKER_DEPLOY=${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy
+export CEDAR_DOCKER_BUILD=${CEDAR_DOCKER_SRC_HOME}/cedar-docker-build
+
 alias gobuild='cd $CEDAR_DOCKER_BUILD'
 alias godeploy='cd $CEDAR_DOCKER_DEPLOY'
 alias gofrontend='cd $CEDAR_DOCKER_DEPLOY/cedar-frontend'
@@ -17,4 +20,5 @@ alias stopmonitoring='gomonitoring && docker-compose down'
 alias stopmicroservices='gomicroservices && docker-compose down'
 alias stopinfrastructure='goinfrastructure && docker-compose down'
 
+alias cedarenv='set | grep -a CEDAR_'
 alias cedarss='$CEDAR_DOCKER_DEPLOY/bin/cedarstatus.sh'

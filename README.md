@@ -31,7 +31,7 @@ The download directory for these repos is specified using the CEDAR_DOCKER_SRC_H
 Open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
     export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
-    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired locaton
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
 
 Close the current shell and start a new one.
 
@@ -64,38 +64,60 @@ You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
-The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
-
-    source ${CEDAR_HOME}/set-env-external.sh
-    source ${CEDAR_HOME}/set-env-internal.sh
-
-Exit the current shell and start a new one.
-
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
 We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
 These command aliases will be used in the remainder of this guide.
-
-The ensure these variables are available, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+These aliases can be set by running the two scripts as follows:
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
 
-Exit the current shell and start a new one.
+The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
 
-### 6. Create Docker network and volumes and copy default SSL certificates
+The final set of CEDAR-related environment variable assignments should look as follows:
+
+    export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
+    export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
+    source ${CEDAR_HOME}/set-env-external.sh
+    source ${CEDAR_HOME}/set-env-internal.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
+    source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
+    
+### 6. Create Docker network and volumes
 
 Execute the following commands to create a Docker network and create Docker volumes.
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-network.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
+The network will be used by all CEDAR services.
+The volumes are used for persistent storage.
+
+### 7. Copy SSL certificates and mark certification authority as trustable
+
 The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
 source Docker repository to the deployment directory:
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
 
-### 7. Start the CEDAR services
+You will need to mark the certification authority certificate as trustable so that your browser will treat these pre-canned certificates as valid.
+
+After the above copy, the certification authority certificate will be stored in the followin file:
+
+     ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt
+
+The mechanism to mark this certification authority as trustable varies by operating system and browser. 
+
+On OS X this certificate can be opened by double clicking on it in the Finder, which will open the Keychain Access application.
+Locate the just-added certificate by searching for 'metadatacenter'.
+You should see a certificiate for ```metadatacenter.orgx```.
+Double click on it, which should open a detail panel for the certificate.
+Go to the 'Trust' item and select 'Always Trust' for the 'When using this certificate' question.
+Close the detail panel.
+You should see the icon of the certificate having a white cross inside a blue circle.
+
+### 8. Start the CEDAR services
 
 The CEDAR components are divided into four main sets:
 (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like,

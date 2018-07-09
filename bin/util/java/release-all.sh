@@ -25,7 +25,7 @@ if [ -z "$CEDAR_RELEASE_VERSION" ]; then
 fi 
 
 export CEDAR_RELEASE_TAG=release-${CEDAR_RELEASE_VERSION}
-export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)%(10^length($NF))); print}')
+export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$NF; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)); print}')
 
 CEDAR_PARENT_REPOS=( "cedar-parent" )
 
