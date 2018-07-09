@@ -9,7 +9,7 @@ The deployment described here was verified to work on OS X El Capitan (10.11.6) 
 though it should work equally well on any Unix system.
 It has not been tested to work on Windows systems.
 
-To install you will need root access and at least 8GB of memory (CEDAR will require 6GB) and reasonable hard drive free space.
+To install you will need root access and at least 8GB of memory to allocate to Docker and reasonable hard drive free space.
 
 ## Deployment Steps
 
@@ -17,7 +17,7 @@ To install you will need root access and at least 8GB of memory (CEDAR will requ
 
 Download and install Docker Community Edition from [here](https://www.docker.com/community-edition).
 After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
-to at least 6 GB; if possible also assign more than one CPU. Then apply the changes and restart Docker.
+to at least 8 GB; if possible also assign more than one CPU. Then apply the changes and restart Docker.
 
 On some systems you may need to install the ```docker-compose``` command line tool.
 
@@ -103,7 +103,7 @@ source Docker repository to the deployment directory:
 
 You will need to mark the certification authority certificate as trustable so that your browser will treat these pre-canned certificates as valid.
 
-After the above copy, the certification authority certificate will be stored in the followin file:
+After the above copy, the certification authority certificate will be stored in the following file:
 
      ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt
 
