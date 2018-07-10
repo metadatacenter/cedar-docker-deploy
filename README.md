@@ -146,7 +146,7 @@ And, finally, the monitoring services can be started as follows:
 You can examine the status of running components using the ``cedarss`` command.
 It will list all CEDAR services and their status.
 
-### 8. Log in to the CEDAR application
+### 9. Log in to the CEDAR application
 
 Check the application from a browser at the following URL [https://cedar.metadatacenter.orgx](https://cedar.metadatacenter.orgx).
 
