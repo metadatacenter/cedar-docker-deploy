@@ -57,7 +57,7 @@ First copy these two files from the source repo to the CEDAR deployment director
 
 You can customize the variables in both of these files as needed by the deployment.
 
-For the moment, do not change the domain name (``metatadatcenter.orgx``) or the IP address variables in the internal file.
+For the moment, do not change the domain name (``metatadatacenter.orgx``) or the IP address variables in the internal file.
 It is recommended that you change the default passwords and the CEDAR_ADMIN_USER_API_KEY and CEDAR_SALT_API_KEY variables.
 
 You will need to set a BioPortal API key in the external file.
