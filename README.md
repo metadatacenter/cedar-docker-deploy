@@ -61,7 +61,7 @@ For the moment, do not change the domain name (``metatadatacenter.orgx``) or the
 It is recommended that you change the default passwords and the CEDAR_ADMIN_USER_API_KEY and CEDAR_SALT_API_KEY variables.
 
 You will need to set a BioPortal API key in the external file.
-If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
+Please create a new BioPortal account for your installation's use by [registering for a separate BioPortal account](https://bioportal.bioontology.org/accounts/new). This will help us in diagnosing issues and managing access to the systems.
 The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
