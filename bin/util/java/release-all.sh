@@ -12,6 +12,10 @@
 #
 # https://github.com/metadatacenter/cedar-docs/wiki/Configuring-NPM-to-use-the-CEDAR-Nexus-Server
 #
+# Docker ~/.docker/config.json file must be configured to use CEDAR Nexus server as a DockerHub:
+#
+# https://github.com/metadatacenter/cedar-conf/wiki/Configuring-Docker-to-use-the-CEDAR-Nexus-DockerHub
+#
 # Works but needs hardening
 
 if [ -z "$CEDAR_HOME" ]; then
