@@ -12,10 +12,9 @@
 #
 # https://github.com/metadatacenter/cedar-docs/wiki/Configuring-NPM-to-use-the-CEDAR-Nexus-Server
 #
-# Docker ~/.docker/config.json must be configured to use CEDAR Nexus as a Docker repository:
+# Docker ~/.docker/config.json file must be configured to use CEDAR Nexus server as a DockerHub:
 #
 # https://github.com/metadatacenter/cedar-conf/wiki/Configuring-Docker-to-use-the-CEDAR-Nexus-DockerHub
-#
 #
 # Works but needs hardening
 
@@ -31,6 +30,10 @@ fi
 
 export CEDAR_RELEASE_TAG=release-${CEDAR_RELEASE_VERSION}
 export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$NF; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)); print}')
+
+export CEDAR_DOCKER_BUILD_HOME=$1/cedar-docker-build
+
+export CEDAR_DOCKERHUB=cedar-dockerhub.bmir.stanford.edu
 
 CEDAR_PARENT_REPOS=( "cedar-parent" )
 
@@ -262,7 +265,6 @@ release_docker_build_repo()
 
     tag_repo_with_release_version $1
     copy_release_to_master $1
-    # TODO Publish the new release to Dockerhub
     
     # Return to develop branch 
     git checkout develop
@@ -271,7 +273,6 @@ release_docker_build_repo()
     find . -name Dockerfile -exec sed -i '' 's/^ENV CEDAR_VERSION=.*$/ENV CEDAR_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' {} \; -print
     git commit -a -m "Updated to next development version"
     git push origin develop
-    # TODO Publish the new development version to Dockerhub
 
     popd
 }

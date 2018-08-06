@@ -122,3 +122,5 @@ alias stopinfra='$CEDAR_UTIL_BIN/services/stopinfra.sh'
 alias ij="'/Applications/IntelliJ IDEA.app/Contents/MacOS/idea'"
 
 alias rmmvn='rm -rf ~/.m2/repository/'
+
+alias copylistener='cp $CEDAR_HOME/cedar-keycloak-event-listener/target/cedar-keycloak-event-listener-jar-with-dependencies.jar $KEYCLOAK_HOME/standalone/deployments/.'
