@@ -17,3 +17,8 @@ export CEDAR_NCBI_SRA_FTP_DIRECTORY="directory/subdirectory"
 #CEDAR ImmPort Submission User and Password - place your own data here
 export CEDAR_IMMPORT_SUBMISSION_USER="changeme"
 export CEDAR_IMMPORT_SUBMISSION_PASSWORD="changeme"
+
+#CEDAR DataMed Submission - place your own data here
+export CEDAR_DATAMED_TEMPLATE_ID="changeme"
+export CEDAR_DATAMED_GROUP_ID="changeme"
+export CEDAR_DATAMED_PERMISSION_TYPE="read"
