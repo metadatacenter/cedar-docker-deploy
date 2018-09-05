@@ -43,7 +43,7 @@ alias cedargpull='$CEDAR_UTIL_BIN/git/gitpull.sh'
 alias cedargcheckout='$CEDAR_UTIL_BIN/git/git-checkout-branch.sh'
 
 #CEDAR Admin Tool alias
-alias cedarat='$CEDAR_HOME/cedar-admin-tool/dist/cedar-admin-tool.sh'
+alias cedarat='$CEDAR_UTIL_BIN/admintool/cedar-admin-tool.sh'
 
 #Maven aliases
 alias mi='mvn -T 2C install'
@@ -123,4 +123,4 @@ alias ij="'/Applications/IntelliJ IDEA.app/Contents/MacOS/idea'"
 
 alias rmmvn='rm -rf ~/.m2/repository/'
 
-alias copylistener='cp $CEDAR_HOME/cedar-keycloak-event-listener/target/cedar-keycloak-event-listener-jar-with-dependencies.jar $KEYCLOAK_HOME/standalone/deployments/.'
+alias copylistener='cp $CEDAR_HOME/cedar-keycloak-event-listener/target/cedar-keycloak-event-listener.jar $KEYCLOAK_HOME/standalone/deployments/.'
