@@ -22,3 +22,6 @@ export CEDAR_IMMPORT_SUBMISSION_PASSWORD="changeme"
 export CEDAR_DATAMED_TEMPLATE_ID="changeme"
 export CEDAR_DATAMED_GROUP_ID="changeme"
 export CEDAR_DATAMED_PERMISSION_TYPE="read"
+
+#Template ids which can be submitted
+export CEDAR_SUBMISSION_TEMPLATE_ID_1="changeme"

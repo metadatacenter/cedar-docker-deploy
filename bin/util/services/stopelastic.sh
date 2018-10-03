@@ -4,4 +4,4 @@ echo Stopping Elasticsearch
 echo --------------------------------------------------------------------------------
 echo
 
-brew services stop elasticsearch@6.2
+brew services stop elasticsearch
