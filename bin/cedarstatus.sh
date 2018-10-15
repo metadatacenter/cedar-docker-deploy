@@ -120,7 +120,7 @@ checkHttpResponse Elasticsearch-REST 9200 'HTTP/1.1\s200\sOK'
 checkOpenPort Elasticsearch-Transport 9300 'HTTP/1.1\s200\sOK'
 checkHttpResponse NGINX 80 'Server:\snginx'
 checkHttpResponse Keycloak 8080 'Server:\sWildFly'
-checkHttpResponse Neo4j 7474 'Server:\sJetty'
+checkHttpResponse Neo4j 7474 'HTTP/1.1\s200\sOK'
 checkRedisPing Redis-persistent 6379
 #checkRedisPing Redis-non-persistent 6380
 checkOpenPort MySQL 3306
