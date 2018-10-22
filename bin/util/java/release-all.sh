@@ -38,8 +38,8 @@ export CEDAR_DOCKERHUB=cedar-dockerhub.bmir.stanford.edu
 CEDAR_PARENT_REPOS=( "cedar-parent" )
 
 CEDAR_SERVER_REPOS=(
-    "cedar-server-core-library"
     "cedar-model-validation-library"
+    "cedar-server-core-library"
     "cedar-keycloak-event-listener"
     "cedar-util"
     "cedar-admin-tool"

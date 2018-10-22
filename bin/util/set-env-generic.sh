@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #CEDAR version
-export CEDAR_VERSION=2.1.7
+export CEDAR_VERSION=2.1.8
 
 # Keycloak connection data
 export CEDAR_KEYCLOAK_HOST="${CEDAR_NET_GATEWAY}"
@@ -35,6 +35,7 @@ export CEDAR_NEO4J_BOLT_PORT=7687
 # Port assignment
 export CEDAR_KIBANA_PORT=5601
 export CEDAR_REDIS_COMMANDER_PORT=8081
+export CEDAR_PHPMYADMIN_PORT=8082
 
 # Microservices host
 export CEDAR_MICROSERVICE_HOST="${CEDAR_NET_GATEWAY}"
