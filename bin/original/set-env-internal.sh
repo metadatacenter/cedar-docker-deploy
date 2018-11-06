@@ -1,4 +1,4 @@
-#!/bin/bashw
+#!/bin/bash
 
 # This file contains connection information to internal resources
 
@@ -50,3 +50,6 @@ export CEDAR_NEO4J_USER_PASSWORD="changeme"
 
 #Random string for API key generation - replace with a random string of your choice
 export CEDAR_SALT_API_KEY="changeme"
+
+#Field, element, template validation
+export CEDAR_VALIDATION_ENABLED="false"
