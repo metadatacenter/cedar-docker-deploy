@@ -1,5 +1,4 @@
 #!/bin/bash
-clear
 echo ---------------------------------------------
 echo Checking all CEDAR servers
 echo ---------------------------------------------
