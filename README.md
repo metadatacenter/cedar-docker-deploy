@@ -105,7 +105,7 @@ You will need to mark the certification authority certificate as trustable so th
 
 After the above copy, the certification authority certificate will be stored in the following file:
 
-     ${CEDAR_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt
+     ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/cedar-assets/ca/ca-cedar.crt
 
 The mechanism to mark this certification authority as trustable varies by operating system and browser. 
 
