@@ -101,6 +101,7 @@ printf "$header" 'Server' 'Status' 'CheckedFor' 'Port' 'Value'
 printLine '\x2D'
 
 printf "$header" '--- Microservices ---------'
+checkHealth Fairdata 9113
 checkHealth Group 9109
 checkHealth Messaging 9112
 checkHealth User 9105
