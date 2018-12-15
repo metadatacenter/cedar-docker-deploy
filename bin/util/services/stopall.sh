@@ -19,3 +19,4 @@ stopuser
 stopvaluerecommender
 stopsubmission
 stopworker
+stopfairdata
