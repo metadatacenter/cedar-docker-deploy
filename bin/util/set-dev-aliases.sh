@@ -35,6 +35,8 @@ alias goeventlistener='cd $CEDAR_HOME/cedar-keycloak-event-listener'
 
 alias goeditor='cd $CEDAR_HOME/cedar-template-editor'
 
+alias gofair='cd $CEDAR_HOME/cedar-fair-frontend'
+
 alias gokk='cd $KEYCLOAK_HOME/bin'
 
 #CEDAR Git util aliases
