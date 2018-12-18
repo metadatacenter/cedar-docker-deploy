@@ -372,20 +372,20 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
-  fairdata-server:
+  open-server:
     depends_on:
       - cedar-microservice
-    container_name: fairdata-server
-    image: "metadatacenter/cedar-fairdata-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-fairdata-server
+    container_name: open-server
+    image: "metadatacenter/cedar-open-server:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-open-server
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_FAIRDATA_HTTP_PORT}:9013"
-      - "${CEDAR_FAIRDATA_ADMIN_PORT}:9113"
-      - "${CEDAR_FAIRDATA_STOP_PORT}:9213"
+      - "${CEDAR_OPEN_HTTP_PORT}:9013"
+      - "${CEDAR_OPEN_ADMIN_PORT}:9113"
+      - "${CEDAR_OPEN_STOP_PORT}:9213"
     volumes:
-      - fairdata_log:/cedar/log/cedar-fairdata-server/
+      - open_log:/cedar/log/cedar-open-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -413,8 +413,8 @@ networks:
 volumes:
   cedar_ca:
     name: cedar_ca
-  fairdata_log:
-    name: fairdata_log
+  open_log:
+    name: open_log
   group_log:
     name: group_log
   messaging_log:

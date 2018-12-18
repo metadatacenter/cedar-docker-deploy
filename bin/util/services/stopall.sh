@@ -19,4 +19,4 @@ stopuser
 stopvaluerecommender
 stopsubmission
 stopworker
-stopfairdata
+stopopen

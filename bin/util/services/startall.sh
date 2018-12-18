@@ -19,4 +19,4 @@ startuser
 startvaluerecommender
 startsubmission
 startworker
-startfairdata
+startopen
