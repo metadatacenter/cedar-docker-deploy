@@ -372,6 +372,38 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
+  open-server:
+    depends_on:
+      - cedar-microservice
+    container_name: open-server
+    image: "metadatacenter/cedar-open-server:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-open-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_OPEN_HTTP_PORT}:9013"
+      - "${CEDAR_OPEN_ADMIN_PORT}:9113"
+      - "${CEDAR_OPEN_STOP_PORT}:9213"
+    volumes:
+      - open_log:/cedar/log/cedar-open-server/
+      - cedar_ca:/cedar/ca
+    environment:
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_MICROSERVICE_HOST
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_WORKSPACE_HTTP_PORT
+      - CEDAR_TEMPLATE_HTTP_PORT
 
 networks:
   cedarnet:
@@ -381,6 +413,8 @@ networks:
 volumes:
   cedar_ca:
     name: cedar_ca
+  open_log:
+    name: open_log
   group_log:
     name: group_log
   messaging_log:
