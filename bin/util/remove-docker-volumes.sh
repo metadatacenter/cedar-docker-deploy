@@ -16,3 +16,18 @@ docker volume rm neo4j_state
 docker volume rm nginx_log
 docker volume rm redis_data
 docker volume rm redis_log
+
+docker volume rm terminology_data
+
+docker volume rm group_log
+docker volume rm messaging_log
+docker volume rm repo_log
+docker volume rm resource_log
+docker volume rm schema_log
+docker volume rm submission_log
+docker volume rm template_log
+docker volume rm terminology_log
+docker volume rm user_log
+docker volume rm valuerecommender_log
+docker volume rm worker_log
+docker volume rm workspace_log
