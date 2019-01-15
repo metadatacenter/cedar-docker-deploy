@@ -60,6 +60,8 @@ services:
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
   submission-server:
     depends_on:
         - cedar-microservice
