@@ -21,6 +21,7 @@ docker volume rm terminology_data
 
 docker volume rm group_log
 docker volume rm messaging_log
+docker volume rm open_log
 docker volume rm repo_log
 docker volume rm resource_log
 docker volume rm schema_log
