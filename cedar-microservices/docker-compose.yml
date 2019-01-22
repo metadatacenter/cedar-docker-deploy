@@ -36,6 +36,8 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
   user-server:
     depends_on:
         - cedar-microservice
@@ -159,6 +161,9 @@ services:
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_SUBMISSION_TEMPLATE_ID_1
   template-server:
     depends_on:
         - cedar-microservice
@@ -183,6 +188,8 @@ services:
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
   worker-server:
     depends_on:
@@ -259,6 +266,8 @@ services:
       - CEDAR_ELASTICSEARCH_HOST
       - CEDAR_ELASTICSEARCH_REST_PORT
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
   terminology-server:
     depends_on:
         - cedar-microservice
@@ -352,6 +361,8 @@ services:
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_VALIDATION_ENABLED
+      - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_WORKSPACE_HTTP_PORT
       - CEDAR_WORKSPACE_ADMIN_PORT
       - CEDAR_TEMPLATE_HTTP_PORT
