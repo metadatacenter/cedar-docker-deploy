@@ -55,9 +55,10 @@ CEDAR_SERVER_REPOS=(
     "cedar-submission-server"
     "cedar-worker-server"
     "cedar-messaging-server"
+    "cedar-open-server"
 )
 
-CEDAR_FRONTEND_REPOS=( "cedar-template-editor" )
+CEDAR_FRONTEND_REPOS=( "cedar-template-editor" ) # Soon cedar-open-metadata
 
 CEDAR_CONFIGURATION_REPOS=( "cedar-conf" )
 
@@ -88,6 +89,21 @@ CEDAR_ALL_REPOS=(
     "${CEDAR_DOCKER_BUILD_REPOS[@]}"
     "${CEDAR_DOCKER_DEPLOY_REPOS[@]}"
 )
+
+clone_repos_if_needed() {
+    pushd ${CEDAR_HOME}
+    for r in "${CEDAR_ALL_REPOS[@]}"
+    do
+        if [[ ! -d $r ]]; then
+            echo "Cloning repo " $r 
+            git clone https://github.com/metadatacenter/$r
+            pushd $r
+            git checkout develop
+            popd
+        fi
+    done
+    popd
+}
 
 prompt_to_continue() {
     read -n 1 -p "Press enter to continue, any other key to quit. " answer
@@ -460,6 +476,7 @@ build_all_project_repos()
     done
 }
 
+clone_repos_if_needed
 git_pull_all_repos
 
 empty_user_maven_cache

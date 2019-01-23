@@ -101,6 +101,7 @@ printf "$header" 'Server' 'Status' 'CheckedFor' 'Port' 'Value'
 printLine '\x2D'
 
 printf "$header" '--- Microservices ---------'
+checkHealth Open 9113
 checkHealth Group 9109
 checkHealth Messaging 9112
 checkHealth User 9105
@@ -127,7 +128,8 @@ printf "$header" '--- Monitor ---------------'
 checkHttpResponse Kibana 5601 'kbn-name:\skibana'
 checkHttpResponse Redis-Commander 8081 'X-Powered-By:\sEx'
 printf "$header" '--- Front End -------------'
-checkHttpResponse Frontend 4200 'HTTP/1.1\s200\sOK'
+checkHttpResponse Base-Frontend 4200 'HTTP/1.1\s200\sOK'
+checkHttpResponse Open-Frontend 4220 'HTTP/1.1'
 printf "$header" '--- Environment ----------'
 showEnvironmentVar 'CEDAR_NET_GATEWAY'
 showEnvironmentVar 'CEDAR_NET_SUBNET'
