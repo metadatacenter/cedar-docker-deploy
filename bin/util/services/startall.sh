@@ -8,27 +8,27 @@ shopt -s expand_aliases
 source $CEDAR_UTIL_BIN/set-dev-aliases.sh
 
 startworkspace
-sleep 1
+sleepbetweenstarts
 startgroup
-sleep 1
+sleepbetweenstarts
 startmessaging
-sleep 1
+sleepbetweenstarts
 startrepo
-sleep 1
+sleepbetweenstarts
 startresource
-sleep 1
+sleepbetweenstarts
 startschema
-sleep 1
+sleepbetweenstarts
 starttemplate
-sleep 1
+sleepbetweenstarts
 startterminology
-sleep 1
+sleepbetweenstarts
 startuser
-sleep 1
+sleepbetweenstarts
 startvaluerecommender
-sleep 1
+sleepbetweenstarts
 startsubmission
-sleep 1
+sleepbetweenstarts
 startworker
-sleep 1
+sleepbetweenstarts
 startopen
