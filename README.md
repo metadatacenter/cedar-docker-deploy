@@ -9,21 +9,29 @@ The deployment described here was verified to work on OS X El Capitan (10.11.6) 
 though it should work equally well on any Unix system.
 It has not been tested to work on Windows systems.
 
+## Pre-Deployment
+
+Please confirm (in email to the [CEDAR Technical Program Manager](mailto:jgraybeal@stanford.edu)) 
+your agreement with the 
+[CEDAR Docker Deployment Agreement](https://github.com/metadatacenter/cedar-docker-deploy/wiki/docker-deployment-agreement) 
+before following the 
+[Docker Installation Instructions](https://github.com/metadatacenter/cedar-docker-deploy/blob/master/README.md).
+
 To install you will need root access and at least 8GB of memory to allocate to Docker and reasonable hard drive free space.
 
 ## Deployment Steps
 
-### 1.Install Docker
+### 1. Install Docker
 
 Download and install Docker Community Edition from [here](https://www.docker.com/community-edition).
-After lunching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
+After launching Docker select the ```Open Preferences->Advanced``` menu option and set the memory size
 to at least 8 GB; if possible also assign more than one CPU. Then apply the changes and restart Docker.
 
 On some systems you may need to install the ```docker-compose``` command line tool.
 
 ### 2. Set up CEDAR_HOME and CEDAR_DOCKER_SRC_HOME variables
 
-The CEDAR_HOME variable specifices the base location for a local Docker deployment of CEDAR.
+The CEDAR_HOME variable specifies the base location for a local Docker deployment of CEDAR.
 
 Currently, two repositories must be downloded to deploy CEDAR.
 The download directory for these repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
