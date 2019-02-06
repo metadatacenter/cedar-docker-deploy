@@ -11,7 +11,7 @@ It has not been tested to work on Windows systems.
 
 ## Pre-Deployment
 
-Please confirm (in email to the [CEDAR Technical Program Manager](mailto:jgraybeal@stanford.edu)) 
+Please confirm (by [emailing the CEDAR Technical Program Manager](mailto:jgraybeal@stanford.edu)) 
 your agreement with the 
 [CEDAR Docker Deployment Agreement](https://github.com/metadatacenter/cedar-docker-deploy/wiki/docker-deployment-agreement) 
 before following the 
