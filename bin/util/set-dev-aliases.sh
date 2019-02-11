@@ -118,6 +118,8 @@ alias stopworker='$CEDAR_UTIL_BIN/services/stop-dw-server.sh worker 9211'
 alias startopen='$CEDAR_UTIL_BIN/services/start-dw-server.sh open &'
 alias stopopen='$CEDAR_UTIL_BIN/services/stop-dw-server.sh open 9213'
 
+alias sleepbetweenstarts='sleep 2'
+
 alias stopall='$CEDAR_UTIL_BIN/services/stopall.sh'
 alias startall='$CEDAR_UTIL_BIN/services/startall.sh'
 
