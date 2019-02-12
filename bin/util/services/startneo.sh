@@ -4,4 +4,4 @@ echo Starting Neo4j
 echo --------------------------------------------------------------------------------
 echo
 
-brew services start neo4j
+$NEO4J_HOME/bin/neo4j start &
