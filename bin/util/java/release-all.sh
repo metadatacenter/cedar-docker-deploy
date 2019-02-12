@@ -65,7 +65,7 @@ CEDAR_CONFIGURATION_REPOS=( "cedar-conf" )
 CEDAR_DOCUMENTATION_REPOS=( "cedar-docs" "cedar-swagger-ui" )
 
 CEDAR_CLIENT_REPOS=(
-#   "cadsr-reader" (See: https://github.com/metadatacenter/cadsr2cedar/issues/2)
+    "cadsr-reader" 
     "cedar-archetype-instance-reader"
     "cedar-archetype-instance-writer" 
     "cedar-archetype-exporter" 
