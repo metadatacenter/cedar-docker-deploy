@@ -29,16 +29,16 @@ to at least 8 GB; if possible also assign more than one CPU. Then apply the chan
 
 On some systems you may need to install the ```docker-compose``` command line tool.
 
-### 2. Set up CEDAR_HOME and CEDAR_DOCKER_SRC_HOME variables
+### 2. Set up CEDAR_DOCKER_DEPLOY_HOME and CEDAR_DOCKER_SRC_HOME variables
 
-The CEDAR_HOME variable specifies the base location for a local Docker deployment of CEDAR.
+The CEDAR_DOCKER_DEPLOY_HOME variable specifies the base location for a local Docker deployment of CEDAR.
 
 Currently, two repositories must be downloded to deploy CEDAR.
 The download directory for these repos is specified using the CEDAR_DOCKER_SRC_HOME directory.
 
 Open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
-    export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
+    export CEDAR_DOCKER_DEPLOY_HOME=~/cedar-docker-deploy # Example only - pick a desired location
     export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
 
 Close the current shell and start a new one.
@@ -47,7 +47,7 @@ Close the current shell and start a new one.
 
 Create deployment and source directories if needed and download the two CEDAR Docker repos to the source directory:
 
-    mkdir -p ${CEDAR_HOME}  # Create the base CEDAR deployment directory
+    mkdir -p ${CEDAR_DOCKER_DEPLOY_HOME}  # Create the base CEDAR deployment directory
     mkdir -p ${CEDAR_DOCKER_SRC_HOME} # Create the source directory for CEDAR components
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-build.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-build
     git clone --branch master --single-branch https://github.com/metadatacenter/cedar-docker-deploy.git ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy
@@ -58,12 +58,12 @@ The CEDAR Docker deployment repo has two files containing environment variables 
 These files are called ```set-env-internal.sh```, which contains internal deployment variables, and ```set-env-external.sh```,
 which contains external variables.
 
-First copy these two files from the source repo to the CEDAR deployment directory:
+First copy these two files containing environment variables from the source repo to the CEDAR deployment directory:
 
-    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_HOME}
-    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_HOME}
+    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-internal.sh ${CEDAR_DOCKER_DEPLOY_HOME}
+    cp ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/original/set-env-external.sh ${CEDAR_DOCKER_DEPLOY_HOME}
 
-You can customize the variables in both of these files as needed by the deployment.
+You can customize the environment variables in both of these files as needed by the deployment.
 
 For the moment, do not change the domain name (``metatadatacenter.orgx``) or the IP address variables in the internal file.
 It is recommended that you change the default passwords and the CEDAR_ADMIN_USER_API_KEY and CEDAR_SALT_API_KEY variables.
@@ -83,10 +83,10 @@ These aliases can be set by running the two scripts as follows:
 
 The ensure these environment variables and aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
 
-    export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
+    export CEDAR_DOCKER_DEPLOY_HOME=~/cedar-docker-deploy # Example only - pick a desired location
     export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
-    source ${CEDAR_HOME}/set-env-external.sh
-    source ${CEDAR_HOME}/set-env-internal.sh
+    source ${CEDAR_DOCKER_DEPLOY_HOME}/set-env-external.sh
+    source ${CEDAR_DOCKER_DEPLOY_HOME}/set-env-internal.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
     
@@ -98,6 +98,7 @@ Execute the following commands to create a Docker network and create Docker volu
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-create-volumes.sh
 
 The network will be used by all CEDAR services.
+
 The volumes are used for persistent storage.
 
 ### 7. Copy SSL certificates and mark certification authority as trustable
@@ -126,6 +127,7 @@ You should see the icon of the certificate having a white cross inside a blue ci
 ### 8. Start the CEDAR services
 
 The CEDAR components are divided into four main sets:
+
 (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like,
 (2) microservices, which represent core CEDAR services,
 (3) the frontend, which contains all user-facing services, and
