@@ -131,39 +131,6 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
-  workspace-server:
-    depends_on:
-        - cedar-microservice
-    container_name: workspace-server
-    image: "metadatacenter/cedar-workspace-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-workspace-server
-    networks:
-      - cedarnet
-    ports:
-      - "${CEDAR_WORKSPACE_HTTP_PORT}:9008"
-      - "${CEDAR_WORKSPACE_ADMIN_PORT}:9108"
-      - "${CEDAR_WORKSPACE_STOP_PORT}:9208"
-    volumes:
-      - workspace_log:/cedar/log/cedar-workspace-server/
-      - cedar_ca:/cedar/ca
-    environment:
-      - CEDAR_HOST
-      - CEDAR_NET_GATEWAY
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
-      - CEDAR_NEO4J_HOST
-      - CEDAR_NEO4J_BOLT_PORT
-      - CEDAR_NEO4J_REST_PORT
-      - CEDAR_NEO4J_USER_NAME
-      - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_HTTP_PORT
-      - CEDAR_REDIS_PERSISTENT_HOST
-      - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_SUBMISSION_TEMPLATE_ID_1
   template-server:
     depends_on:
         - cedar-microservice
@@ -320,6 +287,11 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
@@ -363,8 +335,6 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_VALIDATION_ENABLED
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
-      - CEDAR_WORKSPACE_HTTP_PORT
-      - CEDAR_WORKSPACE_ADMIN_PORT
       - CEDAR_TEMPLATE_HTTP_PORT
       - CEDAR_TEMPLATE_ADMIN_PORT
   messaging-server:
@@ -432,7 +402,6 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_WORKSPACE_HTTP_PORT
       - CEDAR_TEMPLATE_HTTP_PORT
 
 networks:
@@ -469,5 +438,3 @@ volumes:
     name: valuerecommender_log
   worker_log:
     name: worker_log
-  workspace_log:
-    name: workspace_log

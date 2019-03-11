@@ -17,7 +17,6 @@ alias gomodel='cd $CEDAR_HOME/cedar-model-validation-library'
 
 alias goadmintool='cd $CEDAR_HOME/cedar-admin-tool'
 
-alias goworkspace='cd $CEDAR_HOME/cedar-workspace-server'
 alias gogroup='cd $CEDAR_HOME/cedar-group-server'
 alias gomessaging='cd $CEDAR_HOME/cedar-messaging-server'
 alias gorepo='cd $CEDAR_HOME/cedar-repo-server'
@@ -91,8 +90,6 @@ alias killrc='$CEDAR_UTIL_BIN/services/killrediscommander.sh'
 alias starteditor='goeditor && gulp &'
 alias stopeditor='kill `pgrep gulp`'
 
-alias startworkspace='$CEDAR_UTIL_BIN/services/start-dw-server.sh workspace &'
-alias stopworkspace='$CEDAR_UTIL_BIN/services/stop-dw-server.sh workspace 9208'
 alias startmessaging='$CEDAR_UTIL_BIN/services/start-dw-server.sh messaging &'
 alias stopmessaging='$CEDAR_UTIL_BIN/services/stop-dw-server.sh messaging 9212'
 alias startgroup='$CEDAR_UTIL_BIN/services/start-dw-server.sh group &'

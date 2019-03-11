@@ -31,4 +31,3 @@ docker volume rm terminology_log
 docker volume rm user_log
 docker volume rm valuerecommender_log
 docker volume rm worker_log
-docker volume rm workspace_log

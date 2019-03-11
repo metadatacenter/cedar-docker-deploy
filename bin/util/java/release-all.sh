@@ -44,7 +44,6 @@ CEDAR_SERVER_REPOS=(
     "cedar-util"
     "cedar-admin-tool"
     "cedar-user-server"
-    "cedar-workspace-server"
     "cedar-template-server"
     "cedar-repo-server"
     "cedar-schema-server"
@@ -275,9 +274,7 @@ release_docker_build_repo()
     find . -name Dockerfile -exec sed -i '' 's/^FROM metadatacenter\/cedar-microservice:.*$/FROM metadatacenter\/cedar-microservice:'${CEDAR_RELEASE_VERSION}'/' {} \; -print
     find . -name Dockerfile -exec sed -i '' 's/^FROM metadatacenter\/cedar-java:.*$/FROM metadatacenter\/cedar-java:'${CEDAR_RELEASE_VERSION}'/' {} \; -print
     find . -name Dockerfile -exec sed -i '' 's/^ENV CEDAR_VERSION=.*$/ENV CEDAR_VERSION='${CEDAR_RELEASE_VERSION}'/' {} \; -print
-    sed -i '' 's/^export IMAGE_VERSION=.*$/export IMAGE_VERSION='${CEDAR_RELEASE_VERSION}'/' ./bin/build_all_images.sh
-    sed -i '' 's/^export IMAGE_VERSION=.*$/export IMAGE_VERSION='${CEDAR_RELEASE_VERSION}'/' ./bin/release_all_images.sh
-    sed -i '' 's/^export DOCKERHUB=.*$/export DOCKERHUB='${CEDAR_DOCKERHUB}'/' ./bin/release_all_images.sh
+    sed -i '' 's/^export IMAGE_VERSION=.*$/export IMAGE_VERSION='${CEDAR_RELEASE_VERSION}'/' ./bin/cedar-images-base.sh
     git commit -a -m "Set the release version in the Dockerfiles"
     git push origin develop
 
@@ -289,8 +286,7 @@ release_docker_build_repo()
     find . -name Dockerfile -exec sed -i '' 's/^FROM metadatacenter\/cedar-microservice:.*$/FROM metadatacenter\/cedar-microservice:'${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' {} \; -print
     find . -name Dockerfile -exec sed -i '' 's/^FROM metadatacenter\/cedar-java:.*$/FROM metadatacenter\/cedar-java:'${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' {} \; -print
     find . -name Dockerfile -exec sed -i '' 's/^ENV CEDAR_VERSION=.*$/ENV CEDAR_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' {} \; -print
-    sed -i '' 's/^export IMAGE_VERSION=.*$/export IMAGE_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' ./bin/build_all_images.sh
-    sed -i '' 's/^export IMAGE_VERSION=.*$/export IMAGE_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' ./bin/release_all_images.sh
+    sed -i '' 's/^export IMAGE_VERSION=.*$/export IMAGE_VERSION='${CEDAR_NEXT_DEVELOPMENT_VERSION}'/' ./bin/cedar-images-base.sh
     git commit -a -m "Updated to next development version"
     git push origin develop
 

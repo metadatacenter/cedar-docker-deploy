@@ -15,7 +15,6 @@ CEDAR_HOSTS=(
     "user.metadatacenter.orgx"
     "valuerecommender.metadatacenter.orgx"
     "worker.metadatacenter.orgx"
-    "workspace.metadatacenter.orgx"
 )
 
 counter=0
