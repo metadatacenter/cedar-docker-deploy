@@ -26,7 +26,7 @@ docker volume rm repo_log
 docker volume rm resource_log
 docker volume rm schema_log
 docker volume rm submission_log
-docker volume rm template_log
+docker volume rm artifact_log
 docker volume rm terminology_log
 docker volume rm user_log
 docker volume rm valuerecommender_log

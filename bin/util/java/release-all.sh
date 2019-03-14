@@ -44,7 +44,7 @@ CEDAR_SERVER_REPOS=(
     "cedar-util"
     "cedar-admin-tool"
     "cedar-user-server"
-    "cedar-template-server"
+    "cedar-artifact-server"
     "cedar-repo-server"
     "cedar-schema-server"
     "cedar-resource-server"

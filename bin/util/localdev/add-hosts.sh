@@ -10,7 +10,7 @@ CEDAR_HOSTS=(
     "resource.metadatacenter.orgx"
     "schema.metadatacenter.orgx"
     "submission.metadatacenter.orgx"
-    "template.metadatacenter.orgx"
+    "artifact.metadatacenter.orgx"
     "terminology.metadatacenter.orgx"
     "user.metadatacenter.orgx"
     "valuerecommender.metadatacenter.orgx"

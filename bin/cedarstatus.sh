@@ -108,7 +108,7 @@ checkHealth User 9105
 checkHealth Repo 9102
 checkHealth Resource 9107
 checkHealth Schema 9103
-checkHealth Template 9101
+checkHealth Artifact 9101
 checkHealth Terminology 9104
 checkHealth ValueRecommender 9106
 checkHealth Submission 9110
