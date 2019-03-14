@@ -17,7 +17,7 @@ startresource
 sleepbetweenstarts
 startschema
 sleepbetweenstarts
-starttemplate
+startartifact
 sleepbetweenstarts
 startterminology
 sleepbetweenstarts

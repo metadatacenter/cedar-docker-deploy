@@ -12,7 +12,7 @@ stopgroup
 stopmessaging
 stopresource
 stopschema
-stoptemplate
+stopartifact
 stopterminology
 stopuser
 stopvaluerecommender
