@@ -69,7 +69,6 @@ services:
     networks:
       - cedarnet
     ports:
-      - ${CEDAR_NEO4J_REST_PORT}:7474
       - ${CEDAR_NEO4J_BOLT_PORT}:7687
     volumes:
       - neo4j_log:/logs
