@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #CEDAR version
-export CEDAR_VERSION=2.2.11
+export CEDAR_VERSION=2.2.12
 
 # Keycloak connection data
 export CEDAR_KEYCLOAK_HOST="${CEDAR_NET_GATEWAY}"
@@ -29,7 +29,6 @@ export CEDAR_LOG_MYSQL_DB="cedar_log"
 
 # Neo4j connection data
 export CEDAR_NEO4J_HOST="${CEDAR_NET_GATEWAY}"
-export CEDAR_NEO4J_REST_PORT=7474
 export CEDAR_NEO4J_BOLT_PORT=7687
 
 # Port assignment
