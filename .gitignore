@@ -1,3 +1,4 @@
 .idea
 *.iml
 .settings
+.DS_Store
