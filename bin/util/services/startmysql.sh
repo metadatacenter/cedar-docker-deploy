@@ -4,4 +4,4 @@ echo Starting MySQL
 echo --------------------------------------------------------------------------------
 echo
 
-brew services start mysql
+brew services start mysql@5.7

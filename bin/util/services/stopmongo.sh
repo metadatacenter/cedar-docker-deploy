@@ -4,4 +4,4 @@ echo Stopping MongoDB
 echo --------------------------------------------------------------------------------
 echo
 
-brew services stop mongodb
+brew services stop mongodb@3.4
