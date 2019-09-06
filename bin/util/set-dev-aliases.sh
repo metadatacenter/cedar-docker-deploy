@@ -34,7 +34,7 @@ alias goeventlistener='cd $CEDAR_HOME/cedar-keycloak-event-listener'
 
 alias goeditor='cd $CEDAR_HOME/cedar-template-editor'
 
-alias goopenmetadata='cd $CEDAR_HOME/cedar-open-metadata'
+alias goopenview='cd $CEDAR_HOME/cedar-openview'
 
 alias gokk='cd $KEYCLOAK_HOME/bin'
 
