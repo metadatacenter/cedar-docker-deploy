@@ -4,4 +4,4 @@ echo Stopping MySQL
 echo --------------------------------------------------------------------------------
 echo
 
-brew services stop mysql
+brew services stop mysql@5.7

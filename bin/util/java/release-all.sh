@@ -57,7 +57,7 @@ CEDAR_SERVER_REPOS=(
     "cedar-open-server"
 )
 
-CEDAR_FRONTEND_REPOS=( "cedar-template-editor" "cedar-open-metadata" )
+CEDAR_FRONTEND_REPOS=( "cedar-template-editor" "cedar-openview" )
 
 CEDAR_CONFIGURATION_REPOS=( "cedar-conf" )
 
