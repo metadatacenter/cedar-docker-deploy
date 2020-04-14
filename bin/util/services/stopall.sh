@@ -19,3 +19,4 @@ stopvaluerecommender
 stopsubmission
 stopworker
 stopopen
+stopinternals

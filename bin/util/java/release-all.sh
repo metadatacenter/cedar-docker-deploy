@@ -55,6 +55,7 @@ CEDAR_SERVER_REPOS=(
     "cedar-worker-server"
     "cedar-messaging-server"
     "cedar-open-server"
+    "cedar-internals-server"
 )
 
 CEDAR_FRONTEND_REPOS=( "cedar-template-editor" "cedar-openview" )

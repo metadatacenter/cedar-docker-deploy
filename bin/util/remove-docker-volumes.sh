@@ -20,6 +20,7 @@ docker volume rm redis_log
 docker volume rm terminology_data
 
 docker volume rm group_log
+docker volume rm internals_log
 docker volume rm messaging_log
 docker volume rm open_log
 docker volume rm repo_log
