@@ -5,6 +5,7 @@ CEDAR_HOSTS=(
     "cedar.metadatacenter.orgx"
     "cert.metadatacenter.orgx"
     "group.metadatacenter.orgx"
+    "internals.metadatacenter.orgx"
     "messaging.metadatacenter.orgx"
     "repo.metadatacenter.orgx"
     "resource.metadatacenter.orgx"

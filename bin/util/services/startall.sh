@@ -30,3 +30,5 @@ sleepbetweenstarts
 startworker
 sleepbetweenstarts
 startopen
+sleepbetweenstarts
+startinternals
