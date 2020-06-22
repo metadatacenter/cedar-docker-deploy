@@ -2,7 +2,7 @@
 source $CEDAR_UTIL_BIN/include-colors-and-header.sh "Checking all CEDAR repos for changes"
 source $CEDAR_UTIL_BIN/include-repo-list.sh
 
-format="\n\nChecking Git repo status ${GREEN}%-20s${NORMAL} : (%-60s)\n"
+format="\n\nChecking Git repo status ${GREEN}%-32s${NORMAL} : (%-70s)\n"
 
 function checkRepo {
   printf "$format" $1 $CEDAR_HOME/$1
