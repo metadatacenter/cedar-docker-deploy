@@ -35,7 +35,9 @@ export CEDAR_DOCKER_BUILD_HOME=$1/cedar-docker-build
 
 export CEDAR_DOCKERHUB=cedar-dockerhub.bmir.stanford.edu
 
-CEDAR_PARENT_REPOS=( "cedar-parent" )
+CEDAR_PARENT_REPOS=(
+    "cedar-parent"
+)
 
 CEDAR_SERVER_REPOS=(
     "cedar-model-validation-library"
@@ -54,15 +56,23 @@ CEDAR_SERVER_REPOS=(
     "cedar-submission-server"
     "cedar-worker-server"
     "cedar-messaging-server"
-    "cedar-open-server"
+    "cedar-openview-server"
     "cedar-internals-server"
 )
 
-CEDAR_FRONTEND_REPOS=( "cedar-template-editor" "cedar-openview" )
+CEDAR_FRONTEND_REPOS=(
+    "cedar-template-editor"
+    "cedar-openview"
+)
 
-CEDAR_CONFIGURATION_REPOS=( "cedar-conf" )
+CEDAR_CONFIGURATION_REPOS=(
+    "cedar-conf"
+)
 
-CEDAR_DOCUMENTATION_REPOS=( "cedar-docs" "cedar-swagger-ui" )
+CEDAR_DOCUMENTATION_REPOS=(
+    "cedar-docs"
+    "cedar-swagger-ui"
+)
 
 CEDAR_CLIENT_REPOS=(
 #   "cadsr-reader" (See: https://github.com/metadatacenter/cadsr2cedar/issues/2)
@@ -71,11 +81,17 @@ CEDAR_CLIENT_REPOS=(
     "cedar-archetype-exporter" 
 )
 
-CEDAR_PROJECT_REPOS=( "cedar-project" )
+CEDAR_PROJECT_REPOS=(
+    "cedar-project"
+)
 
-CEDAR_DOCKER_BUILD_REPOS=( "cedar-docker-build" )
+CEDAR_DOCKER_BUILD_REPOS=(
+    "cedar-docker-build"
+)
 
-CEDAR_DOCKER_DEPLOY_REPOS=( "cedar-docker-deploy" )
+CEDAR_DOCKER_DEPLOY_REPOS=(
+    "cedar-docker-deploy"
+)
 
 CEDAR_ALL_REPOS=(
     "${CEDAR_PARENT_REPOS[@]}"

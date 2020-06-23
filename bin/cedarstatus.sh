@@ -101,19 +101,19 @@ printf "$header" 'Server' 'Status' 'CheckedFor' 'Port' 'Value'
 printLine '\x2D'
 
 printf "$header" '--- Microservices ---------'
-checkHealth Open 9113
+checkHealth Artifact 9101
 checkHealth Group 9109
+checkHealth Internals 9114
 checkHealth Messaging 9112
-checkHealth User 9105
+checkHealth OpenView 9113
 checkHealth Repo 9102
 checkHealth Resource 9107
 checkHealth Schema 9103
-checkHealth Artifact 9101
-checkHealth Terminology 9104
-checkHealth ValueRecommender 9106
 checkHealth Submission 9110
+checkHealth Terminology 9104
+checkHealth User 9105
+checkHealth ValueRecommender 9106
 checkHealth Worker 9111
-checkHealth Internals 9114
 printf "$header" '--- Infrastructure --------'
 checkOpenPort MongoDB 27017
 checkHttpResponse Elasticsearch-REST 9200 'HTTP/1.1\s200\sOK'
@@ -129,7 +129,7 @@ checkHttpResponse Kibana 5601 'kbn-name:\skibana'
 checkHttpResponse Redis-Commander 8081 'X-Powered-By:\sEx'
 printf "$header" '--- Front End -------------'
 checkHttpResponse Base-Frontend 4200 'HTTP/1.1\s200\sOK'
-checkHttpResponse Open-Frontend 4220 'HTTP/1.1'
+checkHttpResponse OpenView-Frontend 4220 'HTTP/1.1'
 printf "$header" '--- Environment ----------'
 showEnvironmentVar 'CEDAR_NET_GATEWAY'
 showEnvironmentVar 'CEDAR_NET_SUBNET'

@@ -18,5 +18,5 @@ stopuser
 stopvaluerecommender
 stopsubmission
 stopworker
-stopopen
+stopopenview
 stopinternals

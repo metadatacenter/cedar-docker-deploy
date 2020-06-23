@@ -29,6 +29,6 @@ startsubmission
 sleepbetweenstarts
 startworker
 sleepbetweenstarts
-startopen
+startopenview
 sleepbetweenstarts
 startinternals
