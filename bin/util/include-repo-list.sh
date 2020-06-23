@@ -33,6 +33,7 @@ CEDAR_REPOS=(
   "cedar-submission-server"
   "cedar-internals-server"
   "cedar-shared-data"
+  "cedar-cadsr-tools"
 )
 
 echo List of CEDAR repos:
