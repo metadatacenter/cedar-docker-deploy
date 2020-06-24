@@ -107,3 +107,7 @@ export CEDAR_TEST_USER1_ID=https://metadatacenter.org/users/a203dde0-bb4a-43c1-8
 
 #Test user 2
 export CEDAR_TEST_USER2_ID=https://metadatacenter.org/users/938a6431-38dc-4512-aa16-ec68ce9c48df
+
+# caDSR
+export CEDAR_CDE_FOLDER_ID="https://repo.metadatacenter.orgx/folders/00000000-1111-2222-3333-444444444444"
+export CEDAR_CADSR_ONTOLOGIES_FOLDER="${CEDAR_HOME}/cedar-shared-data/cadsr/ontologies"

@@ -54,8 +54,7 @@ export CEDAR_SALT_API_KEY="changeme"
 #Field, element, template validation
 export CEDAR_VALIDATION_ENABLED="false"
 
-# CaDSR data
+# CaDSR
 export CEDAR_CADSR_ADMIN_USER_API_KEY="0000111122223333444455556666777788889999aaaabbbbccccddddeeeefffe"
-export CEDAR_CDE_FOLDER_ID="https://repo.metadatacenter.orgx/folders/00000000-1111-2222-3333-444444444444"
 
 
