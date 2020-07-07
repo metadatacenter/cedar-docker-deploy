@@ -2,7 +2,7 @@
 source $CEDAR_UTIL_BIN/include-colors-and-header.sh "Switching and pulling $@ branch"
 source $CEDAR_UTIL_BIN/include-repo-list.sh
 
-format="\n\nSwitching Git repo ${GREEN}%-20s${NORMAL} : (%-60s)\n"
+format="\n\nSwitching Git repo ${GREEN}%-32s${NORMAL} : (%-70s)\n"
 
 function switchToRepo {
   printf "$format" $1 $CEDAR_HOME/$1

@@ -28,14 +28,13 @@ alias gouser='cd $CEDAR_HOME/cedar-user-server'
 alias govaluerecommender='cd $CEDAR_HOME/cedar-valuerecommender-server'
 alias gosubmission='cd $CEDAR_HOME/cedar-submission-server'
 alias goworker='cd $CEDAR_HOME/cedar-worker-server'
-alias goopen='cd $CEDAR_HOME/cedar-open-server'
+alias goopenview='cd $CEDAR_HOME/cedar-openview-server'
 alias gointernals='cd $CEDAR_HOME/cedar-internals-server'
 
 alias goeventlistener='cd $CEDAR_HOME/cedar-keycloak-event-listener'
 
 alias goeditor='cd $CEDAR_HOME/cedar-template-editor'
-
-alias goopenview='cd $CEDAR_HOME/cedar-openview'
+alias goopenfront='cd $CEDAR_HOME/cedar-openview'
 
 alias gokk='cd $KEYCLOAK_HOME/bin'
 
@@ -113,8 +112,8 @@ alias startsubmission='$CEDAR_UTIL_BIN/services/start-dw-server.sh submission &'
 alias stopsubmission='$CEDAR_UTIL_BIN/services/stop-dw-server.sh submission 9210'
 alias startworker='$CEDAR_UTIL_BIN/services/start-dw-server.sh worker &'
 alias stopworker='$CEDAR_UTIL_BIN/services/stop-dw-server.sh worker 9211'
-alias startopen='$CEDAR_UTIL_BIN/services/start-dw-server.sh open &'
-alias stopopen='$CEDAR_UTIL_BIN/services/stop-dw-server.sh open 9213'
+alias startopenview='$CEDAR_UTIL_BIN/services/start-dw-server.sh openview &'
+alias stopopenview='$CEDAR_UTIL_BIN/services/stop-dw-server.sh openview 9213'
 alias startinternals='$CEDAR_UTIL_BIN/services/start-dw-server.sh internals &'
 alias stopinternals='$CEDAR_UTIL_BIN/services/stop-dw-server.sh internals 9214'
 

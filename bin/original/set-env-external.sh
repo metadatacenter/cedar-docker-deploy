@@ -25,6 +25,7 @@ export CEDAR_DATAMED_PERMISSION_TYPE="read"
 
 #Template ids which can be submitted
 export CEDAR_SUBMISSION_TEMPLATE_ID_1="changeme"
+export CEDAR_SUBMISSION_TEMPLATE_ID_2="changeme"
 
 #CEDAR NCI caDSR FTP Connection Settings - place your own data here
 export CEDAR_NCI_CADSR_FTP_HOST="changeme"

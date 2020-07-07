@@ -2,7 +2,7 @@
 source $CEDAR_UTIL_BIN/include-colors-and-header.sh "Pulling all CEDAR repos"
 source $CEDAR_UTIL_BIN/include-repo-list.sh
 
-format="\n\nPulling Git repo status ${GREEN}%-20s${NORMAL} : (%-60s)\n"
+format="\n\nPulling Git repo status ${GREEN}%-32s${NORMAL} : (%-70s)\n"
 
 function pullRepo {
   printf "$format" $1 $CEDAR_HOME/$1
