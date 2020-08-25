@@ -28,6 +28,17 @@ if [ -z "$CEDAR_RELEASE_VERSION" ]; then
     exit 1
 fi 
 
+if ! [ -x "$(command -v jq)" ]; then
+  echo 'Error: jq is not installed. Install using "brew install jq" or other similar method.' >&2
+  exit 1
+else
+  HASH=$(echo '{"foo": "bar"}' | jq '.foo="baz"' | md5)
+  if [ "$HASH" !=  "030dd04334bb7fb124421933f0b42c1a" ]; then
+   echo 'Error: jq command is not behaving as expected.' >&2
+   exit 1
+  fi
+fi
+
 export CEDAR_RELEASE_TAG=release-${CEDAR_RELEASE_VERSION}
 export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$NF; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)); print}')
 
