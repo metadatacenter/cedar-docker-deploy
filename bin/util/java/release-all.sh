@@ -73,6 +73,7 @@ CEDAR_SERVER_REPOS=(
 
 CEDAR_FRONTEND_REPOS=(
     "cedar-template-editor"
+    "cedar-metadata-form"
     "cedar-openview"
 )
 

@@ -44,6 +44,9 @@ alias cedargbranches='$CEDAR_UTIL_BIN/git/gitbranches.sh'
 alias cedargpull='$CEDAR_UTIL_BIN/git/gitpull.sh'
 alias cedargcheckout='$CEDAR_UTIL_BIN/git/git-checkout-branch.sh'
 
+#CEDAR Angular build aliases
+alias buildmetadataform='$CEDAR_UTIL_BIN/angular/build-metadata-form.sh'
+
 #CEDAR Admin Tool alias
 alias cedarat='$CEDAR_UTIL_BIN/admintool/cedar-admin-tool.sh'
 
