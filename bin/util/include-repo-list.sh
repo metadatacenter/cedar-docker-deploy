@@ -10,6 +10,7 @@ CEDAR_REPOS=(
   "cedar-docker-deploy"
   "cedar-docs"
   "cedar-openview"
+  "cedar-openview-dist"
   "cedar-openview-server"
   "cedar-group-server"
   "cedar-keycloak-event-listener"

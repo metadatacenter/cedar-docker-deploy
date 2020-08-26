@@ -89,6 +89,7 @@ CEDAR_FRONTEND_REPOS=(
 
 CEDAR_COMPONENT_REPOS=(
     "cedar-component-distribution"
+    "cedar-openview-dist"
 )
 
 CEDAR_CONFIGURATION_REPOS=(
@@ -410,6 +411,20 @@ build_metadata_form_component()
 		popd
 }
 
+build_openview_frontend()
+{
+    RELEASE_VERSION=$1
+    BRANCH=$2
+    pushd ${CEDAR_HOME}/cedar-openview
+    git checkout ${BRANCH}
+    git pull
+
+    ng build --prod --output-hashing=none
+    cp -a dist/cedar-openview/. ${CEDAR_HOME}/cedar-openview-dist/
+
+    popd
+}
+
 release_component_distribution_repo()
 {
     pushd $CEDAR_HOME/$1
@@ -434,6 +449,36 @@ release_component_distribution_repo()
     rm cedar-form/cedar-form-*.js
     build_metadata_form_component ${CEDAR_NEXT_DEVELOPMENT_VERSION} develop
     git add cedar-form/cedar-form-${CEDAR_NEXT_DEVELOPMENT_VERSION}.js
+
+    git commit -a -m "Updated to next development version"
+    git push origin develop
+
+    popd
+
+}
+
+release_openview_dist_repo()
+{
+    pushd $CEDAR_HOME/$1
+
+    # Tag the latest development version
+    git checkout develop
+    git pull origin develop
+
+    build_openview_frontend ${CEDAR_RELEASE_VERSION} master
+    git add .
+
+    git commit -a -m "Produce release version of component"
+    git push origin develop
+
+    tag_repo_with_release_version $1
+    copy_release_to_master $1
+
+    # Return to develop branch
+    git checkout develop
+
+    build_metadata_form_component ${CEDAR_NEXT_DEVELOPMENT_VERSION} develop
+    git add .
 
     git commit -a -m "Updated to next development version"
     git push origin develop
@@ -523,6 +568,9 @@ release_all_component_repos()
     do
         if [ "$r" = "cedar-component-distribution" ]; then
             release_component_distribution_repo $r
+        fi
+        if [ "$r" = "cedar-openview-dist" ]; then
+            release_openview_dist_repo $r
         fi
     done
 }
