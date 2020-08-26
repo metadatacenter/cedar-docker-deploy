@@ -64,6 +64,13 @@ You will need to set a BioPortal API key in the external file.
 If you do not already have a BioPortal API key, you can created one by [registering for a BioPortal account](https://bioportal.bioontology.org/accounts/new).
 The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
+Then execute the following commands to set the environment variables:
+
+    source ${CEDAR_HOME}/set-env-external.sh
+    source ${CEDAR_HOME}/set-env-internal.sh
+
+The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
+
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
 We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
@@ -75,7 +82,7 @@ These aliases can be set by running the two scripts as follows:
 
 The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
 
-The final set of CEDAR-related environment variable assignments should look as follows:
+In summary, the final set of CEDAR-related environment variable assigments is established as follows:
 
     export CEDAR_HOME=~/cedar-home # Example only - pick a desired location
     export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
