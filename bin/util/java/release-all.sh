@@ -289,6 +289,11 @@ release_frontend_repo()
     git checkout develop
     git pull
     sed -i '' 's/- CEDAR_VERSION\s*=.*\".*\"/- CEDAR_VERSION=\"'${CEDAR_RELEASE_VERSION}'\"/g' .travis.yml
+    # cedar-openview webcomponent reference
+    if [ -f "src/index.html" ]; then
+        sed -i '' 's/\/cedar-form-.*\.js/\/cedar-form-'${CEDAR_RELEASE_VERSION}'\.js/g' src/index.html
+        sed -i '' 's/\/component\.metadatacenter\..*\/cedar-form\//\/component\.metadatacenter\.org\/cedar-form\//g' src/index.html
+    fi
     jq '.version="'${CEDAR_RELEASE_VERSION}'"' package.json > json.package && mv json.package package.json
     git commit -a -m "Set release version for .travis.yml and package.json"
     git push
@@ -300,6 +305,11 @@ release_frontend_repo()
     # Return to develop branch 
     git checkout develop
     sed -i '' 's/- CEDAR_VERSION\s*=.*\".*\"/- CEDAR_VERSION=\"'${CEDAR_NEXT_DEVELOPMENT_VERSION}'\"/g' .travis.yml
+    # cedar-openview webcomponent reference
+    if [ -f "src/index.html" ]; then
+        sed -i '' 's/\/cedar-form-.*\.js/\/cedar-form-'${CEDAR_NEXT_DEVELOPMENT_VERSION}'\.js/g' src/index.html
+        sed -i '' 's/\/component\.metadatacenter\..*\/cedar-form\//\/component\.metadatacenter\.org\/cedar-form\//g' src/index.html
+    fi
     jq '.version="'${CEDAR_NEXT_DEVELOPMENT_VERSION}'"' package.json > json.package && mv json.package package.json
     git commit -a -m "Updated to next development version"
     git push
