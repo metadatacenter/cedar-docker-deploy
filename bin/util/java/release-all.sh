@@ -39,6 +39,16 @@ else
   fi
 fi
 
+if ! [ -x "$(command -v node)" ]; then
+  echo 'Error: node is not installed. Install from "https://nodejs.org/".' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v ng)" ]; then
+  echo 'Error: ng is not installed. Install using "npm install -g @angular/cli".' >&2
+  exit 1
+fi
+
 export CEDAR_RELEASE_TAG=release-${CEDAR_RELEASE_VERSION}
 export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$NF; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)); print}')
 
@@ -77,6 +87,10 @@ CEDAR_FRONTEND_REPOS=(
     "cedar-openview"
 )
 
+CEDAR_COMPONENT_REPOS=(
+    "cedar-component-distribution"
+)
+
 CEDAR_CONFIGURATION_REPOS=(
     "cedar-conf"
 )
@@ -110,6 +124,7 @@ CEDAR_ALL_REPOS=(
     "${CEDAR_PARENT_REPOS[@]}"
     "${CEDAR_SERVER_REPOS[@]}"
     "${CEDAR_FRONTEND_REPOS[@]}"
+    "${CEDAR_COMPONENT_REPOS[@]}"
     "${CEDAR_CONFIGURATION_REPOS[@]}"
     "${CEDAR_DOCUMENTATION_REPOS[@]}"
     "${CEDAR_CLIENT_REPOS[@]}"
@@ -371,6 +386,52 @@ release_client_repo()
     popd
 }
 
+build_metadata_form_component()
+{
+    RELEASE_VERSION=$1
+    BRANCH=$2
+ 		pushd ${CEDAR_HOME}/cedar-metadata-form
+ 		git checkout ${BRANCH}
+ 		git pull
+
+		ng build --prod --output-hashing=none
+		cat dist/cedar-form/{runtime,polyfills,main}.js > ${CEDAR_HOME}/cedar-component-distribution/cedar-form/cedar-form-${RELEASE_VERSION}.js
+
+		popd
+}
+
+release_component_distribution_repo()
+{
+    pushd $CEDAR_HOME/$1
+
+    # Tag the latest development version
+    git checkout develop
+    git pull origin develop
+
+    rm cedar-form/cedar-form-*.js
+    build_metadata_form_component ${CEDAR_RELEASE_VERSION} master
+    git add cedar-form/cedar-form-${CEDAR_RELEASE_VERSION}.js
+
+    git commit -a -m "Produce release version of component"
+    git push origin develop
+
+    tag_repo_with_release_version $1
+    copy_release_to_master $1
+
+    # Return to develop branch
+    git checkout develop
+
+    rm cedar-form/cedar-form-*.js
+    build_metadata_form_component ${CEDAR_NEXT_DEVELOPMENT_VERSION} develop
+    git add cedar-form/cedar-form-${CEDAR_NEXT_DEVELOPMENT_VERSION}.js
+
+    git commit -a -m "Updated to next development version"
+    git push origin develop
+
+    popd
+
+}
+
 update_cedar_parent_version()
 {
     git checkout develop
@@ -442,6 +503,17 @@ release_all_frontend_repos()
     for r in "${CEDAR_FRONTEND_REPOS[@]}"
     do
         release_frontend_repo $r
+    done
+}
+
+release_all_component_repos()
+{
+    echo "Releasing component repos..."
+    for r in "${CEDAR_COMPONENT_REPOS[@]}"
+    do
+        if [ "$r" = "cedar-component-distribution" ]; then
+            release_component_distribution_repo $r
+        fi
     done
 }
 
@@ -520,6 +592,8 @@ release_all_project_repos
 release_all_configuration_repos
 
 release_all_frontend_repos
+
+release_all_component_repos
 
 release_all_documentation_repos
 
