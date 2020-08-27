@@ -28,6 +28,9 @@ if [ -z "$CEDAR_RELEASE_VERSION" ]; then
     exit 1
 fi 
 
+# TODO add git check
+# TODO add mvn check
+
 if ! [ -x "$(command -v jq)" ]; then
   echo 'Error: jq is not installed. Install using "brew install jq" or other similar method.' >&2
   exit 1
