@@ -49,6 +49,12 @@ if ! [ -x "$(command -v ng)" ]; then
   exit 1
 fi
 
+REG=$(npm config get registry)
+if [ "$REG" !=  "https://registry.npmjs.org/" ]; then
+  echo 'Error: your npm registry is set incorrectly. Please set it using "npm config set registry https://registry.npmjs.org/".' >&2
+  exit 1
+fi
+
 export CEDAR_RELEASE_TAG=release-${CEDAR_RELEASE_VERSION}
 export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$NF; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)); print}')
 
