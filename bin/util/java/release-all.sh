@@ -411,6 +411,7 @@ build_metadata_form_component()
  		git checkout ${BRANCH}
  		git pull
 
+    npm install
 		ng build --prod --output-hashing=none
 		cat dist/cedar-form/{runtime,polyfills,main}.js > ${CEDAR_HOME}/cedar-component-distribution/cedar-form/cedar-form-${RELEASE_VERSION}.js
 
@@ -425,6 +426,7 @@ build_openview_frontend()
     git checkout ${BRANCH}
     git pull
 
+    npm install
     ng build --prod --output-hashing=none
     cp -a dist/cedar-openview/. ${CEDAR_HOME}/cedar-openview-dist/
 
