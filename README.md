@@ -74,8 +74,8 @@ The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
 Then execute the following commands to set the environment variables:
 
-    source ${CEDAR_HOME}/set-env-external.sh
-    source ${CEDAR_HOME}/set-env-internal.sh
+    source ${CEDAR_DOCKER_DEPLOY_HOME}/set-env-external.sh
+    source ${CEDAR_DOCKER_DEPLOY_HOME}/set-env-internal.sh
 
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
