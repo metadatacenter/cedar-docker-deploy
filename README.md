@@ -72,6 +72,11 @@ You will need to set a BioPortal API key in the external file.
 Please create a new BioPortal account for your installation's use by [registering for a separate BioPortal account](https://bioportal.bioontology.org/accounts/new). This will help us in diagnosing issues and managing access to the systems.
 The relevant variable to set is called CEDAR_BIOPORTAL_API_KEY.
 
+Then execute the following commands to set the environment variables:
+
+    source ${CEDAR_HOME}/set-env-external.sh
+    source ${CEDAR_HOME}/set-env-internal.sh
+
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
 We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
@@ -81,7 +86,9 @@ These aliases can be set by running the two scripts as follows:
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
 
-The ensure these environment variables and aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the following lines:
+The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
+
+In summary, the final set of CEDAR-related environment variable assigments is established as follows:
 
     export CEDAR_DOCKER_DEPLOY_HOME=~/cedar-docker-deploy # Example only - pick a desired location
     export CEDAR_DOCKER_SRC_HOME=~/cedar-docker-src # Example only - pick a desired location
@@ -89,6 +96,8 @@ The ensure these environment variables and aliases are available in all shells, 
     source ${CEDAR_DOCKER_DEPLOY_HOME}/set-env-internal.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
+
+The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
     
 ### 6. Create Docker network and volumes
 
@@ -104,7 +113,7 @@ The volumes are used for persistent storage.
 ### 7. Copy SSL certificates and mark certification authority as trustable
 
 The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
-source Docker repository to the deployment directory:
+source Docker repository to the deployment directory. It will also copy the certificates into the cedar_cert and cedar_ca Docker volumes.
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
 
