@@ -69,8 +69,6 @@ Then execute the following commands to set the environment variables:
     source ${CEDAR_HOME}/set-env-external.sh
     source ${CEDAR_HOME}/set-env-internal.sh
 
-The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
-
 ### 5. Incorporate environment variables and set useful CEDAR command aliases
 
 We have also created a set of useful aliases for commands that execute and monitor CEDAR services.
@@ -90,6 +88,8 @@ In summary, the final set of CEDAR-related environment variable assigments is es
     source ${CEDAR_HOME}/set-env-internal.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-env-generic.sh
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/util/set-docker-aliases.sh
+
+The ensure these aliases are available in all shells, open the deployment account ```~./bash_profile``` or ```~/.bashrc``` file (or equivalent) and add the lines above.
     
 ### 6. Create Docker network and volumes
 
@@ -104,7 +104,7 @@ The volumes are used for persistent storage.
 ### 7. Copy SSL certificates and mark certification authority as trustable
 
 The following command will copy pre-canned SSL certificates for the appropriate ``metadatacenter.orgx`` subdomains from the
-source Docker repository to the deployment directory:
+source Docker repository to the deployment directory. It will also copy the certificates into the cedar_cert and cedar_ca Docker volumes.
 
     source ${CEDAR_DOCKER_SRC_HOME}/cedar-docker-deploy/bin/docker-copy-certificates.sh
 
@@ -127,6 +127,7 @@ You should see the icon of the certificate having a white cross inside a blue ci
 ### 8. Start the CEDAR services
 
 The CEDAR components are divided into four main sets:
+
 (1) infrastructure services, which include persistent storage services, such as MongoDB, Neo4j and the like,
 (2) microservices, which represent core CEDAR services,
 (3) the frontend, which contains all user-facing services, and
