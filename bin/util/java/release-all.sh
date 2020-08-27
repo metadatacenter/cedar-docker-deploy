@@ -49,6 +49,12 @@ if ! [ -x "$(command -v ng)" ]; then
   exit 1
 fi
 
+REG=$(npm config get registry)
+if [ "$REG" !=  "https://registry.npmjs.org/" ]; then
+  echo 'Error: your npm registry is set incorrectly. Please set it using "npm config set registry https://registry.npmjs.org/".' >&2
+  exit 1
+fi
+
 export CEDAR_RELEASE_TAG=release-${CEDAR_RELEASE_VERSION}
 export CEDAR_NEXT_DEVELOPMENT_VERSION=$(echo $CEDAR_RELEASE_VERSION | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$NF; $NF=sprintf("%0*d-SNAPSHOT", length($NF), ($NF+1)); print}')
 
@@ -405,6 +411,7 @@ build_metadata_form_component()
  		git checkout ${BRANCH}
  		git pull
 
+    npm install
 		ng build --prod --output-hashing=none
 		cat dist/cedar-form/{runtime,polyfills,main}.js > ${CEDAR_HOME}/cedar-component-distribution/cedar-form/cedar-form-${RELEASE_VERSION}.js
 
@@ -419,6 +426,7 @@ build_openview_frontend()
     git checkout ${BRANCH}
     git pull
 
+    npm install
     ng build --prod --output-hashing=none
     cp -a dist/cedar-openview/. ${CEDAR_HOME}/cedar-openview-dist/
 
