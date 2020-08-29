@@ -1,5 +1,4 @@
 #!/bin/sh
-clear
 echo ----------------------------------------------
 echo Launching CEDAR Admin Tool ${CEDAR_VERSION}
 echo ----------------------------------------------
