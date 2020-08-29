@@ -58,6 +58,8 @@ services:
       - CEDAR_CADSR_ADMIN_USER_API_KEY
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+    extra_hosts:
+      - "auth.${CEDAR_HOST}:${CEDAR_NET_GATEWAY}"
 
 
 networks:
