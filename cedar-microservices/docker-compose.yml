@@ -374,6 +374,8 @@ services:
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
+    extra_hosts:
+      - "auth.${CEDAR_HOST}:${CEDAR_NET_GATEWAY}"
   messaging-server:
     depends_on:
         - cedar-microservice
