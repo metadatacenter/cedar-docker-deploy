@@ -22,7 +22,7 @@ docker volume rm terminology_data
 docker volume rm group_log
 docker volume rm internals_log
 docker volume rm messaging_log
-docker volume rm open_log
+docker volume rm openview_log
 docker volume rm repo_log
 docker volume rm resource_log
 docker volume rm schema_log
@@ -32,3 +32,4 @@ docker volume rm terminology_log
 docker volume rm user_log
 docker volume rm valuerecommender_log
 docker volume rm worker_log
+docker volume rm resource_state

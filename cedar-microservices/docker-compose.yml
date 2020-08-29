@@ -228,6 +228,7 @@ services:
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_VALUERECOMMENDER_HTTP_PORT
+      - CEDAR_RESOURCE_ADMIN_PORT
   valuerecommender-server:
     depends_on:
         - cedar-microservice
@@ -342,6 +343,7 @@ services:
       - "${CEDAR_RESOURCE_STOP_PORT}:9207"
     volumes:
       - resource_log:/cedar/log/cedar-resource-server/
+      - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -423,7 +425,7 @@ services:
       - "${CEDAR_OPENVIEW_ADMIN_PORT}:9113"
       - "${CEDAR_OPENVIEW_STOP_PORT}:9213"
     volumes:
-      - open_log:/cedar/log/cedar-openview-server/
+      - openview_log:/cedar/log/cedar-openview-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -493,8 +495,8 @@ networks:
 volumes:
   cedar_ca:
     name: cedar_ca
-  open_log:
-    name: open_log
+  openview_log:
+    name: openview_log
   group_log:
     name: group_log
   messaging_log:
@@ -503,6 +505,8 @@ volumes:
     name: repo_log
   resource_log:
     name: resource_log
+  resource_state:
+    name: resource_state
   schema_log:
     name: schema_log
   submission_log:
