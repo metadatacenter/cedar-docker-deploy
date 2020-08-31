@@ -46,6 +46,7 @@ alias cedargcheckout='$CEDAR_UTIL_BIN/git/git-checkout-branch.sh'
 
 #CEDAR Angular build aliases
 alias buildmetadataform='$CEDAR_UTIL_BIN/angular/build-metadata-form.sh'
+alias buildopenviewdist='$CEDAR_UTIL_BIN/angular/build-openview-dist.sh'
 
 #CEDAR Admin Tool alias
 alias cedarat='$CEDAR_UTIL_BIN/admintool/cedar-admin-tool.sh'
