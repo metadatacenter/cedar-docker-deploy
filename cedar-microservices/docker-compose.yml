@@ -36,6 +36,11 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
   user-server:
@@ -60,6 +65,11 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -89,6 +99,11 @@ services:
       - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_NCBI_SRA_FTP_HOST
       - CEDAR_NCBI_SRA_FTP_USER
       - CEDAR_NCBI_SRA_FTP_PASSWORD
@@ -123,6 +138,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
@@ -152,11 +168,17 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
+      - CEDAR_VALIDATION_ENABLED
   worker-server:
     depends_on:
         - cedar-microservice
@@ -194,6 +216,7 @@ services:
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
@@ -203,7 +226,9 @@ services:
       - CEDAR_ELASTICSEARCH_REST_PORT
       - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
+      - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_VALUERECOMMENDER_HTTP_PORT
+      - CEDAR_RESOURCE_ADMIN_PORT
   valuerecommender-server:
     depends_on:
         - cedar-microservice
@@ -226,6 +251,11 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ELASTICSEARCH_HOST
@@ -256,6 +286,11 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
@@ -286,6 +321,7 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
@@ -307,6 +343,7 @@ services:
       - "${CEDAR_RESOURCE_STOP_PORT}:9207"
     volumes:
       - resource_log:/cedar/log/cedar-resource-server/
+      - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -319,7 +356,10 @@ services:
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_ADMIN_USER_PASSWORD
+      - CEDAR_CADSR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
@@ -331,8 +371,11 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_VALIDATION_ENABLED
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
+      - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
+    extra_hosts:
+      - "auth.${CEDAR_HOST}:${CEDAR_NET_GATEWAY}"
   messaging-server:
     depends_on:
         - cedar-microservice
@@ -358,6 +401,11 @@ services:
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_MESSAGING_MYSQL_HOST
       - CEDAR_MESSAGING_MYSQL_PORT
@@ -381,7 +429,7 @@ services:
       - "${CEDAR_OPENVIEW_ADMIN_PORT}:9113"
       - "${CEDAR_OPENVIEW_STOP_PORT}:9213"
     volumes:
-      - open_log:/cedar/log/cedar-openview-server/
+      - openview_log:/cedar/log/cedar-openview-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -392,12 +440,56 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
+  internals-server:
+    depends_on:
+      - cedar-microservice
+    container_name: internals-server
+    image: "metadatacenter/cedar-internals-server:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-internals-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_INTERNALS_HTTP_PORT}:9014"
+      - "${CEDAR_INTERNALS_ADMIN_PORT}:9114"
+      - "${CEDAR_INTERNALS_STOP_PORT}:9214"
+    volumes:
+      - internals_log:/cedar/log/cedar-internals-server/
+      - cedar_ca:/cedar/ca
+    environment:
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_MICROSERVICE_HOST
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_HOST
+      - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_SALT_API_KEY
+      - CEDAR_ELASTICSEARCH_HOST
+      - CEDAR_ELASTICSEARCH_REST_PORT
+      - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_ADMIN_USER_PASSWORD
+      - CEDAR_LOG_MYSQL_HOST
+      - CEDAR_LOG_MYSQL_PORT
+      - CEDAR_LOG_MYSQL_DB
+      - CEDAR_LOG_MYSQL_USER
+      - CEDAR_LOG_MYSQL_PASSWORD
 
 networks:
   cedarnet:
@@ -407,8 +499,8 @@ networks:
 volumes:
   cedar_ca:
     name: cedar_ca
-  open_log:
-    name: open_log
+  openview_log:
+    name: openview_log
   group_log:
     name: group_log
   messaging_log:
@@ -417,6 +509,8 @@ volumes:
     name: repo_log
   resource_log:
     name: resource_log
+  resource_state:
+    name: resource_state
   schema_log:
     name: schema_log
   submission_log:
@@ -433,3 +527,5 @@ volumes:
     name: valuerecommender_log
   worker_log:
     name: worker_log
+  internals_log:
+    name: internals_log

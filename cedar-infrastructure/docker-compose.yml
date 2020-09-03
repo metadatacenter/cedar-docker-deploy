@@ -32,8 +32,6 @@ services:
       - CEDAR_MONGO_ROOT_USER_PASSWORD
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_HOST
-      - CEDAR_ADMIN_USER_API_KEY
 
   redis-persistent:
     container_name: redis-persistent
@@ -69,6 +67,7 @@ services:
     networks:
       - cedarnet
     ports:
+      - ${CEDAR_NEO4J_REST_PORT}:7474
       - ${CEDAR_NEO4J_BOLT_PORT}:7687
     volumes:
       - neo4j_log:/logs
@@ -77,6 +76,8 @@ services:
     environment:
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_HOST
+      - CEDAR_ADMIN_USER_API_KEY
 
   keycloak:
     container_name: keycloak
