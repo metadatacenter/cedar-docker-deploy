@@ -184,6 +184,15 @@ update_repo_parent_to_release()
     git pull 
     mvn versions:update-parent versions:update-child-modules # Update parent POM to release version (recursively)
     mvn -DallowSnapshots=false versions:update-properties # Update version properties to point to latest release versions
+
+    SWAGGER_COUNT="$(find . -name 'swagger.json' | grep /src/ | wc -l)"
+    echo 'Found' $SWAGGER_COUNT ' swagger.json files'
+    if [ $SWAGGER_COUNT -eq 1 ]; then
+      echo "Replace version in swagger.json"
+      SWAGGER_FILE="$(find . -name 'swagger.json' | grep /src/)"
+      jq '.info.version="'${CEDAR_RELEASE_VERSION}'"' "$SWAGGER_FILE" > "$SWAGGER_FILE.jq" && mv "$SWAGGER_FILE.jq" "$SWAGGER_FILE"
+    fi
+
     git commit -a -m "Updated parent POM and dependency versions to release version"
     git push
 }
@@ -217,6 +226,15 @@ update_repo_to_next_development_version()
     git pull
     mvn -DallowSnapshots=true versions:update-parent # Update parent POM to current development version
     mvn -DallowSnapshots=true versions:update-properties # Update version properties to point to latest development versions
+
+    SWAGGER_COUNT="$(find . -name 'swagger.json' | grep /src/ | wc -l)"
+    echo 'Found' $SWAGGER_COUNT ' swagger.json files'
+    if [ $SWAGGER_COUNT -eq 1 ]; then
+      echo "Replace version in swagger.json"
+      SWAGGER_FILE="$(find . -name 'swagger.json' | grep /src/)"
+      jq '.info.version="'${CEDAR_NEXT_DEVELOPMENT_VERSION}'"' "$SWAGGER_FILE" > "$SWAGGER_FILE.jq" && mv "$SWAGGER_FILE.jq" "$SWAGGER_FILE"
+    fi
+
     git commit -a -m "Updated CEDAR component dependencies to point to current development snapshots"
     git push 
     mvn -DskipTests=true deploy # deploy new development artifact
@@ -304,7 +322,10 @@ release_frontend_repo()
         sed -i '' 's/\/cedar-form-.*\.js/\/cedar-form-'${CEDAR_RELEASE_VERSION}'\.js/g' src/index.html
         sed -i '' 's/\/component\.metadatacenter\..*\/cedar-form\//\/component\.metadatacenter\.org\/cedar-form\//g' src/index.html
     fi
-    jq '.version="'${CEDAR_RELEASE_VERSION}'"' package.json > json.package && mv json.package package.json
+    if [ -f "package-lock.json" ]; then
+        jq '.version="'${CEDAR_RELEASE_VERSION}'"' package-lock.json > jpackage-lock-jqed.json && mv jpackage-lock-jqed.json package-lock.json
+    fi
+    jq '.version="'${CEDAR_RELEASE_VERSION}'"' package.json > package-jqed.json && mv package-jqed.json package.json
     git commit -a -m "Set release version for .travis.yml and package.json"
     git push
     
@@ -320,7 +341,10 @@ release_frontend_repo()
         sed -i '' 's/\/cedar-form-.*\.js/\/cedar-form-'${CEDAR_NEXT_DEVELOPMENT_VERSION}'\.js/g' src/index.html
         sed -i '' 's/\/component\.metadatacenter\..*\/cedar-form\//\/component\.metadatacenter\.org\/cedar-form\//g' src/index.html
     fi
-    jq '.version="'${CEDAR_NEXT_DEVELOPMENT_VERSION}'"' package.json > json.package && mv json.package package.json
+    if [ -f "package-lock.json" ]; then
+        jq '.version="'${CEDAR_NEXT_DEVELOPMENT_VERSION}'"' package-lock.json > jpackage-lock-jqed.json && mv jpackage-lock-jqed.json package-lock.json
+    fi
+    jq '.version="'${CEDAR_NEXT_DEVELOPMENT_VERSION}'"' package.json > package-jqed.json && mv package-jqed.json package.json
     git commit -a -m "Updated to next development version"
     git push
 
