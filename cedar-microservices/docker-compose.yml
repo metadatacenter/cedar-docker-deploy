@@ -447,6 +447,7 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
+      - CEDAR_ARTIFACT_ADMIN_PORT
   internals-server:
     depends_on:
       - cedar-microservice
