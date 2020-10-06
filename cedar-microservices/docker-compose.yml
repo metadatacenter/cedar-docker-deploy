@@ -197,6 +197,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
