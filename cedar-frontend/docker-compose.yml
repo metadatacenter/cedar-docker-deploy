@@ -7,9 +7,33 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_FRONTEND_PORT}:4200"
+      - "${CEDAR_FRONTEND_EDITOR_PORT}:4200"
     volumes:
-      - frontend_log:/log
+      - frontend_editor_log:/log
+    environment:
+      - CEDAR_HOST
+  component:
+    container_name: component
+    image: "metadatacenter/cedar-component:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-component
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_FRONTEND_COMPONENT_PORT}:4240"
+    volumes:
+      - frontend_component_log:/log
+    environment:
+      - CEDAR_HOST
+  openview:
+    container_name: openview
+    image: "metadatacenter/cedar-openview:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-openview
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_FRONTEND_OPENVIEW_PORT}:4220"
+    volumes:
+      - frontend_openview_log:/log
     environment:
       - CEDAR_HOST
 
@@ -19,5 +43,9 @@ networks:
       name: cedarnet
 
 volumes:
-  frontend_log:
-    name: frontend_log
+  frontend_editor_log:
+    name: frontend_editor_log
+  frontend_component_log:
+    name: frontend_component_log
+  frontend_openview_log:
+    name: frontend_openview_log
