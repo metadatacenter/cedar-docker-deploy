@@ -33,3 +33,7 @@ docker volume rm user_log
 docker volume rm valuerecommender_log
 docker volume rm worker_log
 docker volume rm resource_state
+
+docker volume rm frontend_editor_log
+docker volume rm frontend_openview_log
+docker volume rm frontend_component_log

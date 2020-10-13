@@ -7,7 +7,7 @@ services:
     networks:
       - cedarnet
     ports:
-      - "${CEDAR_REDIS_COMMANDER_PORT}:8081"
+      - ${CEDAR_REDIS_COMMANDER_PORT}:8081
     environment:
       - CEDAR_NET_GATEWAY
 
@@ -25,12 +25,11 @@ services:
     image: "metadatacenter/cedar-phpmyadmin:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-phpmyadmin
     networks:
-    - cedarnet
+      - cedarnet
     ports:
-    - ${CEDAR_PHPMYADMIN_PORT}:80
+      - ${CEDAR_PHPMYADMIN_PORT}:80
     environment:
-    - PMA_ARBITRARY=1
-    - PMA_HOST=localhost
+      - PMA_ARBITRARY=1
 
   admin-tool:
     container_name: admin-tool

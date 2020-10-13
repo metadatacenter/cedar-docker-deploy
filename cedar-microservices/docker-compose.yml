@@ -197,6 +197,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -447,6 +448,7 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
+      - CEDAR_ARTIFACT_ADMIN_PORT
   internals-server:
     depends_on:
       - cedar-microservice
