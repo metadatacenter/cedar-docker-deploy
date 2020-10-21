@@ -14,6 +14,8 @@ services:
     build: ../../cedar-docker-build/cedar-microservice
     networks:
       - cedarnet
+    volumes:
+      - cedar_ca:/cedar/ca
   schema-server:
     depends_on:
         - cedar-microservice
