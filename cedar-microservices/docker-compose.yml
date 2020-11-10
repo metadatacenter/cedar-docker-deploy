@@ -494,6 +494,49 @@ services:
       - CEDAR_LOG_MYSQL_DB
       - CEDAR_LOG_MYSQL_USER
       - CEDAR_LOG_MYSQL_PASSWORD
+  impex-server:
+    depends_on:
+      - cedar-microservice
+    container_name: impex-server
+    image: "metadatacenter/cedar-impex-server:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-impex-server
+    networks:
+      - cedarnet
+    ports:
+      - "${CEDAR_IMPEX_HTTP_PORT}:9008"
+      - "${CEDAR_IMPEX_ADMIN_PORT}:9108"
+      - "${CEDAR_IMPEX_STOP_PORT}:9208"
+    volumes:
+      - impex_log:/cedar/log/cedar-impex-server/
+      - cedar_ca:/cedar/ca
+    environment:
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_MICROSERVICE_HOST
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_HOST
+      - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_ADMIN_USER_API_KEY
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_SALT_API_KEY
+      - CEDAR_ELASTICSEARCH_HOST
+      - CEDAR_ELASTICSEARCH_REST_PORT
+      - CEDAR_ELASTICSEARCH_TRANSPORT_PORT
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_ADMIN_USER_PASSWORD
+      - CEDAR_LOG_MYSQL_HOST
+      - CEDAR_LOG_MYSQL_PORT
+      - CEDAR_LOG_MYSQL_DB
+      - CEDAR_LOG_MYSQL_USER
+      - CEDAR_LOG_MYSQL_PASSWORD
 
 networks:
   cedarnet:
@@ -533,3 +576,5 @@ volumes:
     name: worker_log
   internals_log:
     name: internals_log
+  impex_log:
+    name: impex_log
