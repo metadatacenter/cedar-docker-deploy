@@ -540,12 +540,13 @@ services:
 
 networks:
   cedarnet:
-    external:
-      name: cedarnet
+    name: cedarnet
+    external: true
 
 volumes:
   cedar_ca:
     name: cedar_ca
+    external: true
   openview_log:
     name: openview_log
   group_log:

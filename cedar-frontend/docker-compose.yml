@@ -39,8 +39,8 @@ services:
 
 networks:
   cedarnet:
-    external:
-      name: cedarnet
+    name: cedarnet
+    external: true
 
 volumes:
   frontend_editor_log:
