@@ -2,8 +2,8 @@
 
 docker volume rm cedar_ca
 docker volume rm cedar_cert
-docker volume rm elasticsearch_data
-docker volume rm elasticsearch_log
+docker volume rm opensearch_data
+docker volume rm opensearch_log
 docker volume rm keycloak_log
 docker volume rm mongo_data
 docker volume rm mongo_log
