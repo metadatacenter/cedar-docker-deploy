@@ -455,6 +455,7 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
+      - CEDAR_ADMIN_USER_API_KEY
   internals-server:
     depends_on:
       - cedar-microservice
