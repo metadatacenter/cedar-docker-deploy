@@ -23,7 +23,8 @@ services:
     image: "metadatacenter/cedar-schema-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-schema-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_SCHEMA_SERVER_HOST}
     ports:
       - "${CEDAR_SCHEMA_HTTP_PORT}:9003"
       - "${CEDAR_SCHEMA_ADMIN_PORT}:9103"
@@ -52,7 +53,8 @@ services:
     image: "metadatacenter/cedar-user-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-user-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_USER_SERVER_HOST}
     ports:
       - "${CEDAR_USER_HTTP_PORT}:9005"
       - "${CEDAR_USER_ADMIN_PORT}:9105"
@@ -77,6 +79,8 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ADMIN_USER_PASSWORD
+    extra_hosts:
+      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   submission-server:
     depends_on:
         - cedar-microservice
@@ -84,7 +88,8 @@ services:
     image: "metadatacenter/cedar-submission-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-submission-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_SUBMISSION_SERVER_HOST}
     ports:
       - "${CEDAR_SUBMISSION_HTTP_PORT}:9010"
       - "${CEDAR_SUBMISSION_ADMIN_PORT}:9110"
@@ -118,6 +123,7 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_MESSAGING_ADMIN_PORT
       - CEDAR_MESSAGING_HTTP_PORT
+      - CEDAR_MESSAGING_SERVER_HOST
   group-server:
     depends_on:
         - cedar-microservice
@@ -125,7 +131,8 @@ services:
     image: "metadatacenter/cedar-group-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-group-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_GROUP_SERVER_HOST}
     ports:
       - "${CEDAR_GROUP_HTTP_PORT}:9009"
       - "${CEDAR_GROUP_ADMIN_PORT}:9109"
@@ -156,7 +163,8 @@ services:
     image: "metadatacenter/cedar-artifact-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-artifact-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
     ports:
       - "${CEDAR_ARTIFACT_HTTP_PORT}:9001"
       - "${CEDAR_ARTIFACT_ADMIN_PORT}:9101"
@@ -189,7 +197,8 @@ services:
     image: "metadatacenter/cedar-worker-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-worker-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_WORKER_SERVER_HOST}
     ports:
       - "${CEDAR_WORKER_HTTP_PORT}:9011"
       - "${CEDAR_WORKER_ADMIN_PORT}:9111"
@@ -232,6 +241,7 @@ services:
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_VALUERECOMMENDER_HTTP_PORT
+      - CEDAR_VALUERECOMMENDER_SERVER_HOST
       - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
   valuerecommender-server:
@@ -241,7 +251,8 @@ services:
     image: "metadatacenter/cedar-valuerecommender-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-valuerecommender-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_VALUERECOMMENDER_SERVER_HOST}
     ports:
       - "${CEDAR_VALUERECOMMENDER_HTTP_PORT}:9006"
       - "${CEDAR_VALUERECOMMENDER_ADMIN_PORT}:9106"
@@ -268,6 +279,7 @@ services:
       - CEDAR_OPENSEARCH_TRANSPORT_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_VALUERECOMMENDER_SERVER_HOST
   terminology-server:
     depends_on:
         - cedar-microservice
@@ -275,7 +287,8 @@ services:
     image: "metadatacenter/cedar-terminology-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-terminology-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_TERMINOLOGY_SERVER_HOST}
     ports:
       - "${CEDAR_TERMINOLOGY_HTTP_PORT}:9004"
       - "${CEDAR_TERMINOLOGY_ADMIN_PORT}:9104"
@@ -310,7 +323,8 @@ services:
     image: "metadatacenter/cedar-repo-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-repo-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_REPO_SERVER_HOST}
     ports:
       - "${CEDAR_REPO_HTTP_PORT}:9002"
       - "${CEDAR_REPO_ADMIN_PORT}:9102"
@@ -341,7 +355,8 @@ services:
     image: "metadatacenter/cedar-resource-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-resource-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_RESOURCE_SERVER_HOST}
     ports:
       - "${CEDAR_RESOURCE_HTTP_PORT}:9007"
       - "${CEDAR_RESOURCE_ADMIN_PORT}:9107"
@@ -374,6 +389,8 @@ services:
       - CEDAR_OPENSEARCH_TRANSPORT_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_USER_SERVER_HOST
+      - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_VALIDATION_ENABLED
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
@@ -382,7 +399,7 @@ services:
       - CEDAR_CADSR_ONTOLOGIES_FOLDER
       - CEDAR_TRUSTED_FOLDERS
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NET_GATEWAY}"
+      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   messaging-server:
     depends_on:
         - cedar-microservice
@@ -390,7 +407,8 @@ services:
     image: "metadatacenter/cedar-messaging-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-messaging-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_MESSAGING_SERVER_HOST}
     ports:
       - "${CEDAR_MESSAGING_HTTP_PORT}:9012"
       - "${CEDAR_MESSAGING_ADMIN_PORT}:9112"
@@ -419,6 +437,7 @@ services:
       - CEDAR_MESSAGING_MYSQL_DB
       - CEDAR_MESSAGING_MYSQL_USER
       - CEDAR_MESSAGING_MYSQL_PASSWORD
+      - CEDAR_USER_SERVER_HOST
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
@@ -430,7 +449,8 @@ services:
     image: "metadatacenter/cedar-openview-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-openview-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_OPENVIEW_SERVER_HOST}
     ports:
       - "${CEDAR_OPENVIEW_HTTP_PORT}:9013"
       - "${CEDAR_OPENVIEW_ADMIN_PORT}:9113"
@@ -455,6 +475,9 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
+      - CEDAR_ARTIFACT_SERVER_HOST
+      - CEDAR_USER_SERVER_HOST
+      - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
   internals-server:
     depends_on:
@@ -463,7 +486,8 @@ services:
     image: "metadatacenter/cedar-internals-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-internals-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_INTERNALS_SERVER_HOST}
     ports:
       - "${CEDAR_INTERNALS_HTTP_PORT}:9014"
       - "${CEDAR_INTERNALS_ADMIN_PORT}:9114"
@@ -519,7 +543,8 @@ services:
     image: "metadatacenter/cedar-impex-server:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-impex-server
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_IMPEX_SERVER_HOST}
     ports:
       - "${CEDAR_IMPEX_HTTP_PORT}:9008"
       - "${CEDAR_IMPEX_ADMIN_PORT}:9108"
