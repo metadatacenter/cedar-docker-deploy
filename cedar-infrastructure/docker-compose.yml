@@ -99,7 +99,8 @@ services:
       - ${CEDAR_KEYCLOAK_HTTP_PORT}:8080
       - ${CEDAR_KEYCLOAK_HTTPS_PORT}:8443
     volumes:
-      - keycloak_log:/opt/jboss/keycloak/standalone/log
+      - keycloak_log:/opt/keycloak/data/log
+      - keycloak_state:/opt/keycloak/data/state
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_KEYCLOAK_MYSQL_USER
@@ -168,6 +169,8 @@ volumes:
     name: mysql_data
   keycloak_log:
     name: keycloak_log
+  keycloak_state:
+    name: keycloak_state
   nginx_log:
     name: nginx_log
   cedar_cert:
