@@ -28,6 +28,7 @@ services:
       - mongo_log:/data/log
       - mongo_data:/data/db
       - mongo_state:/data/state
+      - mongo_configdb:/data/configdb
     environment:
       - CEDAR_MONGO_ROOT_USER_NAME
       - CEDAR_MONGO_ROOT_USER_PASSWORD
@@ -98,7 +99,8 @@ services:
       - ${CEDAR_KEYCLOAK_HTTP_PORT}:8080
       - ${CEDAR_KEYCLOAK_HTTPS_PORT}:8443
     volumes:
-      - keycloak_log:/opt/jboss/keycloak/standalone/log
+      - keycloak_log:/opt/keycloak/data/log
+      - keycloak_state:/opt/keycloak/data/state
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_KEYCLOAK_MYSQL_USER
@@ -110,7 +112,7 @@ services:
       - CEDAR_KEYCLOAK_ADMIN_PASSWORD
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_HOST
-      - CEDAR_NET_GATEWAY
+      - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_RESOURCE_HTTP_PORT
       - CEDAR_NET_IP_MYSQL
 
@@ -159,12 +161,16 @@ volumes:
     name: mongo_data
   mongo_state:
     name: mongo_state
+  mongo_configdb:
+    name: mongo_configdb
   mysql_log:
     name: mysql_log
   mysql_data:
     name: mysql_data
   keycloak_log:
     name: keycloak_log
+  keycloak_state:
+    name: keycloak_state
   nginx_log:
     name: nginx_log
   cedar_cert:
