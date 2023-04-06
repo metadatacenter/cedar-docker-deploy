@@ -215,16 +215,6 @@ services:
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_MYSQL_ROOT_PASSWORD
-      - CEDAR_LOG_MYSQL_HOST
-      - CEDAR_LOG_MYSQL_PORT
-      - CEDAR_LOG_MYSQL_DB
-      - CEDAR_LOG_MYSQL_USER
-      - CEDAR_LOG_MYSQL_PASSWORD
-      - CEDAR_MESSAGING_MYSQL_HOST
-      - CEDAR_MESSAGING_MYSQL_PORT
-      - CEDAR_MESSAGING_MYSQL_DB
-      - CEDAR_MESSAGING_MYSQL_USER
-      - CEDAR_MESSAGING_MYSQL_PASSWORD
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
@@ -241,7 +231,7 @@ services:
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_VALUERECOMMENDER_HTTP_PORT
-      - CEDAR_VALUERECOMMENDER_SERVER_HOST
+      - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
   valuerecommender-server:
@@ -396,6 +386,7 @@ services:
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
+      - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_CADSR_ONTOLOGIES_FOLDER
       - CEDAR_TRUSTED_FOLDERS
     extra_hosts:
@@ -479,21 +470,21 @@ services:
       - CEDAR_USER_SERVER_HOST
       - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
-  internals-server:
+  monitor-server:
     depends_on:
       - cedar-microservice
-    container_name: internals-server
-    image: "metadatacenter/cedar-internals-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-internals-server
+    container_name: monitor-server
+    image: "metadatacenter/cedar-monitor-server:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-monitor-server
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_INTERNALS_SERVER_HOST}
+        ipv4_address: ${CEDAR_MONITOR_SERVER_HOST}
     ports:
-      - "${CEDAR_INTERNALS_HTTP_PORT}:9014"
-      - "${CEDAR_INTERNALS_ADMIN_PORT}:9114"
-      - "${CEDAR_INTERNALS_STOP_PORT}:9214"
+      - "${CEDAR_MONITOR_HTTP_PORT}:9014"
+      - "${CEDAR_MONITOR_ADMIN_PORT}:9114"
+      - "${CEDAR_MONITOR_STOP_PORT}:9214"
     volumes:
-      - internals_log:/cedar/log/cedar-internals-server/
+      - monitor_log:/cedar/log/cedar-monitor-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -619,7 +610,7 @@ volumes:
     name: valuerecommender_log
   worker_log:
     name: worker_log
-  internals_log:
-    name: internals_log
+  monitor_log:
+    name: monitor_log
   impex_log:
     name: impex_log
