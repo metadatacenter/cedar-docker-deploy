@@ -21,7 +21,7 @@ docker volume rm terminology_data
 
 docker volume rm group_log
 docker volume rm impex_log
-docker volume rm internals_log
+docker volume rm monitor_log
 docker volume rm messaging_log
 docker volume rm openview_log
 docker volume rm repo_log
