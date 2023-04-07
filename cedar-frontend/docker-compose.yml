@@ -5,7 +5,8 @@ services:
     image: "metadatacenter/cedar-editor:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-editor
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_EDITOR_HOST}
     ports:
       - "${CEDAR_FRONTEND_EDITOR_PORT}:4200"
     volumes:
@@ -17,7 +18,8 @@ services:
     image: "metadatacenter/cedar-component:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-component
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_COMPONENT_HOST}
     ports:
       - "${CEDAR_FRONTEND_COMPONENT_PORT}:4240"
     volumes:
@@ -29,11 +31,38 @@ services:
     image: "metadatacenter/cedar-openview:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-openview
     networks:
-      - cedarnet
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_OPENVIEW_HOST}
     ports:
       - "${CEDAR_FRONTEND_OPENVIEW_PORT}:4220"
     volumes:
       - frontend_openview_log:/log
+    environment:
+      - CEDAR_HOST
+  monitoring:
+    container_name: monitoring
+    image: "metadatacenter/cedar-monitoring:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-monitoring
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_MONITORING_HOST}
+    ports:
+      - "${CEDAR_FRONTEND_MONITORING_PORT}:4300"
+    volumes:
+      - frontend_monitoring_log:/log
+    environment:
+      - CEDAR_HOST
+  artifacts:
+    container_name: artifacts
+    image: "metadatacenter/cedar-artifacts:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-artifacts
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_ARTIFACTS_HOST}
+    ports:
+      - "${CEDAR_FRONTEND_ARTIFACTS_PORT}:4320"
+    volumes:
+      - frontend_artifacts_log:/log
     environment:
       - CEDAR_HOST
 
@@ -49,3 +78,7 @@ volumes:
     name: frontend_component_log
   frontend_openview_log:
     name: frontend_openview_log
+  frontend_monitoring_log:
+    name: frontend_monitoring_log
+  frontend_artifacts_log:
+    name: frontend_artifacts_log
