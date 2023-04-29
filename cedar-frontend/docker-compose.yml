@@ -1,68 +1,68 @@
 version: '3.6'
 services:
-  editor:
-    container_name: editor
-    image: "metadatacenter/cedar-editor:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-editor
+  frontend-main:
+    container_name: frontend-main
+    image: "metadatacenter/cedar-frontend-main:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-main
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_EDITOR_HOST}
     ports:
       - "${CEDAR_FRONTEND_EDITOR_PORT}:4200"
     volumes:
-      - frontend_editor_log:/log
+      - log_frontend_main:/log
     environment:
       - CEDAR_HOST
-  component:
-    container_name: component
-    image: "metadatacenter/cedar-component:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-component
+  frontend-component:
+    container_name: frontend-component
+    image: "metadatacenter/cedar-frontend-component:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-component
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_COMPONENT_HOST}
     ports:
       - "${CEDAR_FRONTEND_COMPONENT_PORT}:4240"
     volumes:
-      - frontend_component_log:/log
+      - log_frontend_component:/log
     environment:
       - CEDAR_HOST
-  openview:
-    container_name: openview
-    image: "metadatacenter/cedar-openview:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-openview
+  frontend-openview:
+    container_name: frontend-openview
+    image: "metadatacenter/cedar-frontend-openview:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-openview
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_OPENVIEW_HOST}
     ports:
       - "${CEDAR_FRONTEND_OPENVIEW_PORT}:4220"
     volumes:
-      - frontend_openview_log:/log
+      - log_frontend_openview:/log
     environment:
       - CEDAR_HOST
-  monitoring:
-    container_name: monitoring
-    image: "metadatacenter/cedar-monitoring:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-monitoring
+  frontend-monitoring:
+    container_name: frontend-monitoring
+    image: "metadatacenter/cedar-frontend-monitoring:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-monitoring
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_MONITORING_HOST}
     ports:
       - "${CEDAR_FRONTEND_MONITORING_PORT}:4300"
     volumes:
-      - frontend_monitoring_log:/log
+      - log_frontend_monitoring:/log
     environment:
       - CEDAR_HOST
-  artifacts:
-    container_name: artifacts
-    image: "metadatacenter/cedar-artifacts:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-artifacts
+  frontend-artifacts:
+    container_name: frontend-artifacts
+    image: "metadatacenter/cedar-frontend-artifacts:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-artifacts
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_ARTIFACTS_HOST}
     ports:
       - "${CEDAR_FRONTEND_ARTIFACTS_PORT}:4320"
     volumes:
-      - frontend_artifacts_log:/log
+      - log_frontend_artifacts:/log
     environment:
       - CEDAR_HOST
 
@@ -72,13 +72,13 @@ networks:
     external: true
 
 volumes:
-  frontend_editor_log:
-    name: frontend_editor_log
-  frontend_component_log:
-    name: frontend_component_log
-  frontend_openview_log:
-    name: frontend_openview_log
-  frontend_monitoring_log:
-    name: frontend_monitoring_log
-  frontend_artifacts_log:
-    name: frontend_artifacts_log
+  log_frontend_main:
+    name: log_frontend_main
+  log_frontend_component:
+    name: log_frontend_component
+  log_frontend_openview:
+    name: log_frontend_openview
+  log_frontend_monitoring:
+    name: log_frontend_monitoring
+  log_frontend_artifacts:
+    name: log_frontend_artifacts

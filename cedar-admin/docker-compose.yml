@@ -1,9 +1,9 @@
 version: '3.6'
 services:
   redis-commander:
-    container_name: redis-commander
-    image: "metadatacenter/cedar-redis-commander:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-redis-commander
+    container_name: admin-redis-commander
+    image: "metadatacenter/cedar-admin-redis-commander:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-admin-redis-commander
     networks:
       - cedarnet
     ports:
@@ -12,18 +12,18 @@ services:
       - CEDAR_NET_GATEWAY
 
   kibana:
-    container_name: kibana
-    image: "metadatacenter/cedar-kibana:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-kibana
+    container_name: admin-kibana
+    image: "metadatacenter/cedar-admin-kibana:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-admin-kibana
     networks:
       - cedarnet
     ports:
       - ${CEDAR_KIBANA_PORT}:5601
 
   phpmyadmin:
-    container_name: phpmyadmin
-    image: "metadatacenter/cedar-phpmyadmin:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-phpmyadmin
+    container_name: admin-phpmyadmin
+    image: "metadatacenter/cedar-admin-phpmyadmin:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-admin-phpmyadmin
     networks:
       - cedarnet
     ports:

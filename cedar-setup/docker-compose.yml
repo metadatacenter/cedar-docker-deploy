@@ -1,15 +1,15 @@
 version: '3.6'
 services:
   nginx-setup:
-    container_name: nginx-setup
-    image: "metadatacenter/cedar-nginx-setup:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-nginx-setup
+    container_name: setup-nginx
+    image: "metadatacenter/cedar-setup-nginx:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-setup-nginx
     networks:
       - cedarnet
     ports:
       - ${CEDAR_NGINX_HTTP_PORT}:80
     volumes:
-      - nginx_log:/etc/nginx/log
+      - log_nginx:/etc/nginx/log
       - cedar_cert:/etc/letsencrypt
     environment:
       - CEDAR_HOST
@@ -20,8 +20,8 @@ networks:
       external: true
 
 volumes:
-  nginx_log:
-    name: nginx_log
+  log_nginx:
+    name: log_nginx
   cedar_cert:
     name: cedar_cert
     external: true
