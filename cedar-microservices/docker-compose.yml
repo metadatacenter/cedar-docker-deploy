@@ -554,6 +554,8 @@ services:
       - CEDAR_OPENVIEW_SERVER_HOST
       - CEDAR_MONITOR_SERVER_HOST
       - CEDAR_IMPEX_SERVER_HOST
+      - CEDAR_BRIDGE_SERVER_HOST
+      - CEDAR_BRIDGE_ADMIN_PORT
   server-impex:
     depends_on:
       - cedar-microservice
