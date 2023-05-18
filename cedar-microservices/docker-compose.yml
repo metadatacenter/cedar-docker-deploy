@@ -8,7 +8,7 @@ services:
       - cedarnet
   cedar-microservice:
     depends_on:
-        - cedar-java
+      - cedar-java
     container_name: cedar-microservice
     image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-microservice
@@ -16,12 +16,12 @@ services:
       - cedarnet
     volumes:
       - cedar_ca:/cedar/ca
-  schema-server:
+  server-schema:
     depends_on:
-        - cedar-microservice
-    container_name: schema-server
-    image: "metadatacenter/cedar-schema-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-schema-server
+      - cedar-microservice
+    container_name: server-schema
+    image: "metadatacenter/cedar-server-schema:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-schema
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_SCHEMA_SERVER_HOST}
@@ -30,7 +30,7 @@ services:
       - "${CEDAR_SCHEMA_ADMIN_PORT}:9103"
       - "${CEDAR_SCHEMA_STOP_PORT}:9203"
     volumes:
-      - schema_log:/cedar/log/cedar-schema-server/
+      - log_schema:/cedar/log/cedar-server-schema/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -46,12 +46,12 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
-  user-server:
+  server-user:
     depends_on:
-        - cedar-microservice
-    container_name: user-server
-    image: "metadatacenter/cedar-user-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-user-server
+      - cedar-microservice
+    container_name: server-user
+    image: "metadatacenter/cedar-server-user:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-user
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_USER_SERVER_HOST}
@@ -60,7 +60,7 @@ services:
       - "${CEDAR_USER_ADMIN_PORT}:9105"
       - "${CEDAR_USER_STOP_PORT}:9205"
     volumes:
-      - user_log:/cedar/log/cedar-user-server/
+      - log_user:/cedar/log/cedar-server-user/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -81,12 +81,12 @@ services:
       - CEDAR_ADMIN_USER_PASSWORD
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
-  submission-server:
+  server-submission:
     depends_on:
-        - cedar-microservice
-    container_name: submission-server
-    image: "metadatacenter/cedar-submission-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-submission-server
+      - cedar-microservice
+    container_name: server-submission
+    image: "metadatacenter/cedar-server-submission:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-submission
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_SUBMISSION_SERVER_HOST}
@@ -95,7 +95,7 @@ services:
       - "${CEDAR_SUBMISSION_ADMIN_PORT}:9110"
       - "${CEDAR_SUBMISSION_STOP_PORT}:9210"
     volumes:
-      - submission_log:/cedar/log/cedar-submission-server/
+      - log_submission:/cedar/log/cedar-server-submission/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -124,12 +124,12 @@ services:
       - CEDAR_MESSAGING_ADMIN_PORT
       - CEDAR_MESSAGING_HTTP_PORT
       - CEDAR_MESSAGING_SERVER_HOST
-  group-server:
+  server-group:
     depends_on:
-        - cedar-microservice
-    container_name: group-server
-    image: "metadatacenter/cedar-group-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-group-server
+      - cedar-microservice
+    container_name: server-group
+    image: "metadatacenter/cedar-server-group:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-group
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_GROUP_SERVER_HOST}
@@ -138,7 +138,7 @@ services:
       - "${CEDAR_GROUP_ADMIN_PORT}:9109"
       - "${CEDAR_GROUP_STOP_PORT}:9209"
     volumes:
-      - group_log:/cedar/log/cedar-group-server/
+      - log_group:/cedar/log/cedar-server-group/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -156,12 +156,12 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
-  artifact-server:
+  server-artifact:
     depends_on:
-        - cedar-microservice
-    container_name: artifact-server
-    image: "metadatacenter/cedar-artifact-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-artifact-server
+      - cedar-microservice
+    container_name: server-artifact
+    image: "metadatacenter/cedar-server-artifact:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-artifact
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
@@ -170,7 +170,7 @@ services:
       - "${CEDAR_ARTIFACT_ADMIN_PORT}:9101"
       - "${CEDAR_ARTIFACT_STOP_PORT}:9201"
     volumes:
-      - artifact_log:/cedar/log/cedar-artifact-server/
+      - log_artifact:/cedar/log/cedar-server-artifact/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -190,12 +190,12 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_VALIDATION_ENABLED
-  worker-server:
+  server-worker:
     depends_on:
-        - cedar-microservice
-    container_name: worker-server
-    image: "metadatacenter/cedar-worker-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-worker-server
+      - cedar-microservice
+    container_name: server-worker
+    image: "metadatacenter/cedar-server-worker:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-worker
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_WORKER_SERVER_HOST}
@@ -204,7 +204,7 @@ services:
       - "${CEDAR_WORKER_ADMIN_PORT}:9111"
       - "${CEDAR_WORKER_STOP_PORT}:9211"
     volumes:
-      - worker_log:/cedar/log/cedar-worker-server/
+      - log_worker:/cedar/log/cedar-server-worker/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -245,12 +245,12 @@ services:
       - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
-  valuerecommender-server:
+  server-valuerecommender:
     depends_on:
-        - cedar-microservice
-    container_name: valuerecommender-server
-    image: "metadatacenter/cedar-valuerecommender-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-valuerecommender-server
+      - cedar-microservice
+    container_name: server-valuerecommender
+    image: "metadatacenter/cedar-server-valuerecommender:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-valuerecommender
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_VALUERECOMMENDER_SERVER_HOST}
@@ -259,7 +259,7 @@ services:
       - "${CEDAR_VALUERECOMMENDER_ADMIN_PORT}:9106"
       - "${CEDAR_VALUERECOMMENDER_STOP_PORT}:9206"
     volumes:
-      - valuerecommender_log:/cedar/log/cedar-valuerecommender-server/
+      - log_valuerecommender:/cedar/log/cedar-server-valuerecommender/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -281,12 +281,12 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_VALUERECOMMENDER_SERVER_HOST
-  terminology-server:
+  server-terminology:
     depends_on:
-        - cedar-microservice
-    container_name: terminology-server
-    image: "metadatacenter/cedar-terminology-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-terminology-server
+      - cedar-microservice
+    container_name: server-terminology
+    image: "metadatacenter/cedar-server-terminology:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-terminology
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_TERMINOLOGY_SERVER_HOST}
@@ -295,7 +295,7 @@ services:
       - "${CEDAR_TERMINOLOGY_ADMIN_PORT}:9104"
       - "${CEDAR_TERMINOLOGY_STOP_PORT}:9204"
     volumes:
-      - terminology_log:/cedar/log/cedar-terminology-server/
+      - log_terminology:/cedar/log/cedar-server-terminology/
       - terminology_data:/cedar/cache/terminology/
       - cedar_ca:/cedar/ca
     environment:
@@ -317,12 +317,12 @@ services:
       - CEDAR_BIOPORTAL_API_KEY
       - CEDAR_BIOPORTAL_REST_BASE
       - CEDAR_TEST_USER1_ID
-  repo-server:
+  server-repo:
     depends_on:
-        - cedar-microservice
-    container_name: repo-server
-    image: "metadatacenter/cedar-repo-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-repo-server
+      - cedar-microservice
+    container_name: server-repo
+    image: "metadatacenter/cedar-server-repo:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-repo
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_REPO_SERVER_HOST}
@@ -331,7 +331,7 @@ services:
       - "${CEDAR_REPO_ADMIN_PORT}:9102"
       - "${CEDAR_REPO_STOP_PORT}:9202"
     volumes:
-      - repo_log:/cedar/log/cedar-repo-server/
+      - log_repo:/cedar/log/cedar-server-repo/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -349,12 +349,12 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
-  resource-server:
+  server-resource:
     depends_on:
-        - cedar-microservice
-    container_name: resource-server
-    image: "metadatacenter/cedar-resource-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-resource-server
+      - cedar-microservice
+    container_name: server-resource
+    image: "metadatacenter/cedar-server-resource:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-resource
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_RESOURCE_SERVER_HOST}
@@ -363,7 +363,7 @@ services:
       - "${CEDAR_RESOURCE_ADMIN_PORT}:9107"
       - "${CEDAR_RESOURCE_STOP_PORT}:9207"
     volumes:
-      - resource_log:/cedar/log/cedar-resource-server/
+      - log_resource:/cedar/log/cedar-server-resource/
       - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
@@ -402,12 +402,12 @@ services:
       - CEDAR_TRUSTED_FOLDERS
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
-  messaging-server:
+  server-messaging:
     depends_on:
-        - cedar-microservice
-    container_name: messaging-server
-    image: "metadatacenter/cedar-messaging-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-messaging-server
+      - cedar-microservice
+    container_name: server-messaging
+    image: "metadatacenter/cedar-server-messaging:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-messaging
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MESSAGING_SERVER_HOST}
@@ -416,7 +416,7 @@ services:
       - "${CEDAR_MESSAGING_ADMIN_PORT}:9112"
       - "${CEDAR_MESSAGING_STOP_PORT}:9212"
     volumes:
-      - messaging_log:/cedar/log/cedar-messaging-server/
+      - log_messaging:/cedar/log/cedar-server-messaging/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -444,12 +444,12 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
-  openview-server:
+  server-openview:
     depends_on:
       - cedar-microservice
-    container_name: openview-server
-    image: "metadatacenter/cedar-openview-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-openview-server
+    container_name: server-openview
+    image: "metadatacenter/cedar-server-openview:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-openview
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_OPENVIEW_SERVER_HOST}
@@ -458,7 +458,7 @@ services:
       - "${CEDAR_OPENVIEW_ADMIN_PORT}:9113"
       - "${CEDAR_OPENVIEW_STOP_PORT}:9213"
     volumes:
-      - openview_log:/cedar/log/cedar-openview-server/
+      - log_openview:/cedar/log/cedar-server-openview/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -483,12 +483,12 @@ services:
       - CEDAR_USER_SERVER_HOST
       - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
-  monitor-server:
+  server-monitor:
     depends_on:
       - cedar-microservice
-    container_name: monitor-server
-    image: "metadatacenter/cedar-monitor-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-monitor-server
+    container_name: server-monitor
+    image: "metadatacenter/cedar-server-monitor:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-monitor
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MONITOR_SERVER_HOST}
@@ -497,7 +497,7 @@ services:
       - "${CEDAR_MONITOR_ADMIN_PORT}:9114"
       - "${CEDAR_MONITOR_STOP_PORT}:9214"
     volumes:
-      - monitor_log:/cedar/log/cedar-monitor-server/
+      - log_monitor:/cedar/log/cedar-server-monitor/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -554,12 +554,12 @@ services:
       - CEDAR_OPENVIEW_SERVER_HOST
       - CEDAR_MONITOR_SERVER_HOST
       - CEDAR_IMPEX_SERVER_HOST
-  impex-server:
+  server-impex:
     depends_on:
       - cedar-microservice
-    container_name: impex-server
-    image: "metadatacenter/cedar-impex-server:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-impex-server
+    container_name: server-impex
+    image: "metadatacenter/cedar-server-impex:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-impex
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_IMPEX_SERVER_HOST}
@@ -568,7 +568,7 @@ services:
       - "${CEDAR_IMPEX_ADMIN_PORT}:9108"
       - "${CEDAR_IMPEX_STOP_PORT}:9208"
     volumes:
-      - impex_log:/cedar/log/cedar-impex-server/
+      - log_impex:/cedar/log/cedar-server-impex/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -609,35 +609,35 @@ volumes:
   cedar_ca:
     name: cedar_ca
     external: true
-  openview_log:
-    name: openview_log
-  group_log:
-    name: group_log
-  messaging_log:
-    name: messaging_log
-  repo_log:
-    name: repo_log
-  resource_log:
-    name: resource_log
+  log_openview:
+    name: log_openview
+  log_group:
+    name: log_group
+  log_messaging:
+    name: log_messaging
+  log_repo:
+    name: log_repo
+  log_resource:
+    name: log_resource
   resource_state:
     name: resource_state
-  schema_log:
-    name: schema_log
-  submission_log:
-    name: submission_log
-  artifact_log:
-    name: artifact_log
+  log_schema:
+    name: log_schema
+  log_submission:
+    name: log_submission
+  log_artifact:
+    name: log_artifact
   terminology_data:
     name: terminology_data
-  terminology_log:
-    name: terminology_log
-  user_log:
-    name: user_log
-  valuerecommender_log:
-    name: valuerecommender_log
-  worker_log:
-    name: worker_log
-  monitor_log:
-    name: monitor_log
-  impex_log:
-    name: impex_log
+  log_terminology:
+    name: log_terminology
+  log_user:
+    name: log_user
+  log_valuerecommender:
+    name: log_valuerecommender
+  log_worker:
+    name: log_worker
+  log_monitor:
+    name: log_monitor
+  log_impex:
+    name: log_impex

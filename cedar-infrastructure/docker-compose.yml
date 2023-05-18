@@ -1,31 +1,31 @@
 version: '3.6'
 services:
   mysql:
-    container_name: mysql
-    image: "metadatacenter/cedar-mysql:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-mysql
+    container_name: infra-mysql
+    image: "metadatacenter/cedar-infra-mysql:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-mysql
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_MYSQL_HOST}
     ports:
       - ${CEDAR_KEYCLOAK_MYSQL_PORT}:3306
     volumes:
-      - mysql_log:/var/log/mysql
+      - log_mysql:/var/log/mysql
       - mysql_data:/var/lib/mysql
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
 
   mongo:
-    container_name: mongo
-    image: "metadatacenter/cedar-mongo:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-mongo
+    container_name: infra-mongo
+    image: "metadatacenter/cedar-infra-mongo:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-mongo
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MONGO_HOST}
     ports:
       - "${CEDAR_MONGO_PORT}:27017"
     volumes:
-      - mongo_log:/data/log
+      - log_mongo:/data/log
       - mongo_data:/data/db
       - mongo_state:/data/state
       - mongo_configdb:/data/configdb
@@ -36,24 +36,24 @@ services:
       - CEDAR_MONGO_APP_USER_PASSWORD
 
   redis-persistent:
-    container_name: redis-persistent
-    image: "metadatacenter/cedar-redis-persistent:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-redis-persistent
+    container_name: infra-redis-persistent
+    image: "metadatacenter/cedar-infra-redis-persistent:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-redis-persistent
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_REDIS_PERSISTENT_HOST}
     ports:
       - ${CEDAR_REDIS_PERSISTENT_PORT}:6379
     volumes:
-      - redis_log:/log
+      - log_redis:/log
       - redis_data:/data
     sysctls:
       - net.core.somaxconn=512
 
   opensearch:
-    container_name: opensearch
-    image: "metadatacenter/cedar-opensearch:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-opensearch
+    container_name: infra-opensearch
+    image: "metadatacenter/cedar-infra-opensearch:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-opensearch
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_OPENSEARCH_HOST}
@@ -61,7 +61,7 @@ services:
       - ${CEDAR_OPENSEARCH_REST_PORT}:9200
       - ${CEDAR_OPENSEARCH_TRANSPORT_PORT}:9300
     volumes:
-      - opensearch_log:/usr/share/opensearch/logs
+      - log_opensearch:/usr/share/opensearch/logs
       - opensearch_data:/usr/share/opensearch/data
     environment:
       - discovery.type=single-node
@@ -69,9 +69,9 @@ services:
       - plugins.security.disabled=true
 
   neo4j:
-    container_name: neo4j
-    image: "metadatacenter/cedar-neo4j:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-neo4j
+    container_name: infra-neo4j
+    image: "metadatacenter/cedar-infra-neo4j:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-neo4j
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_NEO4J_HOST}
@@ -79,7 +79,7 @@ services:
       - ${CEDAR_NEO4J_REST_PORT}:7474
       - ${CEDAR_NEO4J_BOLT_PORT}:7687
     volumes:
-      - neo4j_log:/logs
+      - log_neo4j:/logs
       - neo4j_data:/data
       - neo4j_state:/state
     environment:
@@ -89,9 +89,9 @@ services:
       - CEDAR_ADMIN_USER_API_KEY
 
   keycloak:
-    container_name: keycloak
-    image: "metadatacenter/cedar-keycloak:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-keycloak
+    container_name: infra-keycloak
+    image: "metadatacenter/cedar-infra-keycloak:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-keycloak
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_HOST}
@@ -99,7 +99,7 @@ services:
       - ${CEDAR_KEYCLOAK_HTTP_PORT}:8080
       - ${CEDAR_KEYCLOAK_HTTPS_PORT}:8443
     volumes:
-      - keycloak_log:/opt/keycloak/data/log
+      - log_keycloak:/opt/keycloak/data/log
       - keycloak_state:/opt/keycloak/data/state
     environment:
       - CEDAR_MYSQL_ROOT_PASSWORD
@@ -115,11 +115,13 @@ services:
       - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_RESOURCE_HTTP_PORT
       - CEDAR_NET_IP_MYSQL
+      - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_KEYCLOAK_HTTPS_PORT
 
   nginx:
-    container_name: nginx
-    image: "metadatacenter/cedar-nginx:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-nginx
+    container_name: infra-nginx
+    image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-infra-nginx
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_NGINX_HOST}
@@ -127,7 +129,7 @@ services:
       - ${CEDAR_NGINX_HTTP_PORT}:80
       - ${CEDAR_NGINX_HTTPS_PORT}:443
     volumes:
-      - nginx_log:/etc/nginx/log
+      - log_nginx:/etc/nginx/log
       - cedar_cert:/usr/local/etc/certificates
     environment:
       - CEDAR_HOST
@@ -145,38 +147,38 @@ networks:
     external: true
 
 volumes:
-  neo4j_log:
-    name: neo4j_log
+  log_neo4j:
+    name: log_neo4j
   neo4j_data:
     name: neo4j_data
   neo4j_state:
     name: neo4j_state
-  opensearch_log:
-    name: opensearch_log
+  log_opensearch:
+    name: log_opensearch
   opensearch_data:
     name: opensearch_data
-  redis_log:
-    name: redis_log
+  log_redis:
+    name: log_redis
   redis_data:
     name: redis_data
-  mongo_log:
-    name: mongo_log
+  log_mongo:
+    name: log_mongo
   mongo_data:
     name: mongo_data
   mongo_state:
     name: mongo_state
   mongo_configdb:
     name: mongo_configdb
-  mysql_log:
-    name: mysql_log
+  log_mysql:
+    name: log_mysql
   mysql_data:
     name: mysql_data
-  keycloak_log:
-    name: keycloak_log
+  log_keycloak:
+    name: log_keycloak
   keycloak_state:
     name: keycloak_state
-  nginx_log:
-    name: nginx_log
+  log_nginx:
+    name: log_nginx
   cedar_cert:
     name: cedar_cert
     external: true
