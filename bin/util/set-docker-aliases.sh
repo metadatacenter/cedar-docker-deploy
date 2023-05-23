@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CEDAR_DOCKER_DEPLOY=${CEDAR_DOCKER_HOME}/cedar-docker-deploy
-export CEDAR_DOCKER_BUILD=${CEDAR_DOCKER_HOME}/cedar-docker-build
+export CEDAR_DOCKER_DEPLOY=${CEDAR_HOME}/cedar-docker-deploy
+export CEDAR_DOCKER_BUILD=${CEDAR_HOME}/cedar-docker-build
 
 alias gofrontend='cd $CEDAR_DOCKER_DEPLOY/cedar-frontend'
 alias goinfrastructure='cd $CEDAR_DOCKER_DEPLOY/cedar-infrastructure'
