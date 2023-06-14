@@ -52,6 +52,19 @@ services:
       - log_frontend_monitoring:/log
     environment:
       - CEDAR_HOST
+  frontend-bridging:
+    container_name: frontend-bridging
+    image: "metadatacenter/cedar-frontend-bridging:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-bridging
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_MONITORING_HOST}
+    ports:
+      - "${CEDAR_FRONTEND_BRIDGING_PORT}:4340"
+    volumes:
+      - log_frontend_bridging:/log
+    environment:
+      - CEDAR_HOST
   frontend-artifacts:
     container_name: frontend-artifacts
     image: "metadatacenter/cedar-frontend-artifacts:${CEDAR_DOCKER_VERSION}"
@@ -80,5 +93,7 @@ volumes:
     name: log_frontend_openview
   log_frontend_monitoring:
     name: log_frontend_monitoring
+  log_frontend_bridging:
+    name: log_frontend_bridging
   log_frontend_artifacts:
     name: log_frontend_artifacts
