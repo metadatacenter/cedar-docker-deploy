@@ -140,6 +140,7 @@ services:
       - CEDAR_FRONTEND_OPENVIEW_HOST
       - CEDAR_FRONTEND_MONITORING_HOST
       - CEDAR_FRONTEND_ARTIFACTS_HOST
+      - CEDAR_FRONTEND_BRIDGING_HOST
 
 networks:
   cedarnet:
@@ -147,38 +148,45 @@ networks:
     external: true
 
 volumes:
-  log_neo4j:
-    name: log_neo4j
-  neo4j_data:
-    name: neo4j_data
-  neo4j_state:
-    name: neo4j_state
-  log_opensearch:
-    name: log_opensearch
+  cedar_cert:
+    name: cedar_cert
+    external: true
+
   opensearch_data:
     name: opensearch_data
-  log_redis:
-    name: log_redis
-  redis_data:
-    name: redis_data
-  log_mongo:
-    name: log_mongo
+  log_opensearch:
+    name: log_opensearch
+
+  keycloak_state:
+    name: keycloak_state
+  log_keycloak:
+    name: log_keycloak
+
   mongo_data:
     name: mongo_data
   mongo_state:
     name: mongo_state
   mongo_configdb:
     name: mongo_configdb
-  log_mysql:
-    name: log_mysql
+  log_mongo:
+    name: log_mongo
+
   mysql_data:
     name: mysql_data
-  log_keycloak:
-    name: log_keycloak
-  keycloak_state:
-    name: keycloak_state
+  log_mysql:
+    name: log_mysql
+
+  neo4j_data:
+    name: neo4j_data
+  neo4j_state:
+    name: neo4j_state
+  log_neo4j:
+    name: log_neo4j
+
   log_nginx:
     name: log_nginx
-  cedar_cert:
-    name: cedar_cert
-    external: true
+
+  redis_data:
+    name: redis_data
+  log_redis:
+    name: log_redis

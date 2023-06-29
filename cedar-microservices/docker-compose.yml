@@ -30,7 +30,7 @@ services:
       - "${CEDAR_SCHEMA_ADMIN_PORT}:9103"
       - "${CEDAR_SCHEMA_STOP_PORT}:9203"
     volumes:
-      - log_schema:/cedar/log/cedar-server-schema/
+      - log_schema:/cedar/log/server-schema/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -60,7 +60,7 @@ services:
       - "${CEDAR_USER_ADMIN_PORT}:9105"
       - "${CEDAR_USER_STOP_PORT}:9205"
     volumes:
-      - log_user:/cedar/log/cedar-server-user/
+      - log_user:/cedar/log/server-user/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -95,7 +95,7 @@ services:
       - "${CEDAR_SUBMISSION_ADMIN_PORT}:9110"
       - "${CEDAR_SUBMISSION_STOP_PORT}:9210"
     volumes:
-      - log_submission:/cedar/log/cedar-server-submission/
+      - log_submission:/cedar/log/server-submission/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -138,7 +138,7 @@ services:
       - "${CEDAR_GROUP_ADMIN_PORT}:9109"
       - "${CEDAR_GROUP_STOP_PORT}:9209"
     volumes:
-      - log_group:/cedar/log/cedar-server-group/
+      - log_group:/cedar/log/server-group/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -170,7 +170,7 @@ services:
       - "${CEDAR_ARTIFACT_ADMIN_PORT}:9101"
       - "${CEDAR_ARTIFACT_STOP_PORT}:9201"
     volumes:
-      - log_artifact:/cedar/log/cedar-server-artifact/
+      - log_artifact:/cedar/log/server-artifact/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -204,7 +204,7 @@ services:
       - "${CEDAR_WORKER_ADMIN_PORT}:9111"
       - "${CEDAR_WORKER_STOP_PORT}:9211"
     volumes:
-      - log_worker:/cedar/log/cedar-server-worker/
+      - log_worker:/cedar/log/server-worker/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -259,7 +259,7 @@ services:
       - "${CEDAR_VALUERECOMMENDER_ADMIN_PORT}:9106"
       - "${CEDAR_VALUERECOMMENDER_STOP_PORT}:9206"
     volumes:
-      - log_valuerecommender:/cedar/log/cedar-server-valuerecommender/
+      - log_valuerecommender:/cedar/log/server-valuerecommender/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -295,7 +295,7 @@ services:
       - "${CEDAR_TERMINOLOGY_ADMIN_PORT}:9104"
       - "${CEDAR_TERMINOLOGY_STOP_PORT}:9204"
     volumes:
-      - log_terminology:/cedar/log/cedar-server-terminology/
+      - log_terminology:/cedar/log/server-terminology/
       - terminology_data:/cedar/cache/terminology/
       - cedar_ca:/cedar/ca
     environment:
@@ -331,7 +331,7 @@ services:
       - "${CEDAR_REPO_ADMIN_PORT}:9102"
       - "${CEDAR_REPO_STOP_PORT}:9202"
     volumes:
-      - log_repo:/cedar/log/cedar-server-repo/
+      - log_repo:/cedar/log/server-repo/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -363,7 +363,7 @@ services:
       - "${CEDAR_RESOURCE_ADMIN_PORT}:9107"
       - "${CEDAR_RESOURCE_STOP_PORT}:9207"
     volumes:
-      - log_resource:/cedar/log/cedar-server-resource/
+      - log_resource:/cedar/log/server-resource/
       - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
@@ -416,7 +416,7 @@ services:
       - "${CEDAR_MESSAGING_ADMIN_PORT}:9112"
       - "${CEDAR_MESSAGING_STOP_PORT}:9212"
     volumes:
-      - log_messaging:/cedar/log/cedar-server-messaging/
+      - log_messaging:/cedar/log/server-messaging/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -458,7 +458,7 @@ services:
       - "${CEDAR_OPENVIEW_ADMIN_PORT}:9113"
       - "${CEDAR_OPENVIEW_STOP_PORT}:9213"
     volumes:
-      - log_openview:/cedar/log/cedar-server-openview/
+      - log_openview:/cedar/log/server-openview/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -497,7 +497,7 @@ services:
       - "${CEDAR_MONITOR_ADMIN_PORT}:9114"
       - "${CEDAR_MONITOR_STOP_PORT}:9214"
     volumes:
-      - log_monitor:/cedar/log/cedar-server-monitor/
+      - log_monitor:/cedar/log/server-monitor/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -556,6 +556,8 @@ services:
       - CEDAR_IMPEX_SERVER_HOST
       - CEDAR_BRIDGE_SERVER_HOST
       - CEDAR_BRIDGE_ADMIN_PORT
+    extra_hosts:
+      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   server-impex:
     depends_on:
       - cedar-microservice
@@ -570,7 +572,7 @@ services:
       - "${CEDAR_IMPEX_ADMIN_PORT}:9108"
       - "${CEDAR_IMPEX_STOP_PORT}:9208"
     volumes:
-      - log_impex:/cedar/log/cedar-server-impex/
+      - log_impex:/cedar/log/server-impex/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -601,6 +603,46 @@ services:
       - CEDAR_LOG_MYSQL_USER
       - CEDAR_LOG_MYSQL_PASSWORD
       - CEDAR_CADSR_ADMIN_USER_API_KEY
+  server-bridge:
+    depends_on:
+      - cedar-microservice
+    container_name: server-bridge
+    image: "metadatacenter/cedar-server-bridge:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-server-bridge
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_BRIDGE_SERVER_HOST}
+    ports:
+      - "${CEDAR_BRIDGE_HTTP_PORT}:9015"
+      - "${CEDAR_BRIDGE_ADMIN_PORT}:9115"
+      - "${CEDAR_BRIDGE_STOP_PORT}:9215"
+    volumes:
+      - log_bridge:/cedar/log/server-bridge/
+      - cedar_ca:/cedar/ca
+    environment:
+      - CEDAR_HOST
+      - CEDAR_NET_GATEWAY
+      - CEDAR_MICROSERVICE_HOST
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_NEO4J_HOST
+      - CEDAR_NEO4J_REST_PORT
+      - CEDAR_NEO4J_BOLT_PORT
+      - CEDAR_NEO4J_USER_NAME
+      - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_KEYCLOAK_HOST
+      - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_DATACITE_REPOSITORY_ID
+      - CEDAR_DATACITE_REPOSITORY_PASSWORD
+      - CEDAR_DATACITE_API_ENDPOINT_URL
+      - CEDAR_DATACITE_TEMPLATE_ID
+      - CEDAR_ARTIFACT_SERVER_HOST
+      - CEDAR_ARTIFACT_HTTP_PORT
+      - CEDAR_ADMIN_USER_API_KEY
 
 networks:
   cedarnet:
@@ -643,3 +685,5 @@ volumes:
     name: log_monitor
   log_impex:
     name: log_impex
+  log_bridge:
+    name: log_bridge
