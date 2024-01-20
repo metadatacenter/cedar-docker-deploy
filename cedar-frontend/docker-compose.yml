@@ -13,17 +13,17 @@ services:
       - log_frontend_main:/log
     environment:
       - CEDAR_HOST
-  frontend-component:
-    container_name: frontend-component
-    image: "metadatacenter/cedar-frontend-component:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-frontend-component
+  frontend-content:
+    container_name: frontend-content
+    image: "metadatacenter/cedar-frontend-content:${CEDAR_DOCKER_VERSION}"
+    build: ../../cedar-docker-build/cedar-frontend-content
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_COMPONENT_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_CONTENT_HOST}
     ports:
-      - "${CEDAR_FRONTEND_COMPONENT_PORT}:4240"
+      - "${CEDAR_FRONTEND_CONTENT_PORT}:4240"
     volumes:
-      - log_frontend_component:/log
+      - log_frontend_content:/log
     environment:
       - CEDAR_HOST
   frontend-openview:
@@ -87,8 +87,8 @@ networks:
 volumes:
   log_frontend_main:
     name: log_frontend_main
-  log_frontend_component:
-    name: log_frontend_component
+  log_frontend_content:
+    name: log_frontend_content
   log_frontend_openview:
     name: log_frontend_openview
   log_frontend_monitoring:
