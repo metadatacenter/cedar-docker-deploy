@@ -1,4 +1,3 @@
-version: '3.6'
 services:
   cedar-java:
     container_name: cedar-java
