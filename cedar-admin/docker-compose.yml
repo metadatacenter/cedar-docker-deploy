@@ -1,4 +1,3 @@
-version: '3.6'
 services:
   redis-commander:
     container_name: admin-redis-commander
