@@ -10,6 +10,8 @@ services:
       - ${CEDAR_REDIS_COMMANDER_PORT}:8081
     environment:
       - CEDAR_NET_GATEWAY
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
 
   kibana:
     container_name: admin-kibana
@@ -20,6 +22,10 @@ services:
       - cedarnet
     ports:
       - ${CEDAR_KIBANA_PORT}:5601
+    environment:
+      # Without this it defaults to http://elasticsearch:9200, which does not exist on cedarnet.
+      - OPENSEARCH_HOSTS=http://${CEDAR_OPENSEARCH_HOST}:9200
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
 
   phpmyadmin:
     container_name: admin-phpmyadmin
