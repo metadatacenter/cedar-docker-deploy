@@ -130,6 +130,8 @@ services:
     volumes:
       - log_nginx:/etc/nginx/log
       - cedar_cert:/usr/local/etc/certificates
+      # Static files served at shared.${CEDAR_HOST}; a checkout on the host, as in the native stack.
+      - ${CEDAR_HOME}/cedar-shared-data:/usr/local/etc/shared-data:ro
     environment:
       - CEDAR_HOST
       - CEDAR_MICROSERVICE_HOST
