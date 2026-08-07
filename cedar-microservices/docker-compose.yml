@@ -1,27 +1,9 @@
+# The cedar-java and cedar-microservice base images are not services here: they have no
+# process to run, and listing them only to force build order left two dead containers
+# behind every "up". Build them, and everything layered on them, with
+# cedar-docker-build/bin/build-all-images.sh.
 services:
-  cedar-java:
-    container_name: cedar-java
-    # Build-order placeholder, not a running service: it exits immediately.
-    restart: "no"
-    image: "metadatacenter/cedar-java:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-java
-    networks:
-      - cedarnet
-  cedar-microservice:
-    depends_on:
-      - cedar-java
-    container_name: cedar-microservice
-    # Build-order placeholder, not a running service: it exits immediately.
-    restart: "no"
-    image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-microservice
-    networks:
-      - cedarnet
-    volumes:
-      - cedar_ca:/cedar/ca
   server-schema:
-    depends_on:
-      - cedar-microservice
     container_name: server-schema
     restart: unless-stopped
     healthcheck:
@@ -57,8 +39,6 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
   server-user:
-    depends_on:
-      - cedar-microservice
     container_name: server-user
     restart: unless-stopped
     healthcheck:
@@ -99,8 +79,6 @@ services:
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   server-submission:
-    depends_on:
-      - cedar-microservice
     container_name: server-submission
     restart: unless-stopped
     healthcheck:
@@ -149,8 +127,6 @@ services:
       - CEDAR_MESSAGING_HTTP_PORT
       - CEDAR_MESSAGING_SERVER_HOST
   server-group:
-    depends_on:
-      - cedar-microservice
     container_name: server-group
     restart: unless-stopped
     healthcheck:
@@ -188,8 +164,6 @@ services:
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
   server-artifact:
-    depends_on:
-      - cedar-microservice
     container_name: server-artifact
     restart: unless-stopped
     healthcheck:
@@ -229,8 +203,6 @@ services:
       - CEDAR_TEST_USER1_ID
       - CEDAR_VALIDATION_ENABLED
   server-worker:
-    depends_on:
-      - cedar-microservice
     container_name: server-worker
     restart: unless-stopped
     healthcheck:
@@ -291,8 +263,6 @@ services:
       - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
   server-valuerecommender:
-    depends_on:
-      - cedar-microservice
     container_name: server-valuerecommender
     restart: unless-stopped
     healthcheck:
@@ -334,8 +304,6 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_VALUERECOMMENDER_SERVER_HOST
   server-terminology:
-    depends_on:
-      - cedar-microservice
     container_name: server-terminology
     restart: unless-stopped
     healthcheck:
@@ -377,8 +345,6 @@ services:
       - CEDAR_BIOPORTAL_REST_BASE
       - CEDAR_TEST_USER1_ID
   server-repo:
-    depends_on:
-      - cedar-microservice
     container_name: server-repo
     restart: unless-stopped
     healthcheck:
@@ -416,8 +382,6 @@ services:
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
   server-resource:
-    depends_on:
-      - cedar-microservice
     container_name: server-resource
     restart: unless-stopped
     healthcheck:
@@ -476,8 +440,6 @@ services:
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   server-messaging:
-    depends_on:
-      - cedar-microservice
     container_name: server-messaging
     restart: unless-stopped
     healthcheck:
@@ -525,8 +487,6 @@ services:
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
   server-openview:
-    depends_on:
-      - cedar-microservice
     container_name: server-openview
     restart: unless-stopped
     healthcheck:
@@ -571,8 +531,6 @@ services:
       - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
   server-monitor:
-    depends_on:
-      - cedar-microservice
     container_name: server-monitor
     restart: unless-stopped
     healthcheck:
@@ -653,8 +611,6 @@ services:
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   server-impex:
-    depends_on:
-      - cedar-microservice
     container_name: server-impex
     restart: unless-stopped
     healthcheck:
@@ -705,8 +661,6 @@ services:
       - CEDAR_LOG_MYSQL_PASSWORD
       - CEDAR_CADSR_ADMIN_USER_API_KEY
   server-bridge:
-    depends_on:
-      - cedar-microservice
     container_name: server-bridge
     restart: unless-stopped
     healthcheck:
