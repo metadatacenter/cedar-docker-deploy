@@ -1,6 +1,7 @@
 services:
   redis-commander:
     container_name: admin-redis-commander
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-redis-commander:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-admin-redis-commander
     networks:
@@ -12,6 +13,7 @@ services:
 
   kibana:
     container_name: admin-kibana
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-kibana:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-admin-kibana
     networks:
@@ -21,6 +23,7 @@ services:
 
   phpmyadmin:
     container_name: admin-phpmyadmin
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-phpmyadmin:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-admin-phpmyadmin
     networks:
@@ -32,6 +35,7 @@ services:
 
   admin-tool:
     container_name: admin-tool
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-tool:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-admin-tool
     networks:

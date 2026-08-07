@@ -1,6 +1,13 @@
 services:
   mysql:
     container_name: infra-mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     image: "metadatacenter/cedar-infra-mysql:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-mysql
     networks:
@@ -16,6 +23,13 @@ services:
 
   mongo:
     container_name: infra-mongo
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "--eval", "db.runCommand({ping:1}).ok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
     image: "metadatacenter/cedar-infra-mongo:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-mongo
     networks:
@@ -36,6 +50,13 @@ services:
 
   redis-persistent:
     container_name: infra-redis-persistent
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
     image: "metadatacenter/cedar-infra-redis-persistent:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-redis-persistent
     networks:
@@ -51,6 +72,13 @@ services:
 
   opensearch:
     container_name: infra-opensearch
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     image: "metadatacenter/cedar-infra-opensearch:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-opensearch
     networks:
@@ -69,6 +97,13 @@ services:
 
   neo4j:
     container_name: infra-neo4j
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     image: "metadatacenter/cedar-infra-neo4j:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-neo4j
     networks:
@@ -89,6 +124,13 @@ services:
 
   keycloak:
     container_name: infra-keycloak
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
     image: "metadatacenter/cedar-infra-keycloak:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-keycloak
     networks:
@@ -119,6 +161,13 @@ services:
 
   nginx:
     container_name: infra-nginx
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 15s
     image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-infra-nginx
     networks:

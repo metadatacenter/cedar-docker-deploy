@@ -1,6 +1,13 @@
 services:
   frontend-main:
     container_name: frontend-main
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:4200/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     image: "metadatacenter/cedar-frontend-main:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-frontend-main
     networks:
@@ -14,6 +21,13 @@ services:
       - CEDAR_HOST
   frontend-content:
     container_name: frontend-content
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:4240/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     image: "metadatacenter/cedar-frontend-content:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-frontend-content
     networks:
@@ -27,6 +41,13 @@ services:
       - CEDAR_HOST
   frontend-openview:
     container_name: frontend-openview
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:4220/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     image: "metadatacenter/cedar-frontend-openview:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-frontend-openview
     networks:
@@ -40,6 +61,13 @@ services:
       - CEDAR_HOST
   frontend-monitoring:
     container_name: frontend-monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:4300/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     image: "metadatacenter/cedar-frontend-monitoring:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-frontend-monitoring
     networks:
@@ -53,6 +81,13 @@ services:
       - CEDAR_HOST
   frontend-artifacts:
     container_name: frontend-artifacts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:4320/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     image: "metadatacenter/cedar-frontend-artifacts:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-frontend-artifacts
     networks:
@@ -66,6 +101,13 @@ services:
       - CEDAR_HOST
   frontend-bridging:
     container_name: frontend-bridging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:4340/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     image: "metadatacenter/cedar-frontend-bridging:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-frontend-bridging
     networks:

@@ -1,6 +1,8 @@
 services:
   cedar-java:
     container_name: cedar-java
+    # Build-order placeholder, not a running service: it exits immediately.
+    restart: "no"
     image: "metadatacenter/cedar-java:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-java
     networks:
@@ -9,6 +11,8 @@ services:
     depends_on:
       - cedar-java
     container_name: cedar-microservice
+    # Build-order placeholder, not a running service: it exits immediately.
+    restart: "no"
     image: "metadatacenter/cedar-microservice:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-microservice
     networks:
@@ -19,6 +23,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-schema
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9103/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-schema:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-schema
     networks:
@@ -49,6 +60,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-user
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9105/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-user:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-user
     networks:
@@ -84,6 +102,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-submission
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9110/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-submission:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-submission
     networks:
@@ -127,6 +152,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-group
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9109/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-group:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-group
     networks:
@@ -159,6 +191,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-artifact
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9101/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-artifact:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-artifact
     networks:
@@ -193,6 +232,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-worker
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9111/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-worker:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-worker
     networks:
@@ -248,6 +294,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-valuerecommender
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9106/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-valuerecommender:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-valuerecommender
     networks:
@@ -284,6 +337,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-terminology
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9104/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-terminology:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-terminology
     networks:
@@ -320,6 +380,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-repo
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9102/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-repo:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-repo
     networks:
@@ -352,6 +419,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-resource
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9107/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-resource:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-resource
     networks:
@@ -405,6 +479,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-messaging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9112/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-messaging:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-messaging
     networks:
@@ -447,6 +528,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-openview
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9113/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-openview:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-openview
     networks:
@@ -486,6 +574,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-monitor
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9114/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-monitor:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-monitor
     networks:
@@ -561,6 +656,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-impex
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9108/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-impex:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-impex
     networks:
@@ -606,6 +708,13 @@ services:
     depends_on:
       - cedar-microservice
     container_name: server-bridge
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9115/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     image: "metadatacenter/cedar-server-bridge:${CEDAR_DOCKER_VERSION}"
     build: ../../cedar-docker-build/cedar-server-bridge
     networks:
