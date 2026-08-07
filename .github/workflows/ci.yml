@@ -53,11 +53,13 @@ jobs:
           # docker compose config parses and interpolates without contacting the daemon, so
           # this runs anywhere. It exits 0 on an undefined variable and only warns, which is
           # the failure that actually reaches a bring-up, so the warning is what we gate on.
+          # GitHub runs this with `bash -e`, so every assignment from a command substitution has to
+          # tolerate a non-zero exit: grep returns 1 when it matches nothing, which is the healthy
+          # case here and would otherwise abort the step before it printed anything.
           failed=0
           for stack in cedar-infrastructure cedar-microservices cedar-frontend cedar-admin; do
-              out=$(cd "${CEDAR_HOME}/cedar-docker-deploy/${stack}" && docker compose config --quiet 2>&1)
-              rc=$?
-              undefined=$(echo "${out}" | grep 'variable is not set' | grep -oE 'CEDAR_[A-Z0-9_]+' | sort -u)
+              out=$(cd "${CEDAR_HOME}/cedar-docker-deploy/${stack}" && docker compose config --quiet 2>&1) && rc=0 || rc=$?
+              undefined=$(echo "${out}" | grep 'variable is not set' | grep -oE 'CEDAR_[A-Z0-9_]+' | sort -u || true)
               if [ ${rc} -ne 0 ]; then
                   echo "FAIL ${stack}: compose file is not valid"
                   echo "${out}"
@@ -83,19 +85,19 @@ jobs:
           done > /tmp/resolved.yml
 
           failed=0
-          dup_ip=$(grep -E 'ipv4_address' /tmp/resolved.yml | sed 's/.*: *//' | sort | uniq -d)
+          dup_ip=$(grep -E 'ipv4_address' /tmp/resolved.yml | sed 's/.*: *//' | sort | uniq -d || true)
           if [ -n "${dup_ip}" ]; then
               echo "FAIL two containers share a static address:"
               echo "${dup_ip}" | sed 's/^/         /'
               failed=1
           fi
 
-          dup_port=$(grep -E '^ +published:' /tmp/resolved.yml | sed 's/.*: *//' | tr -d '"' | sort | uniq -d)
+          dup_port=$(grep -E '^ +published:' /tmp/resolved.yml | sed 's/.*: *//' | tr -d '"' | sort | uniq -d || true)
           if [ -n "${dup_port}" ]; then
               echo "FAIL two containers publish the same host port:"
               echo "${dup_port}" | sed 's/^/         /'
               failed=1
           fi
 
-          [ ${failed} -eq 0 ] && echo "OK   addresses and host ports are unique across all stacks"
+          if [ ${failed} -eq 0 ]; then echo "OK   addresses and host ports are unique across all stacks"; fi
           exit ${failed}
