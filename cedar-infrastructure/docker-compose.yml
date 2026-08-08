@@ -181,6 +181,8 @@ services:
       - cedar_cert:/usr/local/etc/certificates
       # Static files served at shared.${CEDAR_HOST}; a checkout on the host, as in the native stack.
       - ${CEDAR_HOME}/cedar-shared-data:/usr/local/etc/shared-data:ro
+      # The Swagger UI, served at /api on the API vhosts; a checkout, as in the native stack.
+      - ${CEDAR_HOME}/cedar-swagger-ui:/usr/local/etc/swagger-ui:ro
     environment:
       - CEDAR_HOST
       - CEDAR_MICROSERVICE_HOST
