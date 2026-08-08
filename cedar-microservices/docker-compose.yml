@@ -76,6 +76,8 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_ADMIN_USER_PASSWORD
+      - CEDAR_TEST_USER1_ID
+      - CEDAR_TEST_USER2_ID
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   server-submission:
@@ -163,6 +165,8 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
+      - CEDAR_TEST_USER1_ID
+      - CEDAR_TEST_USER2_ID
   server-artifact:
     container_name: server-artifact
     restart: unless-stopped
@@ -437,6 +441,8 @@ services:
       - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_CADSR_ONTOLOGIES_FOLDER
       - CEDAR_TRUSTED_FOLDERS
+      - CEDAR_TEST_USER1_ID
+      - CEDAR_TEST_USER2_ID
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
   server-messaging:
@@ -709,6 +715,15 @@ services:
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_RESOURCE_HTTP_PORT
+      - CEDAR_ROR_API_PREFIX
+      - CEDAR_ORCID_TOKEN_PREFIX
+      - CEDAR_ORCID_API_PREFIX
+      - CEDAR_ORCID_API_CLIENT_ID
+      - CEDAR_ORCID_API_CLIENT_SECRET
+      - CEDAR_COMP_TOX_API_PREFIX
+      - CEDAR_COMP_TOX_API_KEY
+      - CEDAR_RRID_API_KEY
+      - CEDAR_PUBMED_API_KEY
 
 networks:
   cedarnet:
