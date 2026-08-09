@@ -8,7 +8,9 @@ services:
     container_name: infra-mysql
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "/healthcheck.sh"]
+      # /healthcheck.sh came with Oracle's abandoned mysql/mysql-server image; the Docker Official
+      # image this is now built on ships no such script.
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p\"$$CEDAR_MYSQL_ROOT_PASSWORD\" --silent"]
       interval: 30s
       timeout: 10s
       retries: 5
