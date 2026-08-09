@@ -1,7 +1,12 @@
-# The cedar-java and cedar-microservice base images are not services here: they have no
-# process to run, and listing them only to force build order left two dead containers
-# behind every "up". Build them, and everything layered on them, with
-# cedar-docker-build/bin/build-all-images.sh.
+# This stack runs images; it does not build them. `cedarcli docker build` is the only builder:
+# it builds the CEDAR base images a target is built FROM first, which a compose-driven build does
+# not, and it supplies the locked server versions from cedar-docker-build/bin/cedar-images-base.sh
+# as build arguments the Dockerfiles declare with no default. A `build:` stanza here would be a
+# second builder producing a differently-built image under the same tag, so there is none.
+#
+# The cedar-java and cedar-microservice base images are not services here either: they have no
+# process to run, and listing them only to force build order left two dead containers behind
+# every "up".
 services:
   server-schema:
     container_name: server-schema
@@ -13,7 +18,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-schema:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-schema
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_SCHEMA_SERVER_HOST}
@@ -52,7 +56,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-user:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-user
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_USER_SERVER_HOST}
@@ -94,7 +97,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-submission:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-submission
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_SUBMISSION_SERVER_HOST}
@@ -146,7 +148,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-group:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-group
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_GROUP_SERVER_HOST}
@@ -189,7 +190,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-artifact:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-artifact
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
@@ -232,7 +232,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-worker:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-worker
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_WORKER_SERVER_HOST}
@@ -296,7 +295,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-valuerecommender:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-valuerecommender
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_VALUERECOMMENDER_SERVER_HOST}
@@ -341,7 +339,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-terminology:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-terminology
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_TERMINOLOGY_SERVER_HOST}
@@ -386,7 +383,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-repo:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-repo
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_REPO_SERVER_HOST}
@@ -427,7 +423,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-resource:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-resource
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_RESOURCE_SERVER_HOST}
@@ -487,7 +482,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-messaging:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-messaging
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MESSAGING_SERVER_HOST}
@@ -538,7 +532,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-openview:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-openview
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_OPENVIEW_SERVER_HOST}
@@ -586,7 +579,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-monitor:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-monitor
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MONITOR_SERVER_HOST}
@@ -666,7 +658,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-impex:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-impex
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_IMPEX_SERVER_HOST}
@@ -720,7 +711,6 @@ services:
       retries: 5
       start_period: 180s
     image: "metadatacenter/cedar-server-bridge:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-server-bridge
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_BRIDGE_SERVER_HOST}

@@ -1,3 +1,8 @@
+# These stacks run images; they do not build them. `cedarcli docker build` is the only builder:
+# it builds the CEDAR base images a target is built FROM first, which a compose-driven build does
+# not, and it supplies the locked server versions from cedar-docker-build/bin/cedar-images-base.sh
+# as build arguments the Dockerfiles declare with no default. A `build:` stanza here would be a
+# second builder producing a differently-built image under the same tag, so there is none.
 services:
   mysql:
     container_name: infra-mysql
@@ -9,7 +14,6 @@ services:
       retries: 5
       start_period: 90s
     image: "metadatacenter/cedar-infra-mysql:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-mysql
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_MYSQL_HOST}
@@ -31,7 +35,6 @@ services:
       retries: 5
       start_period: 60s
     image: "metadatacenter/cedar-infra-mongo:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-mongo
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MONGO_HOST}
@@ -58,7 +61,6 @@ services:
       retries: 5
       start_period: 10s
     image: "metadatacenter/cedar-infra-redis-persistent:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-redis-persistent
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_REDIS_PERSISTENT_HOST}
@@ -80,7 +82,6 @@ services:
       retries: 5
       start_period: 90s
     image: "metadatacenter/cedar-infra-opensearch:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-opensearch
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_OPENSEARCH_HOST}
@@ -105,7 +106,6 @@ services:
       retries: 5
       start_period: 90s
     image: "metadatacenter/cedar-infra-neo4j:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-neo4j
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_NEO4J_HOST}
@@ -132,7 +132,6 @@ services:
       retries: 5
       start_period: 120s
     image: "metadatacenter/cedar-infra-keycloak:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-keycloak
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_HOST}
@@ -169,7 +168,6 @@ services:
       retries: 5
       start_period: 15s
     image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-infra-nginx
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_NGINX_HOST}

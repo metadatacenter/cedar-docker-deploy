@@ -1,9 +1,13 @@
+# These stacks run images; they do not build them. `cedarcli docker build` is the only builder:
+# it builds the CEDAR base images a target is built FROM first, which a compose-driven build does
+# not, and it supplies the locked server versions from cedar-docker-build/bin/cedar-images-base.sh
+# as build arguments the Dockerfiles declare with no default. A `build:` stanza here would be a
+# second builder producing a differently-built image under the same tag, so there is none.
 services:
   redis-commander:
     container_name: admin-redis-commander
     restart: unless-stopped
     image: "metadatacenter/cedar-admin-redis-commander:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-redis-commander
     networks:
       - cedarnet
     ports:
@@ -17,7 +21,6 @@ services:
     container_name: admin-kibana
     restart: unless-stopped
     image: "metadatacenter/cedar-admin-kibana:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-kibana
     networks:
       - cedarnet
     ports:
@@ -31,7 +34,6 @@ services:
     container_name: admin-phpmyadmin
     restart: unless-stopped
     image: "metadatacenter/cedar-admin-phpmyadmin:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-phpmyadmin
     networks:
       - cedarnet
     ports:
@@ -43,7 +45,6 @@ services:
     container_name: admin-tool
     restart: unless-stopped
     image: "metadatacenter/cedar-admin-tool:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-tool
     networks:
       - cedarnet
     volumes:
