@@ -349,6 +349,10 @@ services:
     volumes:
       - log_terminology:/cedar/log/server-terminology/
       - terminology_data:/cedar/cache/terminology/
+      # The local terminology store: a read-mostly SQLite catalog the server only ever reads, and
+      # tens of gigabytes that would be absurd to copy into a volume. A bind mount is right here for
+      # the same reason it is right for the static content nginx serves, and read-only says so.
+      - ${CEDAR_HOME}/cedar-term:/cedar/term:ro
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -368,6 +372,13 @@ services:
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_BIOPORTAL_API_KEY
       - CEDAR_BIOPORTAL_REST_BASE
+      # The server reads the local store from terminologyStore.* system properties, not from the
+      # environment, so the values have to arrive as JVM flags. cedar-services.sh builds the same
+      # four for the native path; this is the containerized half of that one wiring.
+      - CEDAR_JAVA_OPTS=-DterminologyStore.catalogPath=${CEDAR_TERMINOLOGY_STORE_CATALOG}
+        -DterminologyStore.localOntologies=${CEDAR_TERMINOLOGY_LOCAL_ONTOLOGIES}
+        -DterminologyStore.localRootsOntologies=${CEDAR_TERMINOLOGY_LOCAL_ROOTS_ONTOLOGIES}
+        -DterminologyStore.localOnly=${CEDAR_TERMINOLOGY_LOCAL_ONLY}
       - CEDAR_TEST_USER1_ID
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server
     # needs that name to reach the nginx container rather than resolving to itself.
@@ -460,6 +471,11 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_USER_SERVER_HOST
       - CEDAR_ARTIFACT_SERVER_HOST
+      # The publish hook resolves every controlled-term constraint to its current version through
+      # the terminology server, so it needs to know where that is. Without these the freeze walk
+      # cannot ask, and pins every constraint to null rather than failing visibly.
+      - CEDAR_TERMINOLOGY_SERVER_HOST
+      - CEDAR_TERMINOLOGY_HTTP_PORT
       - CEDAR_VALIDATION_ENABLED
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
