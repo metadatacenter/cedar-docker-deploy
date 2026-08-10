@@ -42,10 +42,13 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-user:
     container_name: server-user
     restart: unless-stopped
@@ -86,7 +89,7 @@ services:
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-submission:
     container_name: server-submission
     restart: unless-stopped
@@ -134,10 +137,13 @@ services:
       - CEDAR_MESSAGING_ADMIN_PORT
       - CEDAR_MESSAGING_HTTP_PORT
       - CEDAR_MESSAGING_SERVER_HOST
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-group:
     container_name: server-group
     restart: unless-stopped
@@ -176,10 +182,13 @@ services:
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-artifact:
     container_name: server-artifact
     restart: unless-stopped
@@ -218,10 +227,13 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_VALIDATION_ENABLED
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-worker:
     container_name: server-worker
     restart: unless-stopped
@@ -281,10 +293,13 @@ services:
       - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-valuerecommender:
     container_name: server-valuerecommender
     restart: unless-stopped
@@ -325,10 +340,13 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_VALUERECOMMENDER_SERVER_HOST
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-terminology:
     container_name: server-terminology
     restart: unless-stopped
@@ -380,10 +398,13 @@ services:
         -DterminologyStore.localRootsOntologies=${CEDAR_TERMINOLOGY_LOCAL_ROOTS_ONTOLOGIES}
         -DterminologyStore.localOnly=${CEDAR_TERMINOLOGY_LOCAL_ONLY}
       - CEDAR_TEST_USER1_ID
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-repo:
     container_name: server-repo
     restart: unless-stopped
@@ -420,10 +441,13 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-resource:
     container_name: server-resource
     restart: unless-stopped
@@ -487,7 +511,7 @@ services:
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-messaging:
     container_name: server-messaging
     restart: unless-stopped
@@ -534,10 +558,13 @@ services:
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-openview:
     container_name: server-openview
     restart: unless-stopped
@@ -581,10 +608,13 @@ services:
       - CEDAR_USER_SERVER_HOST
       - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-monitor:
     container_name: server-monitor
     restart: unless-stopped
@@ -663,7 +693,7 @@ services:
       - CEDAR_BRIDGE_SERVER_HOST
       - CEDAR_BRIDGE_ADMIN_PORT
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-impex:
     container_name: server-impex
     restart: unless-stopped
@@ -713,10 +743,13 @@ services:
       - CEDAR_LOG_MYSQL_USER
       - CEDAR_LOG_MYSQL_PASSWORD
       - CEDAR_CADSR_ADMIN_USER_API_KEY
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-bridge:
     container_name: server-bridge
     restart: unless-stopped
@@ -774,10 +807,13 @@ services:
       - CEDAR_COMP_TOX_API_KEY
       - CEDAR_RRID_API_KEY
       - CEDAR_PUBMED_API_KEY
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server
-    # needs that name to reach the nginx container rather than resolving to itself.
+    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
+    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
+    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
+    # which is why it has its own variable; conflating the two silently breaks every token.
+    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_NGINX_HOST}"
+      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
 
 networks:
   cedarnet:
