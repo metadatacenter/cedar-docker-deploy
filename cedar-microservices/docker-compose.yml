@@ -94,6 +94,9 @@ services:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-submission:
     container_name: server-submission
+    depends_on:
+      server-messaging:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9110/healthcheck || exit 1"]
@@ -230,6 +233,9 @@ services:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-worker:
     container_name: server-worker
+    depends_on:
+      server-resource:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9111/healthcheck || exit 1"]
@@ -436,6 +442,9 @@ services:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-resource:
     container_name: server-resource
+    depends_on:
+      server-artifact:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9107/healthcheck || exit 1"]
@@ -549,6 +558,9 @@ services:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-openview:
     container_name: server-openview
+    depends_on:
+      server-artifact:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9113/healthcheck || exit 1"]
@@ -597,6 +609,9 @@ services:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-monitor:
     container_name: server-monitor
+    depends_on:
+      server-worker:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9114/healthcheck || exit 1"]
