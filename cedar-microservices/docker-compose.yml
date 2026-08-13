@@ -200,7 +200,6 @@ services:
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
-    ports:
     volumes:
       - log_artifact:/cedar/log/server-artifact/
       - cedar_ca:/cedar/ca
