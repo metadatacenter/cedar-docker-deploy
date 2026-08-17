@@ -223,7 +223,6 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
-      - CEDAR_VALIDATION_ENABLED
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
     # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
     # host when nginx runs natively. That is not the same thing as the nginx container's own address,
@@ -493,7 +492,6 @@ services:
       # cannot ask, and pins every constraint to null rather than failing visibly.
       - CEDAR_TERMINOLOGY_SERVER_HOST
       - CEDAR_TERMINOLOGY_HTTP_PORT
-      - CEDAR_VALIDATION_ENABLED
       - CEDAR_SUBMISSION_TEMPLATE_ID_1
       - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_ARTIFACT_HTTP_PORT
