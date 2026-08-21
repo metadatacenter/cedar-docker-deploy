@@ -29,3 +29,34 @@ The deployment smoke rejects dirty or provenance-unknown image inputs and verifi
 runtime build metadata. Save the recorder's JSON output with staging evidence; it names both full
 source commits and the exact generated bundle digests needed to distinguish a deployment and its
 rollback target even when an image tag is reused.
+
+## Local route-switch rehearsal
+
+The routing rehearsal is deliberately separate from both production Compose and the image preview.
+It puts disposable nginx gateways in front of three already-running applications and proves that a
+complete routing-table replacement can reverse the split without rebuilding or restarting one. The
+applications may be native Gulp servers or already-built local preview images. The rehearsal does
+not use TLS, authenticate, select deployment hostnames, or modify Keycloak.
+
+Start the three applications, then run the whole split-and-rollback gate:
+
+```sh
+cd "$CEDAR_HOME/cedar-development"
+./ops/cedar-services.sh start frontend workspace designer
+
+cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
+./rehearse-routing-switch.sh
+```
+
+The canonical rehearsal origin is `http://localhost:4280`; Designer is
+`http://localhost:4282`. In split mode, `/templates`, `/elements`, and `/fields` use HTTP 307 to the
+Designer origin and preserve the exact path and query. All other paths go to Workspace. Rollback
+recreates only the canonical gateway with the complete `rollback/` configuration, which sends every route to the unchanged
+monolith. The gate checks each application's container ID or native process ID before and after the
+switch and removes its two gateways on exit; it intentionally leaves the three applications in their
+original state.
+
+The two Compose files mount complete, mutually exclusive nginx configurations. Do not combine
+individual route fragments in an operational deployment: atomically selecting a complete config is
+what prevents a partial rollback. Permanent redirects (301 or 308) are not acceptable during the
+migration because cached route decisions can survive a rollback.

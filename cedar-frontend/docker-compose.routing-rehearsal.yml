@@ -1,0 +1,49 @@
+# Local-only gateway rehearsal. The three frontend applications must already be
+# listening on host ports 4200-4202. This stack starts two disposable nginx
+# gateways and never builds, restarts, or replaces an application.
+services:
+  routing-canonical:
+    container_name: cedar-routing-rehearsal-canonical
+    image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
+    pull_policy: never
+    # Bypass the infrastructure image's deployment-specific config rewriter;
+    # this gateway owns only the complete directory mounted below.
+    entrypoint: ["nginx", "-g", "daemon off;"]
+    command: []
+    ports:
+      - "${CEDAR_ROUTING_REHEARSAL_PORT:-4280}:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # Mount the complete directory so unrelated includes baked into the
+      # infrastructure image cannot participate in this routing table.
+      - ./nginx/routing-rehearsal/split:/etc/nginx/conf.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost/require-config.js >/dev/null || exit 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+      start_period: 2s
+
+  routing-designer:
+    container_name: cedar-routing-rehearsal-designer
+    image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
+    pull_policy: never
+    entrypoint: ["nginx", "-g", "daemon off;"]
+    command: []
+    ports:
+      - "${CEDAR_DESIGNER_REHEARSAL_PORT:-4282}:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./nginx/routing-rehearsal/designer:/etc/nginx/conf.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost/require-config.js >/dev/null || exit 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+      start_period: 2s
+
+networks:
+  default:
+    name: cedar-routing-rehearsal

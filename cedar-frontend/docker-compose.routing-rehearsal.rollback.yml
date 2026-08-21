@@ -1,0 +1,6 @@
+# Apply this complete-config override to recreate only the canonical gateway.
+# The monolith, Workspace, Designer, and Designer gateway remain untouched.
+services:
+  routing-canonical:
+    volumes:
+      - ./nginx/routing-rehearsal/rollback:/etc/nginx/conf.d:ro
