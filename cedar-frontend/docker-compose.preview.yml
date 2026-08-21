@@ -1,10 +1,14 @@
 # Opt-in split frontend preview stack. The production docker-compose.yml remains unchanged until
-# staging acceptance; this file starts only Workspace and Template Designer on a separate network.
+# staging acceptance; this file starts only Workspace and Template Designer on cedarnet so the
+# infrastructure nginx can route their public hostnames.
 services:
   workspace-preview:
     container_name: frontend-workspace-preview
     restart: unless-stopped
     image: "metadatacenter/cedar-frontend-workspace:${CEDAR_DOCKER_VERSION}"
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_WORKSPACE_HOST:?CEDAR_FRONTEND_WORKSPACE_HOST must be set}
     ports:
       - "${CEDAR_WORKSPACE_PREVIEW_PORT:-4201}:4201"
     volumes:
@@ -24,6 +28,9 @@ services:
     container_name: frontend-template-designer-preview
     restart: unless-stopped
     image: "metadatacenter/cedar-frontend-template-designer:${CEDAR_DOCKER_VERSION}"
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_DESIGNER_HOST:?CEDAR_FRONTEND_DESIGNER_HOST must be set}
     ports:
       - "${CEDAR_TEMPLATE_DESIGNER_PREVIEW_PORT:-4202}:4202"
     volumes:
@@ -40,8 +47,9 @@ services:
       start_period: 30s
 
 networks:
-  default:
-    name: cedar-preview-frontends
+  cedarnet:
+    name: cedarnet
+    external: true
 
 volumes:
   log_frontend_workspace_preview:

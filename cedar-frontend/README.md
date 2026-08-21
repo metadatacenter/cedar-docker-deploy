@@ -21,7 +21,9 @@ cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
 docker compose -f docker-compose.preview.yml down
 ```
 
-The preview stack uses ports 4201 and 4202 and its own Docker network and log volumes. Override
+The preview stack uses ports 4201 and 4202, joins the external `cedarnet` network at the Workspace
+and Designer addresses from the Docker profile, and keeps separate log volumes. Infrastructure
+nginx routes `workspace.${CEDAR_HOST}` and `designer.${CEDAR_HOST}` to those addresses. Override
 `CEDAR_WORKSPACE_PREVIEW_PORT` or `CEDAR_TEMPLATE_DESIGNER_PREVIEW_PORT` for host-port collisions.
 For a remote preview topology, also set the two absolute frontend URL variables consumed by the
 images. This file is not loaded by the normal `cedarcli docker start frontends` command.
