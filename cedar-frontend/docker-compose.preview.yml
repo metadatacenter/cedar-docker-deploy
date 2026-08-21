@@ -1,0 +1,50 @@
+# Opt-in split frontend preview stack. The production docker-compose.yml remains unchanged until
+# staging acceptance; this file starts only Workspace and Template Designer on a separate network.
+services:
+  workspace-preview:
+    container_name: frontend-workspace-preview
+    restart: unless-stopped
+    image: "metadatacenter/cedar-frontend-workspace:${CEDAR_DOCKER_VERSION}"
+    ports:
+      - "${CEDAR_WORKSPACE_PREVIEW_PORT:-4201}:4201"
+    volumes:
+      - log_frontend_workspace_preview:/log
+    environment:
+      CEDAR_HOST: "${CEDAR_HOST:?CEDAR_HOST must be set}"
+      CEDAR_WORKSPACE_FRONTEND_URL: "${CEDAR_WORKSPACE_FRONTEND_URL:-http://localhost:4201}"
+      CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL: "${CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL:-http://localhost:4202}"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4201/config/version.js >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  designer-preview:
+    container_name: frontend-template-designer-preview
+    restart: unless-stopped
+    image: "metadatacenter/cedar-frontend-template-designer:${CEDAR_DOCKER_VERSION}"
+    ports:
+      - "${CEDAR_TEMPLATE_DESIGNER_PREVIEW_PORT:-4202}:4202"
+    volumes:
+      - log_frontend_template_designer_preview:/log
+    environment:
+      CEDAR_HOST: "${CEDAR_HOST:?CEDAR_HOST must be set}"
+      CEDAR_WORKSPACE_FRONTEND_URL: "${CEDAR_WORKSPACE_FRONTEND_URL:-http://localhost:4201}"
+      CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL: "${CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL:-http://localhost:4202}"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4202/config/version.js >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+networks:
+  default:
+    name: cedar-preview-frontends
+
+volumes:
+  log_frontend_workspace_preview:
+    name: log_frontend_workspace_preview
+  log_frontend_template_designer_preview:
+    name: log_frontend_template_designer_preview
