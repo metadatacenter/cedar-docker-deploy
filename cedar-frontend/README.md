@@ -14,7 +14,8 @@ cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
 docker compose -f docker-compose.preview.yml up -d --wait
 
 cd "$CEDAR_HOME/cedar-development/ops/e2e"
-npm run smoke:split
+npm run smoke:split:deployment
+npm run record:split:deployment
 
 cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
 docker compose -f docker-compose.preview.yml down
@@ -24,3 +25,7 @@ The preview stack uses ports 4201 and 4202 and its own Docker network and log vo
 `CEDAR_WORKSPACE_PREVIEW_PORT` or `CEDAR_TEMPLATE_DESIGNER_PREVIEW_PORT` for host-port collisions.
 For a remote preview topology, also set the two absolute frontend URL variables consumed by the
 images. This file is not loaded by the normal `cedarcli docker start frontends` command.
+The deployment smoke rejects dirty or provenance-unknown image inputs and verifies the no-store
+runtime build metadata. Save the recorder's JSON output with staging evidence; it names both full
+source commits and the exact generated bundle digests needed to distinguish a deployment and its
+rollback target even when an image tag is reused.
