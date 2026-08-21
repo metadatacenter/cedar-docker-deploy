@@ -3,18 +3,50 @@
 `docker-compose.yml` is the current production frontend stack and remains unchanged during the
 frontend separation migration.
 
+## Deployment modes
+
+| Mode | Asset source | Compose file | Status |
+| --- | --- | --- | --- |
+| Native hybrid | Seven native Node.js development servers behind Docker nginx | None for frontends | Current Docker-backend development mode |
+| Split-image preview | Workspace and Designer containers on `cedarnet` | `docker-compose.preview.yml` | Opt-in migration test |
+| Normal Docker frontend stack | Existing frontend images | `docker-compose.yml` | Unchanged; does not include Workspace or Designer |
+
+In the native hybrid, Docker nginx contains no frontend application payload. It proxies each UI
+hostname to a native server through `host.docker.internal`; that server reads or generates assets
+from its source checkout. The complete hostname, source-root, process, port, start, verification,
+and stop map is in `$CEDAR_HOME/cedar-development/ops/DOCKER-BACKEND-RUNBOOK.md`.
+
+The nginx Workspace/Designer virtual hosts support both the native hybrid and the opt-in image
+preview. Their existence does not promote the two images into `docker-compose.yml` or the normal
+`cedarcli docker start frontends` lifecycle.
+
 `docker-compose.preview.yml` is an opt-in stack for the extracted Workspace and Template Designer.
-Build their local images first, then start and verify them:
+Build their local images and ensure the running infrastructure nginx contains the split virtual
+hosts, then start and verify them. Stop native Workspace and Designer first because both modes
+publish ports 4201 and 4202.
 
 ```sh
+export CEDAR_HOME=$HOME/CEDAR
+source "$CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker-eval.sh"
+export CEDAR_AUTH_HOST_TARGET="$CEDAR_NGINX_HOST"
+
 cd "$CEDAR_HOME/cedar-docker-build"
 ./bin/build-split-preview-frontends.sh
+cedarcli docker build nginx
+
+cd "$CEDAR_HOME/cedar-docker-deploy/cedar-infrastructure"
+docker compose up -d --no-deps --force-recreate nginx
 
 cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
+CEDAR_WORKSPACE_FRONTEND_URL=https://workspace.metadatacenter.orgx \
+CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL=https://designer.metadatacenter.orgx \
 docker compose -f docker-compose.preview.yml up -d --wait
 
 cd "$CEDAR_HOME/cedar-development/ops/e2e"
-npm run smoke:split:deployment
+npm run smoke:split:hostnames:keycloak
+npm run smoke:split:hostnames:deployment
+CEDAR_WORKSPACE_PREVIEW=https://workspace.metadatacenter.orgx \
+CEDAR_DESIGNER_PREVIEW=https://designer.metadatacenter.orgx \
 npm run record:split:deployment
 
 cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
