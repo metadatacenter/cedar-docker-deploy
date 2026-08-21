@@ -97,7 +97,10 @@ jobs:
           # servers could not start at all. The checker asks the code rather than reading the
           # descriptor by eye, so the two cannot drift apart again.
           version=$(grep -oE '[0-9][^ ]*' "${CEDAR_HOME}/cedar-docker-deploy/cedar-microservices/.env" | head -1)
-          for artifact in cedar-config-library cedar-model-library; do
+          # SystemComponent is defined by cedar-core-library. Both jars are thin, so jshell
+          # needs config plus core on its explicit classpath even though Maven resolves the
+          # transitive POM dependencies while downloading them from Nexus.
+          for artifact in cedar-config-library cedar-core-library; do
               mvn -q org.apache.maven.plugins:maven-dependency-plugin:3.5.0:get \
                   -DremoteRepositories=https://nexus.bmir.stanford.edu/repository/snapshots \
                   -Dartifact="org.metadatacenter:${artifact}:${version}"
