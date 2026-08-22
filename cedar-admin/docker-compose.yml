@@ -1,28 +1,39 @@
+# These stacks run images; they do not build them. `cedarcli docker build` is the only builder:
+# it builds the CEDAR base images a target is built FROM first, which a compose-driven build does
+# not, and it supplies the locked server versions from cedar-docker-build/bin/cedar-images-base.sh
+# as build arguments the Dockerfiles declare with no default. A `build:` stanza here would be a
+# second builder producing a differently-built image under the same tag, so there is none.
 services:
   redis-commander:
     container_name: admin-redis-commander
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-redis-commander:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-redis-commander
     networks:
       - cedarnet
     ports:
       - ${CEDAR_REDIS_COMMANDER_PORT}:8081
     environment:
       - CEDAR_NET_GATEWAY
+      - CEDAR_REDIS_PERSISTENT_HOST
+      - CEDAR_REDIS_PERSISTENT_PORT
 
   kibana:
     container_name: admin-kibana
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-kibana:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-kibana
     networks:
       - cedarnet
     ports:
       - ${CEDAR_KIBANA_PORT}:5601
+    environment:
+      # Without this it defaults to http://elasticsearch:9200, which does not exist on cedarnet.
+      - OPENSEARCH_HOSTS=http://${CEDAR_OPENSEARCH_HOST}:9200
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
 
   phpmyadmin:
     container_name: admin-phpmyadmin
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-phpmyadmin:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-phpmyadmin
     networks:
       - cedarnet
     ports:
@@ -32,8 +43,8 @@ services:
 
   admin-tool:
     container_name: admin-tool
+    restart: unless-stopped
     image: "metadatacenter/cedar-admin-tool:${CEDAR_DOCKER_VERSION}"
-    build: ../../cedar-docker-build/cedar-admin-tool
     networks:
       - cedarnet
     volumes:
