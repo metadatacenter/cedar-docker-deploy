@@ -95,7 +95,7 @@ To change from all-Docker back to the hybrid, stop the frontend Compose project,
 native frontend services with `CEDAR_FRONTEND_BIND_HOST=0.0.0.0`, then recreate infrastructure
 nginx with all seven `CEDAR_FRONTEND_*_HOST=host.docker.internal` overrides. The complete commands
 and request path are in
-`$CEDAR_HOME/cedar-development/ops/DOCKER-BACKEND-RUNBOOK.md`.
+`$CEDAR_HOME/cedar-development/ops/DOCKER-RUNBOOK.md`.
 
 ## Local route-switch rehearsal
 
