@@ -1,75 +1,108 @@
-# CEDAR Frontend Compose Stacks
+# CEDAR Frontend Deployment
 
-`docker-compose.yml` is the current production frontend stack and remains unchanged during the
-frontend separation migration.
+`docker-compose.yml` runs the complete seven-frontend set. It consumes images built in
+`cedar-docker-build`; this repository contains runtime topology only and never builds an image.
 
-## Deployment modes
+| Service | Public hostname | Container port | Docker image |
+| --- | --- | ---: | --- |
+| Template Editor | `cedar.${CEDAR_HOST}` | 4200 | `cedar-frontend-main` |
+| Workspace | `workspace.${CEDAR_HOST}` | 4201 | `cedar-frontend-workspace` |
+| Template Designer | `designer.${CEDAR_HOST}` | 4202 | `cedar-frontend-template-designer` |
+| OpenView | `openview.${CEDAR_HOST}` | 4220 | `cedar-frontend-openview` |
+| Content | `content.${CEDAR_HOST}` | 4240 | `cedar-frontend-content` |
+| Monitoring | `monitoring.${CEDAR_HOST}` | 4300 | `cedar-frontend-monitoring` |
+| Bridging | `bridging.${CEDAR_HOST}` | 4340 | `cedar-frontend-bridging` |
 
-| Mode | Asset source | Compose file | Status |
-| --- | --- | --- | --- |
-| Native hybrid | Seven native Node.js development servers behind Docker nginx | None for frontends | Current Docker-backend development mode |
-| Split-image preview | Workspace and Designer containers on `cedarnet` | `docker-compose.preview.yml` | Opt-in migration test |
-| Normal Docker frontend stack | Existing frontend images | `docker-compose.yml` | Unchanged; does not include Workspace or Designer |
+The main infrastructure nginx remains the only public TLS endpoint and overall application router.
+It contains no frontend assets. In all-Docker mode it proxies each hostname over `cedarnet` to the
+corresponding frontend container, whose private nginx serves that application's payload. API
+requests return to the main nginx on the API hostnames and are routed to the Java containers.
 
-In the native hybrid, Docker nginx contains no frontend application payload. It proxies each UI
-hostname to a native server through `host.docker.internal`; that server reads or generates assets
-from its source checkout. The complete hostname, source-root, process, port, start, verification,
-and stop map is in `$CEDAR_HOME/cedar-development/ops/DOCKER-BACKEND-RUNBOOK.md`.
+## npm artifacts and image construction
 
-The nginx Workspace/Designer virtual hosts support both the native hybrid and the opt-in image
-preview. Their existence does not promote the two images into `docker-compose.yml` or the normal
-`cedarcli docker start frontends` lifecycle.
+Frontend source repositories remain Docker-agnostic. Dockerfiles, nginx configurations,
+entrypoints, and image metadata live in `cedar-docker-build`. Every image downloads an npm package
+from the CEDAR Nexus repository.
 
-`docker-compose.preview.yml` is an opt-in stack for the extracted Workspace and Template Designer.
-Build their local images and ensure the running infrastructure nginx contains the split virtual
-hosts, then start and verify them. Stop native Workspace and Designer first because both modes
-publish ports 4201 and 4202.
+npm does not implement Maven-style overwriteable snapshots. A package named `2.9.2-SNAPSHOT` can
+be published only once, so Docker images must never consume it as a moving version. Publish
+immutable development packages from clean commits instead:
 
-```sh
+```bash
 export CEDAR_HOME=$HOME/CEDAR
-source "$CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker-eval.sh"
-export CEDAR_AUTH_HOST_TARGET="$CEDAR_NGINX_HOST"
-
-cd "$CEDAR_HOME/cedar-docker-build"
-./bin/build-split-preview-frontends.sh
-cedarcli docker build nginx
-
-cd "$CEDAR_HOME/cedar-docker-deploy/cedar-infrastructure"
-docker compose up -d --no-deps --force-recreate nginx
-
-cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
-CEDAR_WORKSPACE_FRONTEND_URL=https://workspace.metadatacenter.orgx \
-CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL=https://designer.metadatacenter.orgx \
-docker compose -f docker-compose.preview.yml up -d --wait
-
-cd "$CEDAR_HOME/cedar-development/ops/e2e"
-npm run smoke:split:hostnames:keycloak
-npm run smoke:split:hostnames:deployment
-CEDAR_WORKSPACE_PREVIEW=https://workspace.metadatacenter.orgx \
-CEDAR_DESIGNER_PREVIEW=https://designer.metadatacenter.orgx \
-npm run record:split:deployment
-
-cd "$CEDAR_HOME/cedar-docker-deploy/cedar-frontend"
-docker compose -f docker-compose.preview.yml down
+bash $CEDAR_HOME/cedar-development/ops/publish-frontend-package.sh \
+  main|workspace|designer|openview|content|monitoring|bridging
 ```
 
-The preview stack uses ports 4201 and 4202, joins the external `cedarnet` network at the Workspace
-and Designer addresses from the Docker profile, and keeps separate log volumes. Infrastructure
-nginx routes `workspace.${CEDAR_HOST}` and `designer.${CEDAR_HOST}` to those addresses. Override
-`CEDAR_WORKSPACE_PREVIEW_PORT` or `CEDAR_TEMPLATE_DESIGNER_PREVIEW_PORT` for host-port collisions.
-For a remote preview topology, also set the two absolute frontend URL variables consumed by the
-images. This file is not loaded by the normal `cedarcli docker start frontends` command.
-The deployment smoke rejects dirty or provenance-unknown image inputs and verifies the no-store
-runtime build metadata. Save the recorder's JSON output with staging evidence; it names both full
-source commits and the exact generated bundle digests needed to distinguish a deployment and its
-rollback target even when an image tag is reused.
+The helper stages the package without modifying its source checkout and publishes a version shaped
+like `2.9.2-dev.<UTC-commit-time>.g<12-char-commit>`. It records the complete source commit as
+`gitHead`, is idempotent for the same commit, and refuses dirty repositories. The exact seven
+versions are pinned in `cedar-docker-build/bin/cedar-images-base.sh`; the moving `dev` dist-tag is
+never an image input. Each image verifies package name, version, and full source commit and records
+the package SHA-256 under `/usr/local/share`.
+
+The ordinary stable npm release remains `2.9.2`. This immutable prerelease scheme is specifically
+the Docker development/snapshot input model; it does not change Maven SNAPSHOT behavior.
+
+## All-Docker frontend mode
+
+Stop native frontend processes first because both modes publish the same seven host ports. Build
+and start with the Docker profile:
+
+```bash
+export CEDAR_HOME=$HOME/CEDAR
+bash $CEDAR_HOME/cedar-development/ops/cedar-services.sh stop \
+  frontend workspace designer ui-openview ui-content ui-monitoring ui-bridging
+
+source $CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker-eval.sh
+export CEDAR_AUTH_HOST_TARGET="$CEDAR_NGINX_HOST"
+cedarcli docker build frontends
+cedarcli docker start frontends -d
+
+# Remove any hybrid upstream overrides from the public router.
+cd $CEDAR_HOME/cedar-docker-deploy/cedar-infrastructure
+docker compose up -d --no-deps --force-recreate nginx
+```
+
+Verify all containers and public routes:
+
+```bash
+docker ps --filter 'name=frontend-' --format '{{.Names}}\t{{.Status}}'
+
+for host in cedar workspace designer openview content monitoring bridging; do
+  curl -sk -o /dev/null -w "$host %{http_code}\n" \
+    "https://${host}.metadatacenter.orgx/"
+done
+```
+
+Expected: seven healthy frontend containers and seven HTTP 200 responses. The 2026-08-21
+acceptance also completed the authenticated Workspace → Smoke Tests → template → Designer journey
+with no browser console errors. Stopping this Compose project does not change backend containers or
+data: `cedarcli docker stop frontends`.
+
+## Native and hybrid modes remain supported
+
+Dockerizing the frontends does not alter their native build or serve commands. There are three
+supported topology choices:
+
+| Mode | Frontend assets come from | Public nginx |
+| --- | --- | --- |
+| Native stack | Seven source checkouts and native Node development servers | Native nginx |
+| Docker-backend hybrid | The same seven native Node development servers | Docker nginx routes through `host.docker.internal` |
+| All Docker | Seven immutable npm payloads in seven frontend containers | Docker nginx routes over `cedarnet` |
+
+To change from all-Docker back to the hybrid, stop the frontend Compose project, start the seven
+native frontend services with `CEDAR_FRONTEND_BIND_HOST=0.0.0.0`, then recreate infrastructure
+nginx with all seven `CEDAR_FRONTEND_*_HOST=host.docker.internal` overrides. The complete commands
+and request path are in
+`$CEDAR_HOME/cedar-development/ops/DOCKER-BACKEND-RUNBOOK.md`.
 
 ## Local route-switch rehearsal
 
-The routing rehearsal is deliberately separate from both production Compose and the image preview.
+The routing rehearsal is deliberately separate from deployment Compose.
 It puts disposable nginx gateways in front of three already-running applications and proves that a
 complete routing-table replacement can reverse the split without rebuilding or restarting one. The
-applications may be native Gulp servers or already-built local preview images. The rehearsal does
+applications may be native Gulp servers or already-built local images. The rehearsal does
 not use TLS, authenticate, select deployment hostnames, or modify Keycloak.
 
 Start the three applications, then run the whole split-and-rollback gate:
@@ -90,7 +123,7 @@ monolith. The gate checks each application's container ID or native process ID b
 switch and removes its two gateways on exit; it intentionally leaves the three applications in their
 original state.
 
-The two Compose files mount complete, mutually exclusive nginx configurations. Do not combine
+The rehearsal's two Compose files mount complete, mutually exclusive nginx configurations. Do not combine
 individual route fragments in an operational deployment: atomically selecting a complete config is
 what prevents a partial rollback. Permanent redirects (301 or 308) are not acceptable during the
 migration because cached route decisions can survive a rollback.

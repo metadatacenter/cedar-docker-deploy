@@ -100,6 +100,50 @@ services:
     environment:
       - CEDAR_HOST
 
+  frontend-workspace:
+    container_name: frontend-workspace
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4201/config/version.js >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    image: "metadatacenter/cedar-frontend-workspace:${CEDAR_DOCKER_VERSION}"
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_WORKSPACE_HOST}
+    ports:
+      - "${CEDAR_FRONTEND_WORKSPACE_PORT}:4201"
+    volumes:
+      - log_frontend_workspace:/log
+    environment:
+      CEDAR_HOST: "${CEDAR_HOST}"
+      CEDAR_WORKSPACE_FRONTEND_URL: "${CEDAR_WORKSPACE_FRONTEND_URL:-https://workspace.${CEDAR_HOST}}"
+      CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL: "${CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL:-https://designer.${CEDAR_HOST}}"
+
+  frontend-template-designer:
+    container_name: frontend-template-designer
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4202/config/version.js >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    image: "metadatacenter/cedar-frontend-template-designer:${CEDAR_DOCKER_VERSION}"
+    networks:
+      cedarnet:
+        ipv4_address: ${CEDAR_FRONTEND_DESIGNER_HOST}
+    ports:
+      - "${CEDAR_FRONTEND_DESIGNER_PORT}:4202"
+    volumes:
+      - log_frontend_template_designer:/log
+    environment:
+      CEDAR_HOST: "${CEDAR_HOST}"
+      CEDAR_WORKSPACE_FRONTEND_URL: "${CEDAR_WORKSPACE_FRONTEND_URL:-https://workspace.${CEDAR_HOST}}"
+      CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL: "${CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL:-https://designer.${CEDAR_HOST}}"
+
 networks:
   cedarnet:
     name: cedarnet
@@ -116,3 +160,7 @@ volumes:
     name: log_frontend_monitoring
   log_frontend_bridging:
     name: log_frontend_bridging
+  log_frontend_workspace:
+    name: log_frontend_workspace
+  log_frontend_template_designer:
+    name: log_frontend_template_designer
