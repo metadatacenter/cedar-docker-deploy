@@ -24,9 +24,9 @@ Frontend source repositories remain Docker-agnostic. Dockerfiles, nginx configur
 entrypoints, and image metadata live in `cedar-docker-build`. Every image downloads an npm package
 from the CEDAR Nexus repository.
 
-npm does not implement Maven-style overwriteable snapshots. A package named `2.9.2-SNAPSHOT` can
-be published only once, so Docker images must never consume it as a moving version. Publish
-immutable development packages from clean commits instead:
+npm does not implement Maven-style overwriteable snapshots. A package version can be published
+only once, so Docker images must never consume a Maven-style moving snapshot. Publish immutable
+development packages from clean commits instead:
 
 ```bash
 export CEDAR_HOME=$HOME/CEDAR
@@ -34,15 +34,15 @@ bash $CEDAR_HOME/cedar-development/ops/publish-frontend-package.sh \
   main|workspace|designer|openview|content|monitoring|bridging
 ```
 
-The helper stages the package without modifying its source checkout and publishes a version shaped
-like `2.9.2-dev.<UTC-commit-time>.g<12-char-commit>`. It records the complete source commit as
+The helper stages the package without modifying its source checkout and publishes a development
+prerelease derived from the release line, commit time, and source commit. It records the complete source commit as
 `gitHead`, is idempotent for the same commit, and refuses dirty repositories. The exact seven
 versions are pinned in `cedar-docker-build/bin/cedar-images-base.sh`; the moving `dev` dist-tag is
 never an image input. Each image verifies package name, version, and full source commit and records
 the package SHA-256 under `/usr/local/share`.
 
-The ordinary stable npm release remains `2.9.2`. This immutable prerelease scheme is specifically
-the Docker development/snapshot input model; it does not change Maven SNAPSHOT behavior.
+Stable npm releases remain unchanged. This immutable prerelease scheme is specifically the Docker
+development input model; it does not change Maven SNAPSHOT behavior.
 
 ## All-Docker frontend mode
 
@@ -55,13 +55,8 @@ bash $CEDAR_HOME/cedar-development/ops/cedar-services.sh stop \
   frontend workspace designer ui-openview ui-content ui-monitoring ui-bridging
 
 source $CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker-eval.sh
-export CEDAR_AUTH_HOST_TARGET="$CEDAR_NGINX_HOST"
 cedarcli docker build frontends
-cedarcli docker start frontends -d
-
-# Remove any hybrid upstream overrides from the public router.
-cd $CEDAR_HOME/cedar-docker-deploy/cedar-infrastructure
-docker compose up -d --no-deps --force-recreate nginx
+cedarcli docker start all --mode full --pull never
 ```
 
 Verify all containers and public routes:
@@ -92,9 +87,8 @@ supported topology choices:
 | All Docker | Seven immutable npm payloads in seven frontend containers | Docker nginx routes over `cedarnet` |
 
 To change from all-Docker back to the hybrid, stop the frontend Compose project, start the seven
-native frontend services with `CEDAR_FRONTEND_BIND_HOST=0.0.0.0`, then recreate infrastructure
-nginx with all seven `CEDAR_FRONTEND_*_HOST=host.docker.internal` overrides. The complete commands
-and request path are in
+native frontend services with `CEDAR_FRONTEND_BIND_HOST=0.0.0.0`, then run
+`cedarcli docker start all --mode hybrid`. The complete commands and request path are in
 `$CEDAR_HOME/cedar-development/ops/DOCKER-RUNBOOK.md`.
 
 ## Local route-switch rehearsal

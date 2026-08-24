@@ -16,7 +16,7 @@ services:
     image: "metadatacenter/cedar-frontend-main:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_EDITOR_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_EDITOR_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_EDITOR_PORT}:4200"
     volumes:
@@ -35,7 +35,7 @@ services:
     image: "metadatacenter/cedar-frontend-content:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_CONTENT_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_CONTENT_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_CONTENT_PORT}:4240"
     volumes:
@@ -54,7 +54,7 @@ services:
     image: "metadatacenter/cedar-frontend-openview:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_OPENVIEW_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_OPENVIEW_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_OPENVIEW_PORT}:4220"
     volumes:
@@ -73,7 +73,7 @@ services:
     image: "metadatacenter/cedar-frontend-monitoring:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_MONITORING_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_MONITORING_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_MONITORING_PORT}:4300"
     volumes:
@@ -92,7 +92,7 @@ services:
     image: "metadatacenter/cedar-frontend-bridging:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_BRIDGING_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_BRIDGING_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_BRIDGING_PORT}:4340"
     volumes:
@@ -112,7 +112,7 @@ services:
     image: "metadatacenter/cedar-frontend-workspace:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_WORKSPACE_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_WORKSPACE_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_WORKSPACE_PORT}:4201"
     volumes:
@@ -134,7 +134,7 @@ services:
     image: "metadatacenter/cedar-frontend-template-designer:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
-        ipv4_address: ${CEDAR_FRONTEND_DESIGNER_HOST}
+        ipv4_address: ${CEDAR_FRONTEND_DESIGNER_CONTAINER_HOST}
     ports:
       - "${CEDAR_FRONTEND_DESIGNER_PORT}:4202"
     volumes:
