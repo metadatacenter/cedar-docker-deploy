@@ -13,7 +13,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-main:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-main:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_EDITOR_CONTAINER_HOST}
@@ -32,7 +32,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-content:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-content:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_CONTENT_CONTAINER_HOST}
@@ -51,7 +51,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-openview:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-openview:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_OPENVIEW_CONTAINER_HOST}
@@ -70,7 +70,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-monitoring:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-monitoring:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_MONITORING_CONTAINER_HOST}
@@ -89,7 +89,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-bridging:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-bridging:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_BRIDGING_CONTAINER_HOST}
@@ -109,7 +109,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-workspace:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-workspace:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_WORKSPACE_CONTAINER_HOST}
@@ -131,7 +131,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    image: "metadatacenter/cedar-frontend-template-designer:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-frontend-template-designer:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_FRONTEND_DESIGNER_CONTAINER_HOST}

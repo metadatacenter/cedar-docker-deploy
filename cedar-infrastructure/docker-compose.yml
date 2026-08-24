@@ -15,7 +15,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 90s
-    image: "metadatacenter/cedar-infra-mysql:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-mysql:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_MYSQL_HOST}
@@ -36,7 +36,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 60s
-    image: "metadatacenter/cedar-infra-mongo:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-mongo:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MONGO_HOST}
@@ -62,7 +62,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 10s
-    image: "metadatacenter/cedar-infra-redis-persistent:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-redis-persistent:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_REDIS_PERSISTENT_HOST}
@@ -83,7 +83,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 90s
-    image: "metadatacenter/cedar-infra-opensearch:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-opensearch:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_OPENSEARCH_HOST}
@@ -107,7 +107,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 90s
-    image: "metadatacenter/cedar-infra-neo4j:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-neo4j:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_NEO4J_HOST}
@@ -133,7 +133,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 120s
-    image: "metadatacenter/cedar-infra-keycloak:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-keycloak:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_HOST}
@@ -169,7 +169,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 15s
-    image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_NGINX_HOST}

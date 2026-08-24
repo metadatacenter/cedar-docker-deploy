@@ -23,7 +23,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-schema:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-schema:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_SCHEMA_SERVER_HOST}
@@ -62,7 +62,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-user:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-user:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_USER_SERVER_HOST}
@@ -104,7 +104,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-submission:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-submission:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_SUBMISSION_SERVER_HOST}
@@ -156,7 +156,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-group:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-group:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_GROUP_SERVER_HOST}
@@ -199,7 +199,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-artifact:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-artifact:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
@@ -242,7 +242,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-worker:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-worker:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_WORKER_SERVER_HOST}
@@ -306,7 +306,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-valuerecommender:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-valuerecommender:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_VALUERECOMMENDER_SERVER_HOST}
@@ -351,7 +351,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-terminology:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-terminology:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_TERMINOLOGY_SERVER_HOST}
@@ -407,7 +407,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-repo:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-repo:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_REPO_SERVER_HOST}
@@ -451,7 +451,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-resource:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-resource:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_RESOURCE_SERVER_HOST}
@@ -512,7 +512,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-messaging:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-messaging:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MESSAGING_SERVER_HOST}
@@ -566,7 +566,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-openview:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-openview:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_OPENVIEW_SERVER_HOST}
@@ -617,7 +617,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-monitor:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-monitor:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_MONITOR_SERVER_HOST}
@@ -694,7 +694,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-impex:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-impex:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_IMPEX_SERVER_HOST}
@@ -748,7 +748,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 180s
-    image: "metadatacenter/cedar-server-bridge:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-bridge:${CEDAR_DOCKER_VERSION}"
     networks:
       cedarnet:
         ipv4_address: ${CEDAR_BRIDGE_SERVER_HOST}

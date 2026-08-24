@@ -74,6 +74,48 @@ jobs:
           done
           exit ${failed}
 
+      - name: Check one image prefix controls every stack
+        shell: bash
+        run: |
+          export CEDAR_HOME="${GITHUB_WORKSPACE}/CEDAR"
+          export CEDAR_IMAGE_PREFIX=nexus.example.org:5000/cedar
+          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker-eval.sh"
+
+          if grep -R -n 'metadatacenter/cedar-' --include='docker-compose*.yml' \
+              "${CEDAR_HOME}/cedar-docker-deploy"; then
+              echo 'Compose must use ${CEDAR_IMAGE_PREFIX}, not a fixed CEDAR image namespace.'
+              exit 1
+          fi
+          if grep -R -n '^CEDAR_IMAGE_PREFIX=' "${CEDAR_HOME}/cedar-docker-deploy"/*/.env; then
+              echo 'Do not override CEDAR_IMAGE_PREFIX in a stack .env file.'
+              exit 1
+          fi
+
+          images=""
+          for stack in cedar-infrastructure cedar-microservices cedar-frontend cedar-admin; do
+              stack_images=$(cd "${CEDAR_HOME}/cedar-docker-deploy/${stack}" && docker compose config --images)
+              images="${images}${stack_images}"$'\n'
+          done
+
+          failed=0
+          count=0
+          while IFS= read -r image; do
+              [ -z "${image}" ] && continue
+              count=$((count + 1))
+              case "${image}" in
+                  "${CEDAR_IMAGE_PREFIX}"/cedar-*) ;;
+                  *) echo "FAIL image ignored CEDAR_IMAGE_PREFIX: ${image}"; failed=1 ;;
+              esac
+          done <<< "${images}"
+          if [ "${count}" -ne 33 ]; then
+              echo "FAIL expected 33 runtime image references, found ${count}"
+              failed=1
+          fi
+          if [ "${failed}" -eq 0 ]; then
+              echo "All 33 runtime images resolve under ${CEDAR_IMAGE_PREFIX}."
+          fi
+          exit "${failed}"
+
       - name: Check out cedar-docker-build
         uses: actions/checkout@v6
         with:
