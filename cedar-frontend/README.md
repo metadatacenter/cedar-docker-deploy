@@ -54,7 +54,7 @@ export CEDAR_HOME=$HOME/CEDAR
 bash $CEDAR_HOME/cedar-development/ops/cedar-services.sh stop \
   frontend workspace designer ui-openview ui-content ui-monitoring ui-bridging
 
-source $CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker-eval.sh
+source $CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker.sh
 cedarcli docker build frontends
 cedarcli docker start all --mode full --pull never
 ```

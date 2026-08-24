@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           export CEDAR_HOME="${GITHUB_WORKSPACE}/CEDAR"
-          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker-eval.sh"
+          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker.sh"
 
           # docker compose config parses and interpolates without contacting the daemon, so
           # this runs anywhere. It exits 0 on an undefined variable and only warns, which is
@@ -79,7 +79,7 @@ jobs:
         run: |
           export CEDAR_HOME="${GITHUB_WORKSPACE}/CEDAR"
           export CEDAR_IMAGE_PREFIX=nexus.example.org:5000/cedar
-          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker-eval.sh"
+          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker.sh"
 
           if grep -R -n 'metadatacenter/cedar-' --include='docker-compose*.yml' \
               "${CEDAR_HOME}/cedar-docker-deploy"; then
@@ -154,7 +154,7 @@ jobs:
         shell: bash
         run: |
           export CEDAR_HOME="${GITHUB_WORKSPACE}/CEDAR"
-          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker-eval.sh"
+          source "${CEDAR_HOME}/cedar-development/bin/templates/cedar-profile-docker.sh"
 
           for stack in cedar-infrastructure cedar-microservices cedar-frontend cedar-admin; do
               (cd "${CEDAR_HOME}/cedar-docker-deploy/${stack}" && docker compose config 2>/dev/null)
