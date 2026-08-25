@@ -14,7 +14,7 @@
 | Bridging | `bridging.${CEDAR_HOST}` | 4340 | `cedar-frontend-bridging` |
 
 The main infrastructure nginx remains the only public TLS endpoint and overall application router.
-It contains no frontend assets. In all-Docker mode it proxies each hostname over `cedarnet` to the
+It contains no frontend assets. In `docker` mode it proxies each hostname over `cedarnet` to the
 corresponding frontend container, whose private nginx serves that application's payload. API
 requests return to the main nginx on the API hostnames and are routed to the Java containers.
 
@@ -44,19 +44,19 @@ the package SHA-256 under `/usr/local/share`.
 Stable npm releases remain unchanged. This immutable prerelease scheme is specifically the Docker
 development input model; it does not change Maven SNAPSHOT behavior.
 
-## All-Docker frontend mode
+## Docker frontend mode
 
-Stop native frontend processes first because both modes publish the same seven host ports. Build
-and start with the Docker profile:
+Stop the selected native deployment first because both topologies publish the same ports, then
+clear its mode and select `docker`. If the current mode is hybrid, stop the native frontends and
+the Docker aggregate instead of using `native stop all`.
 
 ```bash
 export CEDAR_HOME=$HOME/CEDAR
-bash $CEDAR_HOME/cedar-development/ops/cedar-services.sh stop \
-  frontend workspace designer ui-openview ui-content ui-monitoring ui-bridging
-
-source $CEDAR_HOME/cedar-development/bin/templates/cedar-profile-docker.sh
+cedarcli native stop all
+cedarcli mode --clear
+cedarcli mode docker
 cedarcli docker build frontends
-cedarcli docker start all --mode full --pull never
+cedarcli docker start all --pull never
 ```
 
 Verify all containers and public routes:
@@ -86,10 +86,19 @@ supported topology choices:
 | Docker-backend hybrid | The same seven native Node development servers | Docker nginx routes through `host.docker.internal` |
 | All Docker | Seven immutable npm payloads in seven frontend containers | Docker nginx routes over `cedarnet` |
 
-To change from all-Docker back to the hybrid, stop the frontend Compose project, start the seven
-native frontend services with `CEDAR_FRONTEND_BIND_HOST=0.0.0.0`, then run
-`cedarcli docker start all --mode hybrid`. The complete commands and request path are in
-`$CEDAR_HOME/cedar-development/ops/DOCKER-RUNBOOK.md`.
+To change from Docker back to hybrid, stop the Docker aggregate, clear the mode, select `hybrid`,
+then start the native frontends and Docker backend. Cedarcli supplies the native bind address and
+Docker nginx upstreams itself:
+
+```bash
+cedarcli docker stop all
+cedarcli mode --clear
+cedarcli mode hybrid
+cedarcli native start frontends
+cedarcli docker start all --pull never
+```
+
+The complete request path is in `$CEDAR_HOME/cedar-development/ops/DOCKER-RUNBOOK.md`.
 
 ## Local route-switch rehearsal
 
