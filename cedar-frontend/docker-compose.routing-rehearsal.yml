@@ -4,7 +4,7 @@
 services:
   routing-canonical:
     container_name: cedar-routing-rehearsal-canonical
-    image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
     pull_policy: never
     # Bypass the infrastructure image's deployment-specific config rewriter;
     # this gateway owns only the complete directory mounted below.
@@ -27,7 +27,7 @@ services:
 
   routing-designer:
     container_name: cedar-routing-rehearsal-designer
-    image: "metadatacenter/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-infra-nginx:${CEDAR_DOCKER_VERSION}"
     pull_policy: never
     entrypoint: ["nginx", "-g", "daemon off;"]
     command: []

@@ -7,7 +7,7 @@ services:
   redis-commander:
     container_name: admin-redis-commander
     restart: unless-stopped
-    image: "metadatacenter/cedar-admin-redis-commander:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-admin-redis-commander:${CEDAR_DOCKER_VERSION}"
     networks:
       - cedarnet
     ports:
@@ -20,7 +20,7 @@ services:
   kibana:
     container_name: admin-kibana
     restart: unless-stopped
-    image: "metadatacenter/cedar-admin-kibana:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-admin-kibana:${CEDAR_DOCKER_VERSION}"
     networks:
       - cedarnet
     ports:
@@ -33,7 +33,7 @@ services:
   phpmyadmin:
     container_name: admin-phpmyadmin
     restart: unless-stopped
-    image: "metadatacenter/cedar-admin-phpmyadmin:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-admin-phpmyadmin:${CEDAR_DOCKER_VERSION}"
     networks:
       - cedarnet
     ports:
@@ -44,7 +44,7 @@ services:
   admin-tool:
     container_name: admin-tool
     restart: unless-stopped
-    image: "metadatacenter/cedar-admin-tool:${CEDAR_DOCKER_VERSION}"
+    image: "${CEDAR_IMAGE_PREFIX}/cedar-admin-tool:${CEDAR_DOCKER_VERSION}"
     networks:
       - cedarnet
     volumes:
