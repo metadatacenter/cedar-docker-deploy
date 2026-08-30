@@ -2,3 +2,7 @@
 *.iml
 .settings
 .DS_Store
+
+# TLS private keys. The development leaves under cedar-assets/cert are regenerated from the CEDAR
+# CA by `cedarcli cert domains`, so a checkout never needs one committed to it.
+*.key
