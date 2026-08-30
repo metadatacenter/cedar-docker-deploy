@@ -116,6 +116,19 @@ jobs:
           fi
           exit "${failed}"
 
+      - name: Check every service mounts its Dropwizard log directory
+        shell: bash
+        run: |
+          compose="${GITHUB_WORKSPACE}/CEDAR/cedar-docker-deploy/cedar-microservices/docker-compose.yml"
+          for service in schema user submission group artifact worker valuerecommender terminology \
+              repo resource messaging openview monitor impex bridge; do
+              expected="- log_${service}:/cedar/log/cedar-${service}-server/"
+              if ! grep -Fq -- "${expected}" "${compose}"; then
+                  echo "Missing log-volume target for server-${service}: ${expected}"
+                  exit 1
+              fi
+          done
+
       - name: Check out cedar-docker-build
         uses: actions/checkout@v6
         with:

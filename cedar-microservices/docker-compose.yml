@@ -30,7 +30,7 @@ services:
     ports:
       - "${CEDAR_SCHEMA_HTTP_PORT}:9003"
     volumes:
-      - log_schema:/cedar/log/server-schema/
+      - log_schema:/cedar/log/cedar-schema-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -70,7 +70,7 @@ services:
     ports:
       - "${CEDAR_USER_HTTP_PORT}:9005"
     volumes:
-      - log_user:/cedar/log/server-user/
+      - log_user:/cedar/log/cedar-user-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -113,7 +113,7 @@ services:
     ports:
       - "${CEDAR_SUBMISSION_HTTP_PORT}:9010"
     volumes:
-      - log_submission:/cedar/log/server-submission/
+      - log_submission:/cedar/log/cedar-submission-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -166,7 +166,7 @@ services:
     ports:
       - "${CEDAR_GROUP_HTTP_PORT}:9009"
     volumes:
-      - log_group:/cedar/log/server-group/
+      - log_group:/cedar/log/cedar-group-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -208,7 +208,7 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
     volumes:
-      - log_artifact:/cedar/log/server-artifact/
+      - log_artifact:/cedar/log/cedar-artifact-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -254,7 +254,7 @@ services:
     ports:
       - "${CEDAR_WORKER_HTTP_PORT}:9011"
     volumes:
-      - log_worker:/cedar/log/server-worker/
+      - log_worker:/cedar/log/cedar-worker-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -319,7 +319,7 @@ services:
     ports:
       - "${CEDAR_VALUERECOMMENDER_HTTP_PORT}:9006"
     volumes:
-      - log_valuerecommender:/cedar/log/server-valuerecommender/
+      - log_valuerecommender:/cedar/log/cedar-valuerecommender-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -365,7 +365,7 @@ services:
     ports:
       - "${CEDAR_TERMINOLOGY_HTTP_PORT}:9004"
     volumes:
-      - log_terminology:/cedar/log/server-terminology/
+      - log_terminology:/cedar/log/cedar-terminology-server/
       - terminology_data:/cedar/cache/terminology/
       # The local terminology store: a read-mostly SQLite catalog the server only ever reads, and
       # tens of gigabytes that would be absurd to copy into a volume. A bind mount is right here for
@@ -425,7 +425,7 @@ services:
     ports:
       - "${CEDAR_REPO_HTTP_PORT}:9002"
     volumes:
-      - log_repo:/cedar/log/server-repo/
+      - log_repo:/cedar/log/cedar-repo-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -470,7 +470,7 @@ services:
     ports:
       - "${CEDAR_RESOURCE_HTTP_PORT}:9007"
     volumes:
-      - log_resource:/cedar/log/server-resource/
+      - log_resource:/cedar/log/cedar-resource-server/
       - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
@@ -532,7 +532,7 @@ services:
     ports:
       - "${CEDAR_MESSAGING_HTTP_PORT}:9012"
     volumes:
-      - log_messaging:/cedar/log/server-messaging/
+      - log_messaging:/cedar/log/cedar-messaging-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -587,7 +587,7 @@ services:
     ports:
       - "${CEDAR_OPENVIEW_HTTP_PORT}:9013"
     volumes:
-      - log_openview:/cedar/log/server-openview/
+      - log_openview:/cedar/log/cedar-openview-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -639,7 +639,7 @@ services:
     ports:
       - "${CEDAR_MONITOR_HTTP_PORT}:9014"
     volumes:
-      - log_monitor:/cedar/log/server-monitor/
+      - log_monitor:/cedar/log/cedar-monitor-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -717,7 +717,7 @@ services:
     ports:
       - "${CEDAR_IMPEX_HTTP_PORT}:9008"
     volumes:
-      - log_impex:/cedar/log/server-impex/
+      - log_impex:/cedar/log/cedar-impex-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
@@ -772,7 +772,7 @@ services:
     ports:
       - "${CEDAR_BRIDGE_HTTP_PORT}:9015"
     volumes:
-      - log_bridge:/cedar/log/server-bridge/
+      - log_bridge:/cedar/log/cedar-bridge-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
