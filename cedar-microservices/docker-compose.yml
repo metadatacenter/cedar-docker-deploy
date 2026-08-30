@@ -366,7 +366,6 @@ services:
       - "${CEDAR_TERMINOLOGY_HTTP_PORT}:9004"
     volumes:
       - log_terminology:/cedar/log/cedar-terminology-server/
-      - terminology_data:/cedar/cache/terminology/
       # The local terminology store: a read-mostly SQLite catalog the server only ever reads, and
       # tens of gigabytes that would be absurd to copy into a volume. A bind mount is right here for
       # the same reason it is right for the static content nginx serves, and read-only says so.
@@ -847,8 +846,6 @@ volumes:
     name: log_submission
   log_artifact:
     name: log_artifact
-  terminology_data:
-    name: terminology_data
   log_terminology:
     name: log_terminology
   log_user:
