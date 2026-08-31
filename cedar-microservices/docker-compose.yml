@@ -16,6 +16,15 @@
 #
 # CORS keeps its backward-compatible wildcard when unset, but every server receives the optional
 # host value so a Docker deployment can replace that default with an exact origin allowlist.
+#
+# The depends_on edges below order the start; they do not wait on health. Each health check now
+# probes the dependencies its server holds — Neo4j for all fifteen, and Mongo, OpenSearch, MySQL or
+# a Redis queue where a server owns one — so a `service_healthy` edge would make one unreachable
+# database stop the containers downstream of it from ever starting, turning a fault in one service
+# into a stalled chain. The edges also do not describe startup dependencies: worker calls resource
+# at no point during boot, and monitor calls worker at no point at all. `cedarcli docker start`
+# brings the stack up in stages and waits for readiness between them, which is where the readiness
+# gate belongs.
 services:
   server-schema:
     container_name: server-schema
@@ -103,7 +112,7 @@ services:
     container_name: server-submission
     depends_on:
       server-messaging:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9110/healthcheck || exit 1"]
@@ -247,7 +256,7 @@ services:
     container_name: server-worker
     depends_on:
       server-resource:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9111/healthcheck || exit 1"]
@@ -466,7 +475,7 @@ services:
     container_name: server-resource
     depends_on:
       server-artifact:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9107/healthcheck || exit 1"]
@@ -585,7 +594,7 @@ services:
     container_name: server-openview
     depends_on:
       server-artifact:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9113/healthcheck || exit 1"]
@@ -638,7 +647,7 @@ services:
     container_name: server-monitor
     depends_on:
       server-worker:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9114/healthcheck || exit 1"]
