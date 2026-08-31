@@ -13,6 +13,9 @@
 # down; neither is something a host should offer the network. Both still listen inside the container
 # — the health check curls the admin port on localhost — and the admin connector binds loopback, so
 # publishing them was the whole of their exposure.
+#
+# CORS keeps its backward-compatible wildcard when unset, but every server receives the optional
+# host value so a Docker deployment can replace that default with an exact origin allowlist.
 services:
   server-schema:
     container_name: server-schema
@@ -35,6 +38,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -75,6 +79,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -118,6 +123,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -171,6 +177,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -213,6 +220,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -259,6 +267,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -324,6 +333,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -374,6 +384,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -429,6 +440,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -475,6 +487,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -536,6 +549,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -591,6 +605,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -643,6 +658,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -721,6 +737,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -776,6 +793,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
