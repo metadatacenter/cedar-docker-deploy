@@ -3,6 +3,8 @@
 # not, and it supplies the locked server versions from cedar-docker-build/bin/cedar-images-base.sh
 # as build arguments the Dockerfiles declare with no default. A `build:` stanza here would be a
 # second builder producing a differently-built image under the same tag, so there is none.
+# Datastores use cedarnet for container-to-container traffic. Their published ports exist only for
+# tools running on this host, so bind them to loopback rather than every host interface.
 services:
   mysql:
     container_name: infra-mysql
@@ -20,7 +22,7 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_KEYCLOAK_MYSQL_HOST}
     ports:
-      - ${CEDAR_KEYCLOAK_MYSQL_PORT}:3306
+      - "127.0.0.1:${CEDAR_KEYCLOAK_MYSQL_PORT}:3306"
     volumes:
       - log_mysql:/var/log/mysql
       - mysql_data:/var/lib/mysql
@@ -41,7 +43,7 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_MONGO_HOST}
     ports:
-      - "${CEDAR_MONGO_PORT}:27017"
+      - "127.0.0.1:${CEDAR_MONGO_PORT}:27017"
     volumes:
       - log_mongo:/data/log
       - mongo_data:/data/db
@@ -67,7 +69,7 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_REDIS_PERSISTENT_HOST}
     ports:
-      - ${CEDAR_REDIS_PERSISTENT_PORT}:6379
+      - "127.0.0.1:${CEDAR_REDIS_PERSISTENT_PORT}:6379"
     volumes:
       - log_redis:/log
       - redis_data:/data
@@ -88,8 +90,8 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_OPENSEARCH_HOST}
     ports:
-      - ${CEDAR_OPENSEARCH_REST_PORT}:9200
-      - ${CEDAR_OPENSEARCH_TRANSPORT_PORT}:9300
+      - "127.0.0.1:${CEDAR_OPENSEARCH_REST_PORT}:9200"
+      - "127.0.0.1:${CEDAR_OPENSEARCH_TRANSPORT_PORT}:9300"
     volumes:
       - log_opensearch:/usr/share/opensearch/logs
       - opensearch_data:/usr/share/opensearch/data
@@ -112,8 +114,8 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_NEO4J_HOST}
     ports:
-      - ${CEDAR_NEO4J_REST_PORT}:7474
-      - ${CEDAR_NEO4J_BOLT_PORT}:7687
+      - "127.0.0.1:${CEDAR_NEO4J_REST_PORT}:7474"
+      - "127.0.0.1:${CEDAR_NEO4J_BOLT_PORT}:7687"
     volumes:
       - log_neo4j:/logs
       - neo4j_data:/data

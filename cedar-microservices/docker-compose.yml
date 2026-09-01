@@ -13,6 +13,18 @@
 # down; neither is something a host should offer the network. Both still listen inside the container
 # — the health check curls the admin port on localhost — and the admin connector binds loopback, so
 # publishing them was the whole of their exposure.
+#
+# CORS keeps its backward-compatible wildcard when unset, but every server receives the optional
+# host value so a Docker deployment can replace that default with an exact origin allowlist.
+#
+# The depends_on edges below order the start; they do not wait on health. Each health check now
+# probes the dependencies its server holds — Neo4j for all fifteen, and Mongo, OpenSearch, MySQL or
+# a Redis queue where a server owns one — so a `service_healthy` edge would make one unreachable
+# database stop the containers downstream of it from ever starting, turning a fault in one service
+# into a stalled chain. The edges also do not describe startup dependencies: worker calls resource
+# at no point during boot, and monitor calls worker at no point at all. `cedarcli docker start`
+# brings the stack up in stages and waits for readiness between them, which is where the readiness
+# gate belongs.
 services:
   server-schema:
     container_name: server-schema
@@ -30,11 +42,12 @@ services:
     ports:
       - "${CEDAR_SCHEMA_HTTP_PORT}:9003"
     volumes:
-      - log_schema:/cedar/log/server-schema/
+      - log_schema:/cedar/log/cedar-schema-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -44,6 +57,7 @@ services:
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
@@ -69,11 +83,12 @@ services:
     ports:
       - "${CEDAR_USER_HTTP_PORT}:9005"
     volumes:
-      - log_user:/cedar/log/server-user/
+      - log_user:/cedar/log/cedar-user-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -83,6 +98,7 @@ services:
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -96,7 +112,7 @@ services:
     container_name: server-submission
     depends_on:
       server-messaging:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9110/healthcheck || exit 1"]
@@ -111,16 +127,18 @@ services:
     ports:
       - "${CEDAR_SUBMISSION_HTTP_PORT}:9010"
     volumes:
-      - log_submission:/cedar/log/server-submission/
+      - log_submission:/cedar/log/cedar-submission-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_NEO4J_HOST
@@ -163,11 +181,12 @@ services:
     ports:
       - "${CEDAR_GROUP_HTTP_PORT}:9009"
     volumes:
-      - log_group:/cedar/log/server-group/
+      - log_group:/cedar/log/cedar-group-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -179,6 +198,7 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_TEST_USER1_ID
@@ -204,11 +224,12 @@ services:
       cedarnet:
         ipv4_address: ${CEDAR_ARTIFACT_SERVER_HOST}
     volumes:
-      - log_artifact:/cedar/log/server-artifact/
+      - log_artifact:/cedar/log/cedar-artifact-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -218,6 +239,7 @@ services:
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -234,7 +256,7 @@ services:
     container_name: server-worker
     depends_on:
       server-resource:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9111/healthcheck || exit 1"]
@@ -249,17 +271,19 @@ services:
     ports:
       - "${CEDAR_WORKER_HTTP_PORT}:9011"
     volumes:
-      - log_worker:/cedar/log/server-worker/
+      - log_worker:/cedar/log/cedar-worker-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
       - CEDAR_MYSQL_ROOT_PASSWORD
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
@@ -313,11 +337,12 @@ services:
     ports:
       - "${CEDAR_VALUERECOMMENDER_HTTP_PORT}:9006"
     volumes:
-      - log_valuerecommender:/cedar/log/server-valuerecommender/
+      - log_valuerecommender:/cedar/log/cedar-valuerecommender-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -327,6 +352,7 @@ services:
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_OPENSEARCH_HOST
@@ -358,8 +384,7 @@ services:
     ports:
       - "${CEDAR_TERMINOLOGY_HTTP_PORT}:9004"
     volumes:
-      - log_terminology:/cedar/log/server-terminology/
-      - terminology_data:/cedar/cache/terminology/
+      - log_terminology:/cedar/log/cedar-terminology-server/
       # The local terminology store: a read-mostly SQLite catalog the server only ever reads, and
       # tens of gigabytes that would be absurd to copy into a volume. A bind mount is right here for
       # the same reason it is right for the static content nginx serves, and read-only says so.
@@ -368,6 +393,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -379,6 +405,7 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_BIOPORTAL_API_KEY
@@ -417,11 +444,12 @@ services:
     ports:
       - "${CEDAR_REPO_HTTP_PORT}:9002"
     volumes:
-      - log_repo:/cedar/log/server-repo/
+      - log_repo:/cedar/log/cedar-repo-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
@@ -433,6 +461,7 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
@@ -446,7 +475,7 @@ services:
     container_name: server-resource
     depends_on:
       server-artifact:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9107/healthcheck || exit 1"]
@@ -461,17 +490,19 @@ services:
     ports:
       - "${CEDAR_RESOURCE_HTTP_PORT}:9007"
     volumes:
-      - log_resource:/cedar/log/server-resource/
+      - log_resource:/cedar/log/cedar-resource-server/
       - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
@@ -522,14 +553,16 @@ services:
     ports:
       - "${CEDAR_MESSAGING_HTTP_PORT}:9012"
     volumes:
-      - log_messaging:/cedar/log/server-messaging/
+      - log_messaging:/cedar/log/cedar-messaging-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_MONGO_HOST
@@ -561,7 +594,7 @@ services:
     container_name: server-openview
     depends_on:
       server-artifact:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9113/healthcheck || exit 1"]
@@ -576,16 +609,18 @@ services:
     ports:
       - "${CEDAR_OPENVIEW_HTTP_PORT}:9013"
     volumes:
-      - log_openview:/cedar/log/server-openview/
+      - log_openview:/cedar/log/cedar-openview-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_NEO4J_HOST
@@ -612,7 +647,7 @@ services:
     container_name: server-monitor
     depends_on:
       server-worker:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9114/healthcheck || exit 1"]
@@ -627,16 +662,18 @@ services:
     ports:
       - "${CEDAR_MONITOR_HTTP_PORT}:9014"
     volumes:
-      - log_monitor:/cedar/log/server-monitor/
+      - log_monitor:/cedar/log/cedar-monitor-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
@@ -686,6 +723,21 @@ services:
       - CEDAR_IMPEX_SERVER_HOST
       - CEDAR_BRIDGE_SERVER_HOST
       - CEDAR_BRIDGE_ADMIN_PORT
+      - CEDAR_GROUP_HTTP_PORT
+      - CEDAR_MESSAGING_HTTP_PORT
+      - CEDAR_REPO_HTTP_PORT
+      - CEDAR_RESOURCE_HTTP_PORT
+      - CEDAR_SCHEMA_HTTP_PORT
+      - CEDAR_SUBMISSION_HTTP_PORT
+      - CEDAR_ARTIFACT_HTTP_PORT
+      - CEDAR_TERMINOLOGY_HTTP_PORT
+      - CEDAR_USER_HTTP_PORT
+      - CEDAR_VALUERECOMMENDER_HTTP_PORT
+      - CEDAR_WORKER_HTTP_PORT
+      - CEDAR_OPENVIEW_HTTP_PORT
+      - CEDAR_MONITOR_HTTP_PORT
+      - CEDAR_IMPEX_HTTP_PORT
+      - CEDAR_BRIDGE_HTTP_PORT
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-impex:
@@ -704,16 +756,18 @@ services:
     ports:
       - "${CEDAR_IMPEX_HTTP_PORT}:9008"
     volumes:
-      - log_impex:/cedar/log/server-impex/
+      - log_impex:/cedar/log/cedar-impex-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_MONGO_HOST
       - CEDAR_MONGO_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
@@ -758,11 +812,12 @@ services:
     ports:
       - "${CEDAR_BRIDGE_HTTP_PORT}:9015"
     volumes:
-      - log_bridge:/cedar/log/server-bridge/
+      - log_bridge:/cedar/log/cedar-bridge-server/
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
       - CEDAR_NET_GATEWAY
+      - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -775,6 +830,7 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
+      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_DATACITE_REPOSITORY_ID
@@ -832,8 +888,6 @@ volumes:
     name: log_submission
   log_artifact:
     name: log_artifact
-  terminology_data:
-    name: terminology_data
   log_terminology:
     name: log_terminology
   log_user:
