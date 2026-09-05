@@ -46,6 +46,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -87,6 +88,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -131,6 +133,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
@@ -185,6 +188,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -228,6 +232,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -275,6 +280,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
@@ -341,6 +347,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -392,6 +399,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -448,6 +456,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
@@ -495,6 +504,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
@@ -557,6 +567,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_ADMIN_USER_API_KEY
@@ -613,6 +624,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
@@ -666,6 +678,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
@@ -694,6 +707,11 @@ services:
       - CEDAR_LOG_MYSQL_DB
       - CEDAR_LOG_MYSQL_USER
       - CEDAR_LOG_MYSQL_PASSWORD
+      - CEDAR_MESSAGING_MYSQL_HOST
+      - CEDAR_MESSAGING_MYSQL_PORT
+      - CEDAR_MESSAGING_MYSQL_DB
+      - CEDAR_MESSAGING_MYSQL_USER
+      - CEDAR_MESSAGING_MYSQL_PASSWORD
       - CEDAR_WORKER_ADMIN_PORT
       - CEDAR_GROUP_ADMIN_PORT
       - CEDAR_MESSAGING_ADMIN_PORT
@@ -760,6 +778,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
@@ -816,6 +835,7 @@ services:
       - cedar_ca:/cedar/ca
     environment:
       - CEDAR_HOST
+      - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MICROSERVICE_HOST
