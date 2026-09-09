@@ -22,7 +22,7 @@
 # a Redis queue where a server owns one — so a `service_healthy` edge would make one unreachable
 # database stop the containers downstream of it from ever starting, turning a fault in one service
 # into a stalled chain. The edges also do not describe startup dependencies: worker calls resource
-# at no point during boot, and monitor calls worker at no point at all. `cedarcli docker start`
+# at no point during boot, and monitor reaches resource only when asked for artifact counts. `cedarcli docker start`
 # brings the stack up in stages and waits for readiness between them, which is where the readiness
 # gate belongs.
 services:
@@ -664,7 +664,7 @@ services:
   server-monitor:
     container_name: server-monitor
     depends_on:
-      server-worker:
+      server-resource:
         condition: service_started
     restart: unless-stopped
     healthcheck:
