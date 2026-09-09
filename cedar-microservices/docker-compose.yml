@@ -611,7 +611,7 @@ services:
   server-openview:
     container_name: server-openview
     depends_on:
-      server-artifact:
+      server-resource:
         condition: service_started
     restart: unless-stopped
     healthcheck:
@@ -649,9 +649,8 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_ARTIFACT_HTTP_PORT
-      - CEDAR_ARTIFACT_ADMIN_PORT
-      - CEDAR_ARTIFACT_SERVER_HOST
+      - CEDAR_RESOURCE_HTTP_PORT
+      - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_USER_SERVER_HOST
       - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
