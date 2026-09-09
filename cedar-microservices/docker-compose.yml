@@ -231,6 +231,8 @@ services:
       - log_artifact:/cedar/log/cedar-artifact-server/
       - cedar_ca:/cedar/ca
     environment:
+      - CEDAR_ARTIFACT_SERVICE_API_KEY
+      - CEDAR_ARTIFACT_SERVICE_PREVIOUS_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
@@ -279,6 +281,7 @@ services:
       - log_worker:/cedar/log/cedar-worker-server/
       - cedar_ca:/cedar/ca
     environment:
+      - CEDAR_ARTIFACT_SERVICE_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
@@ -506,6 +509,7 @@ services:
       - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
+      - CEDAR_ARTIFACT_SERVICE_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
