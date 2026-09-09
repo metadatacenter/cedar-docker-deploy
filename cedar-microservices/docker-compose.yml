@@ -455,6 +455,9 @@ services:
       - log_repo:/cedar/log/cedar-repo-server/
       - cedar_ca:/cedar/ca
     environment:
+      # Repo delegates artifact reads and their authorization to resource.
+      - CEDAR_RESOURCE_SERVER_HOST
+      - CEDAR_RESOURCE_HTTP_PORT
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
