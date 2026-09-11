@@ -22,7 +22,7 @@
 # a Redis queue where a server owns one — so a `service_healthy` edge would make one unreachable
 # database stop the containers downstream of it from ever starting, turning a fault in one service
 # into a stalled chain. The edges also do not describe startup dependencies: worker calls resource
-# at no point during boot, and monitor calls worker at no point at all. `cedarcli docker start`
+# at no point during boot, and monitor reaches resource only when asked for artifact counts. `cedarcli docker start`
 # brings the stack up in stages and waits for readiness between them, which is where the readiness
 # gate belongs.
 services:
@@ -231,6 +231,8 @@ services:
       - log_artifact:/cedar/log/cedar-artifact-server/
       - cedar_ca:/cedar/ca
     environment:
+      - CEDAR_ARTIFACT_SERVICE_API_KEY
+      - CEDAR_ARTIFACT_SERVICE_PREVIOUS_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
@@ -279,6 +281,7 @@ services:
       - log_worker:/cedar/log/cedar-worker-server/
       - cedar_ca:/cedar/ca
     environment:
+      - CEDAR_ARTIFACT_SERVICE_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
@@ -455,6 +458,9 @@ services:
       - log_repo:/cedar/log/cedar-repo-server/
       - cedar_ca:/cedar/ca
     environment:
+      # Repo delegates artifact reads and their authorization to resource.
+      - CEDAR_RESOURCE_SERVER_HOST
+      - CEDAR_RESOURCE_HTTP_PORT
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
@@ -503,6 +509,7 @@ services:
       - resource_state:/state
       - cedar_ca:/cedar/ca
     environment:
+      - CEDAR_ARTIFACT_SERVICE_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
       - CEDAR_NET_GATEWAY
@@ -604,7 +611,7 @@ services:
   server-openview:
     container_name: server-openview
     depends_on:
-      server-artifact:
+      server-resource:
         condition: service_started
     restart: unless-stopped
     healthcheck:
@@ -642,9 +649,8 @@ services:
       - CEDAR_NEO4J_USER_PASSWORD
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_ARTIFACT_HTTP_PORT
-      - CEDAR_ARTIFACT_ADMIN_PORT
-      - CEDAR_ARTIFACT_SERVER_HOST
+      - CEDAR_RESOURCE_HTTP_PORT
+      - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_USER_SERVER_HOST
       - CEDAR_USER_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
@@ -658,7 +664,7 @@ services:
   server-monitor:
     container_name: server-monitor
     depends_on:
-      server-worker:
+      server-resource:
         condition: service_started
     restart: unless-stopped
     healthcheck:
@@ -859,8 +865,6 @@ services:
       - CEDAR_DATACITE_API_ENDPOINT_URL
       - CEDAR_DATACITE_TEMPLATE_ID
       - CEDAR_DATACITE_ENABLED
-      - CEDAR_ARTIFACT_SERVER_HOST
-      - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
       - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_RESOURCE_HTTP_PORT
