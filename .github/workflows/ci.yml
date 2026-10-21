@@ -107,12 +107,12 @@ jobs:
                   *) echo "FAIL image ignored CEDAR_IMAGE_PREFIX: ${image}"; failed=1 ;;
               esac
           done <<< "${images}"
-          if [ "${count}" -ne 33 ]; then
-              echo "FAIL expected 33 runtime image references, found ${count}"
+          if [ "${count}" -ne 30 ]; then
+              echo "FAIL expected 30 runtime image references, found ${count}"
               failed=1
           fi
           if [ "${failed}" -eq 0 ]; then
-              echo "All 33 runtime images resolve under ${CEDAR_IMAGE_PREFIX}."
+              echo "All 30 runtime images resolve under ${CEDAR_IMAGE_PREFIX}."
           fi
           exit "${failed}"
 
@@ -120,8 +120,8 @@ jobs:
         shell: bash
         run: |
           compose="${GITHUB_WORKSPACE}/CEDAR/cedar-docker-deploy/cedar-microservices/docker-compose.yml"
-          for service in schema user submission group artifact worker valuerecommender terminology \
-              repo resource messaging openview monitor impex bridge; do
+          for service in user group artifact worker terminology repo resource messaging openview \
+              monitor impex bridge; do
               expected="- log_${service}:/cedar/log/cedar-${service}-server/"
               if ! grep -Fq -- "${expected}" "${compose}"; then
                   echo "Missing log-volume target for server-${service}: ${expected}"

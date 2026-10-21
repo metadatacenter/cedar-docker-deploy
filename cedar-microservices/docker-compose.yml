@@ -18,7 +18,7 @@
 # host value so a Docker deployment can replace that default with an exact origin allowlist.
 #
 # The depends_on edges below order the start; they do not wait on health. Each health check now
-# probes the dependencies its server holds — Neo4j for all fifteen, and Mongo, OpenSearch, MySQL or
+# probes the dependencies its server holds — Neo4j for all twelve, and Mongo, OpenSearch, MySQL or
 # a Redis queue where a server owns one — so a `service_healthy` edge would make one unreachable
 # database stop the containers downstream of it from ever starting, turning a fault in one service
 # into a stalled chain. The edges also do not describe startup dependencies: worker calls resource
@@ -26,50 +26,6 @@
 # brings the stack up in stages and waits for readiness between them, which is where the readiness
 # gate belongs.
 services:
-  server-schema:
-    container_name: server-schema
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9103/healthcheck || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 180s
-    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-schema:${CEDAR_DOCKER_VERSION}"
-    networks:
-      cedarnet:
-        ipv4_address: ${CEDAR_SCHEMA_SERVER_HOST}
-    ports:
-      - "${CEDAR_SCHEMA_HTTP_PORT}:9003"
-    volumes:
-      - log_schema:/cedar/log/cedar-schema-server/
-      - cedar_ca:/cedar/ca
-    environment:
-      - CEDAR_HOST
-      - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
-      - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
-      - CEDAR_NEO4J_HOST
-      - CEDAR_NEO4J_REST_PORT
-      - CEDAR_NEO4J_BOLT_PORT
-      - CEDAR_NEO4J_USER_NAME
-      - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
-      - CEDAR_API_KEY_CACHE_TTL_SECONDS
-      - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
-      - CEDAR_REDIS_PERSISTENT_HOST
-      - CEDAR_REDIS_PERSISTENT_PORT
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
-    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
-    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
-    # which is why it has its own variable; conflating the two silently breaks every token.
-    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
-    extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-user:
     container_name: server-user
     restart: unless-stopped
@@ -112,66 +68,6 @@ services:
       - CEDAR_ADMIN_USER_PASSWORD
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
-    extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
-  server-submission:
-    container_name: server-submission
-    depends_on:
-      server-messaging:
-        condition: service_started
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9110/healthcheck || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 180s
-    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-submission:${CEDAR_DOCKER_VERSION}"
-    networks:
-      cedarnet:
-        ipv4_address: ${CEDAR_SUBMISSION_SERVER_HOST}
-    ports:
-      - "${CEDAR_SUBMISSION_HTTP_PORT}:9010"
-    volumes:
-      - log_submission:/cedar/log/cedar-submission-server/
-      - cedar_ca:/cedar/ca
-    environment:
-      - CEDAR_HOST
-      - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
-      - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
-      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
-      - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_HTTP_PORT
-      - CEDAR_NEO4J_HOST
-      - CEDAR_NEO4J_REST_PORT
-      - CEDAR_NEO4J_BOLT_PORT
-      - CEDAR_NEO4J_USER_NAME
-      - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_NCBI_SRA_FTP_HOST
-      - CEDAR_NCBI_SRA_FTP_USER
-      - CEDAR_NCBI_SRA_FTP_PASSWORD
-      - CEDAR_NCBI_SRA_FTP_DIRECTORY
-      - CEDAR_IMMPORT_SUBMISSION_USER
-      - CEDAR_IMMPORT_SUBMISSION_PASSWORD
-      - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_API_KEY_CACHE_TTL_SECONDS
-      - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
-      - CEDAR_REDIS_PERSISTENT_HOST
-      - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_MESSAGING_ADMIN_PORT
-      - CEDAR_MESSAGING_HTTP_PORT
-      - CEDAR_MESSAGING_SERVER_HOST
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
-    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
-    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
-    # which is why it has its own variable; conflating the two silently breaks every token.
-    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-group:
@@ -331,63 +227,9 @@ services:
       - CEDAR_OPENSEARCH_HOST
       - CEDAR_OPENSEARCH_REST_PORT
       - CEDAR_OPENSEARCH_TRANSPORT_PORT
-      - CEDAR_SUBMISSION_TEMPLATE_ID_1
-      - CEDAR_SUBMISSION_TEMPLATE_ID_2
-      - CEDAR_VALUERECOMMENDER_HTTP_PORT
-      - CEDAR_VALUERECOMMENDER_SERVER_HOST
       - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
-    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
-    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
-    # which is why it has its own variable; conflating the two silently breaks every token.
-    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
-    extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
-  server-valuerecommender:
-    container_name: server-valuerecommender
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9106/healthcheck || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 180s
-    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-valuerecommender:${CEDAR_DOCKER_VERSION}"
-    networks:
-      cedarnet:
-        ipv4_address: ${CEDAR_VALUERECOMMENDER_SERVER_HOST}
-    ports:
-      - "${CEDAR_VALUERECOMMENDER_HTTP_PORT}:9006"
-    volumes:
-      - log_valuerecommender:/cedar/log/cedar-valuerecommender-server/
-      - cedar_ca:/cedar/ca
-    environment:
-      - CEDAR_HOST
-      - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
-      - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
-      - CEDAR_NEO4J_HOST
-      - CEDAR_NEO4J_REST_PORT
-      - CEDAR_NEO4J_BOLT_PORT
-      - CEDAR_NEO4J_USER_NAME
-      - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
-      - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_HTTP_PORT
-      - CEDAR_OPENSEARCH_HOST
-      - CEDAR_OPENSEARCH_REST_PORT
-      - CEDAR_OPENSEARCH_TRANSPORT_PORT
-      - CEDAR_API_KEY_CACHE_TTL_SECONDS
-      - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
-      - CEDAR_REDIS_PERSISTENT_HOST
-      - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_VALUERECOMMENDER_SERVER_HOST
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
     # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
     # host when nginx runs natively. That is not the same thing as the nginx container's own address,
@@ -566,8 +408,6 @@ services:
       # cannot ask, and pins every constraint to null rather than failing visibly.
       - CEDAR_TERMINOLOGY_SERVER_HOST
       - CEDAR_TERMINOLOGY_HTTP_PORT
-      - CEDAR_SUBMISSION_TEMPLATE_ID_1
-      - CEDAR_SUBMISSION_TEMPLATE_ID_2
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
       - CEDAR_RESOURCE_SERVER_HOST
@@ -752,24 +592,18 @@ services:
       - CEDAR_MESSAGING_ADMIN_PORT
       - CEDAR_REPO_ADMIN_PORT
       - CEDAR_RESOURCE_ADMIN_PORT
-      - CEDAR_SCHEMA_ADMIN_PORT
-      - CEDAR_SUBMISSION_ADMIN_PORT
       - CEDAR_ARTIFACT_ADMIN_PORT
       - CEDAR_TERMINOLOGY_ADMIN_PORT
       - CEDAR_USER_ADMIN_PORT
-      - CEDAR_VALUERECOMMENDER_ADMIN_PORT
       - CEDAR_OPENVIEW_ADMIN_PORT
       - CEDAR_IMPEX_ADMIN_PORT
       - CEDAR_GROUP_SERVER_HOST
       - CEDAR_MESSAGING_SERVER_HOST
       - CEDAR_REPO_SERVER_HOST
       - CEDAR_RESOURCE_SERVER_HOST
-      - CEDAR_SCHEMA_SERVER_HOST
-      - CEDAR_SUBMISSION_SERVER_HOST
       - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_TERMINOLOGY_SERVER_HOST
       - CEDAR_USER_SERVER_HOST
-      - CEDAR_VALUERECOMMENDER_SERVER_HOST
       - CEDAR_WORKER_SERVER_HOST
       - CEDAR_OPENVIEW_SERVER_HOST
       - CEDAR_MONITOR_SERVER_HOST
@@ -780,12 +614,9 @@ services:
       - CEDAR_MESSAGING_HTTP_PORT
       - CEDAR_REPO_HTTP_PORT
       - CEDAR_RESOURCE_HTTP_PORT
-      - CEDAR_SCHEMA_HTTP_PORT
-      - CEDAR_SUBMISSION_HTTP_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
       - CEDAR_TERMINOLOGY_HTTP_PORT
       - CEDAR_USER_HTTP_PORT
-      - CEDAR_VALUERECOMMENDER_HTTP_PORT
       - CEDAR_WORKER_HTTP_PORT
       - CEDAR_OPENVIEW_HTTP_PORT
       - CEDAR_MONITOR_HTTP_PORT
@@ -939,18 +770,12 @@ volumes:
     name: log_resource
   resource_state:
     name: resource_state
-  log_schema:
-    name: log_schema
-  log_submission:
-    name: log_submission
   log_artifact:
     name: log_artifact
   log_terminology:
     name: log_terminology
   log_user:
     name: log_user
-  log_valuerecommender:
-    name: log_valuerecommender
   log_worker:
     name: log_worker
   log_monitor:

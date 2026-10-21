@@ -19,7 +19,7 @@ is not a second deployment manual.
 | Directory | Responsibility |
 | --- | --- |
 | `cedar-infrastructure/` | Databases, search, authentication, Redis, and the public nginx router |
-| `cedar-microservices/` | The fifteen Java services |
+| `cedar-microservices/` | The twelve Java services |
 | `cedar-frontend/` | The seven containerized frontend applications |
 | `cedar-admin/` | Optional administration tools |
 
