@@ -596,7 +596,6 @@ services:
       - CEDAR_TERMINOLOGY_ADMIN_PORT
       - CEDAR_USER_ADMIN_PORT
       - CEDAR_OPENVIEW_ADMIN_PORT
-      - CEDAR_IMPEX_ADMIN_PORT
       - CEDAR_GROUP_SERVER_HOST
       - CEDAR_MESSAGING_SERVER_HOST
       - CEDAR_REPO_SERVER_HOST
@@ -607,7 +606,6 @@ services:
       - CEDAR_WORKER_SERVER_HOST
       - CEDAR_OPENVIEW_SERVER_HOST
       - CEDAR_MONITOR_SERVER_HOST
-      - CEDAR_IMPEX_SERVER_HOST
       - CEDAR_BRIDGE_SERVER_HOST
       - CEDAR_BRIDGE_ADMIN_PORT
       - CEDAR_GROUP_HTTP_PORT
@@ -620,67 +618,7 @@ services:
       - CEDAR_WORKER_HTTP_PORT
       - CEDAR_OPENVIEW_HTTP_PORT
       - CEDAR_MONITOR_HTTP_PORT
-      - CEDAR_IMPEX_HTTP_PORT
       - CEDAR_BRIDGE_HTTP_PORT
-    extra_hosts:
-      - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
-  server-impex:
-    container_name: server-impex
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9108/healthcheck || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 180s
-    image: "${CEDAR_IMAGE_PREFIX}/cedar-server-impex:${CEDAR_DOCKER_VERSION}"
-    networks:
-      cedarnet:
-        ipv4_address: ${CEDAR_IMPEX_SERVER_HOST}
-    ports:
-      - "${CEDAR_IMPEX_HTTP_PORT}:9008"
-    volumes:
-      - log_impex:/cedar/log/cedar-impex-server/
-      - cedar_ca:/cedar/ca
-    environment:
-      - CEDAR_HOST
-      - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
-      - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
-      - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
-      - CEDAR_KEYCLOAK_HOST
-      - CEDAR_KEYCLOAK_HTTP_PORT
-      - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_NEO4J_HOST
-      - CEDAR_NEO4J_REST_PORT
-      - CEDAR_NEO4J_BOLT_PORT
-      - CEDAR_NEO4J_USER_NAME
-      - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_SALT_API_KEY
-      - CEDAR_OPENSEARCH_HOST
-      - CEDAR_OPENSEARCH_REST_PORT
-      - CEDAR_OPENSEARCH_TRANSPORT_PORT
-      - CEDAR_API_KEY_CACHE_TTL_SECONDS
-      - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
-      - CEDAR_REDIS_PERSISTENT_HOST
-      - CEDAR_REDIS_PERSISTENT_PORT
-      - CEDAR_ADMIN_USER_PASSWORD
-      - CEDAR_LOG_MYSQL_HOST
-      - CEDAR_LOG_MYSQL_PORT
-      - CEDAR_LOG_MYSQL_DB
-      - CEDAR_LOG_MYSQL_USER
-      - CEDAR_LOG_MYSQL_PASSWORD
-      - CEDAR_CADSR_ADMIN_USER_API_KEY
-    # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
-    # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
-    # host when nginx runs natively. That is not the same thing as the nginx container's own address,
-    # which is why it has its own variable; conflating the two silently breaks every token.
-    # Undefined, tokens fail with NoRouteToHostException and a valid one returns 500.
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-bridge:
@@ -780,7 +718,5 @@ volumes:
     name: log_worker
   log_monitor:
     name: log_monitor
-  log_impex:
-    name: log_impex
   log_bridge:
     name: log_bridge
