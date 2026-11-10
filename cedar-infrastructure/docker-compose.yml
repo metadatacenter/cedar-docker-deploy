@@ -99,6 +99,10 @@ services:
       - discovery.type=single-node
       - cluster.name=opensearch_cedar
       - plugins.security.disabled=true
+      # OpenSearch 2.19.1 keeps request statistics by phase and has no phase for creating a point in
+      # time. Each one a deep search opens therefore logs two stack traces, which fills the log.
+      # Nothing in CEDAR reads those statistics.
+      - search.request_stats_enabled=false
 
   neo4j:
     container_name: infra-neo4j
