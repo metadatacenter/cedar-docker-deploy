@@ -158,6 +158,12 @@ services:
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_TEST_USER1_ID
+      # A write asks the terminology server about each controlled-term value and the bridge about
+      # each external-authority identifier, so the artifact server needs to know where both are.
+      - CEDAR_TERMINOLOGY_SERVER_HOST
+      - CEDAR_TERMINOLOGY_HTTP_PORT
+      - CEDAR_BRIDGE_SERVER_HOST
+      - CEDAR_BRIDGE_HTTP_PORT
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
     # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
     # host when nginx runs natively. That is not the same thing as the nginx container's own address,
