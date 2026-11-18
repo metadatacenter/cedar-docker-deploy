@@ -9,10 +9,16 @@
 # every "up".
 #
 # Only the application port of each service is published. The Dropwizard admin port serves /metrics
-# and /threads to anyone who reaches it, with no credentials, and the stop port shuts the service
-# down; neither is something a host should offer the network. Both still listen inside the container
-# — the health check curls the admin port on localhost — and the admin connector binds loopback, so
-# publishing them was the whole of their exposure.
+# and /threads to anyone who reaches it, with no credentials, so a host should not offer it to the
+# network. It still listens inside the container — the health check curls it on localhost — and the
+# admin connector binds loopback, so publishing it was the whole of its exposure.
+#
+# A server also receives a few variables that its configuration does not declare but its image
+# reads. The base image waits for Neo4j through CEDAR_NEO4J_REST_PORT, and for Keycloak through
+# CEDAR_KEYCLOAK_HOST and CEDAR_KEYCLOAK_HTTP_PORT, before it starts any server. The resource server
+# and the worker receive more, explained where they are listed. The configuration sandbox drops
+# every other variable, and cedar-development/ops/check_docker_env.py reports one that reaches a
+# server without a reader.
 #
 # CORS keeps its backward-compatible wildcard when unset, but every server receives the optional
 # host value so a Docker deployment can replace that default with an exact origin allowlist.
@@ -47,12 +53,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
@@ -91,12 +92,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
@@ -139,7 +135,6 @@ services:
       - CEDAR_ARTIFACT_SERVICE_PREVIOUS_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_MONGO_APP_USER_NAME
       - CEDAR_MONGO_APP_USER_PASSWORD
@@ -196,13 +191,7 @@ services:
       - CEDAR_ARTIFACT_SERVICE_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_MYSQL_ROOT_PASSWORD
       - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
@@ -221,21 +210,22 @@ services:
       - CEDAR_LOG_BACKFILL_ENABLED
       - CEDAR_LOG_LIVE_AGG_ENABLED
       - CEDAR_LOG_PRUNE_ENABLED
-      - CEDAR_MESSAGING_MYSQL_HOST
-      - CEDAR_MESSAGING_MYSQL_PORT
-      - CEDAR_MESSAGING_MYSQL_DB
-      - CEDAR_MESSAGING_MYSQL_USER
-      - CEDAR_MESSAGING_MYSQL_PASSWORD
       - CEDAR_API_KEY_CACHE_TTL_SECONDS
       - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
       - CEDAR_REDIS_PERSISTENT_HOST
       - CEDAR_REDIS_PERSISTENT_PORT
       - CEDAR_OPENSEARCH_HOST
       - CEDAR_OPENSEARCH_REST_PORT
-      - CEDAR_OPENSEARCH_TRANSPORT_PORT
       - CEDAR_ARTIFACT_SERVER_HOST
-      - CEDAR_RESOURCE_ADMIN_PORT
       - CEDAR_TRUSTED_FOLDERS
+      # The worker's configuration does not use the messaging database, but the base image's
+      # wait-and-init-mysql.py still creates that database and its account from this container as
+      # well as from the messaging server's, and it reads these five to do so.
+      - CEDAR_MESSAGING_MYSQL_HOST
+      - CEDAR_MESSAGING_MYSQL_PORT
+      - CEDAR_MESSAGING_MYSQL_DB
+      - CEDAR_MESSAGING_MYSQL_USER
+      - CEDAR_MESSAGING_MYSQL_PASSWORD
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
     # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
     # host when nginx runs natively. That is not the same thing as the nginx container's own address,
@@ -268,12 +258,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
@@ -330,12 +315,7 @@ services:
       - CEDAR_RESOURCE_HTTP_PORT
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
@@ -381,28 +361,18 @@ services:
       - CEDAR_ARTIFACT_SERVICE_API_KEY
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
       - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_ADMIN_USER_PASSWORD
-      - CEDAR_CADSR_ADMIN_USER_API_KEY
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_SALT_API_KEY
       - CEDAR_OPENSEARCH_HOST
       - CEDAR_OPENSEARCH_REST_PORT
-      - CEDAR_OPENSEARCH_TRANSPORT_PORT
       - CEDAR_API_KEY_CACHE_TTL_SECONDS
       - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -415,12 +385,21 @@ services:
       - CEDAR_TERMINOLOGY_SERVER_HOST
       - CEDAR_TERMINOLOGY_HTTP_PORT
       - CEDAR_ARTIFACT_HTTP_PORT
-      - CEDAR_ARTIFACT_ADMIN_PORT
-      - CEDAR_RESOURCE_SERVER_HOST
       - CEDAR_CADSR_ONTOLOGIES_FOLDER
       - CEDAR_TRUSTED_FOLDERS
       - CEDAR_TEST_USER1_ID
       - CEDAR_TEST_USER2_ID
+      # The first-run bootstrap in pre-docker-entrypoint.sh runs the admin tool in this container.
+      # The admin tool builds its own configuration and requires these seven, which the resource
+      # server's configuration does not declare. Without them the bootstrap fails, and a new
+      # deployment's resource server never starts.
+      - CEDAR_MONGO_APP_USER_NAME
+      - CEDAR_MONGO_APP_USER_PASSWORD
+      - CEDAR_MONGO_HOST
+      - CEDAR_MONGO_PORT
+      - CEDAR_ADMIN_USER_PASSWORD
+      - CEDAR_CADSR_ADMIN_USER_API_KEY
+      - CEDAR_RESOURCE_SERVER_HOST
     extra_hosts:
       - "auth.${CEDAR_HOST}:${CEDAR_AUTH_HOST_TARGET}"
   server-messaging:
@@ -444,16 +423,11 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
       - CEDAR_ADMIN_USER_API_KEY
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
       - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT
@@ -503,13 +477,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
@@ -558,13 +526,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_KEYCLOAK_ALLOW_INSECURE_TLS
       - CEDAR_KEYCLOAK_HOST
       - CEDAR_KEYCLOAK_HTTP_PORT
@@ -574,10 +536,8 @@ services:
       - CEDAR_NEO4J_BOLT_PORT
       - CEDAR_NEO4J_USER_NAME
       - CEDAR_NEO4J_USER_PASSWORD
-      - CEDAR_SALT_API_KEY
       - CEDAR_OPENSEARCH_HOST
       - CEDAR_OPENSEARCH_REST_PORT
-      - CEDAR_OPENSEARCH_TRANSPORT_PORT
       - CEDAR_API_KEY_CACHE_TTL_SECONDS
       - CEDAR_LOG_CYPHER_EXCLUDED_METHODS
       - CEDAR_REDIS_PERSISTENT_HOST
@@ -648,13 +608,7 @@ services:
     environment:
       - CEDAR_HOST
       - CEDAR_VERSION_MODIFIER
-      - CEDAR_NET_GATEWAY
       - CEDAR_CORS_ALLOWED_ORIGINS
-      - CEDAR_MICROSERVICE_HOST
-      - CEDAR_MONGO_APP_USER_NAME
-      - CEDAR_MONGO_APP_USER_PASSWORD
-      - CEDAR_MONGO_HOST
-      - CEDAR_MONGO_PORT
       - CEDAR_NEO4J_HOST
       - CEDAR_NEO4J_REST_PORT
       - CEDAR_NEO4J_BOLT_PORT

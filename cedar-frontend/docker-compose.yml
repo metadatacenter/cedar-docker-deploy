@@ -40,8 +40,6 @@ services:
       - "${CEDAR_FRONTEND_CONTENT_PORT}:4240"
     volumes:
       - log_frontend_content:/log
-    environment:
-      - CEDAR_HOST
   frontend-openview:
     container_name: frontend-openview
     restart: unless-stopped
@@ -142,7 +140,6 @@ services:
     environment:
       CEDAR_HOST: "${CEDAR_HOST}"
       CEDAR_WORKSPACE_FRONTEND_URL: "${CEDAR_WORKSPACE_FRONTEND_URL:-https://workspace.${CEDAR_HOST}}"
-      CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL: "${CEDAR_TEMPLATE_DESIGNER_FRONTEND_URL:-https://designer.${CEDAR_HOST}}"
 
 networks:
   cedarnet:
