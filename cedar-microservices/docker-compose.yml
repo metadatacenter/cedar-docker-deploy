@@ -218,14 +218,6 @@ services:
       - CEDAR_OPENSEARCH_REST_PORT
       - CEDAR_ARTIFACT_SERVER_HOST
       - CEDAR_TRUSTED_FOLDERS
-      # The worker's configuration does not use the messaging database, but the base image's
-      # wait-and-init-mysql.py still creates that database and its account from this container as
-      # well as from the messaging server's, and it reads these five to do so.
-      - CEDAR_MESSAGING_MYSQL_HOST
-      - CEDAR_MESSAGING_MYSQL_PORT
-      - CEDAR_MESSAGING_MYSQL_DB
-      - CEDAR_MESSAGING_MYSQL_USER
-      - CEDAR_MESSAGING_MYSQL_PASSWORD
     # Every server verifies bearer tokens against the realm at auth.<host>, so every server needs
     # that name to reach whichever nginx is actually serving 443 — the container on cedarnet, or the
     # host when nginx runs natively. That is not the same thing as the nginx container's own address,
